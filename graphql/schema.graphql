@@ -2452,13 +2452,35 @@ type campuses {
     """filter the rows returned"""
     where: campus_users_bool_exp
   ): campus_users_aggregate!
+
+  """学校所在城市"""
   city: String
   created_at: timestamptz!
+
+  """学校所在区"""
   district: String
+
+  """
+  首页轮播图配置（按学校维度）。  顶层为 JSON 数组，每个元素一张图。字段说明： - image_url: string，图片 URL，建议 HTTPS - title: string，可选，标题或无障碍文案 - sort_order: number，排序，数值越大越靠前 - link: object，点击跳转，结构见下  link 对象： - type: "none" | "shop" | "mini_page" | "h5" - shop_id: string，type 为 shop 时必填，店铺 id（字符串） - path: string，type 为 mini_page 时，小程序页面路径 - query: object，type 为 mini_page 时可选，页面参数（键值建议字符串） - url: string，type 为 h5 时，外链 HTTPS  示例：[{"image_url":"https://.../a.jpg","title":"","sort_order":10,"link":{"type":"none"}}]
+  """
+  home_page_carousel_config(
+    """JSON select path"""
+    path: String
+  ): json!
+
+  """
+  首页金刚区（快捷入口）配置（按学校维度）。  顶层为 JSON 数组，每个元素一个入口。字段说明： - title: string，入口标题 - icon_url: string，图标 URL，建议 HTTPS - sort_order: number，排序，数值越大越靠前 - link: object，点击跳转，与轮播 link 约定相同  link 对象： - type: "none" | "shop" | "mini_page" | "h5" - shop_id: string，type 为 shop 时必填 - path: string，type 为 mini_page 时 - query: object，type 为 mini_page 时可选 - url: string，type 为 h5 时  示例：[{"title":"进店","icon_url":"https://.../i.png","sort_order":10,"link":{"type":"shop","shop_id":"123"}}]
+  """
+  home_page_quick_nav_config(
+    """JSON select path"""
+    path: String
+  ): json!
   id: bigint!
 
   """学校名称"""
   name: String!
+
+  """学校所在省"""
   province: String
   updated_at: timestamptz!
 
@@ -2579,6 +2601,8 @@ input campuses_bool_exp {
   city: String_comparison_exp
   created_at: timestamptz_comparison_exp
   district: String_comparison_exp
+  home_page_carousel_config: json_comparison_exp
+  home_page_quick_nav_config: json_comparison_exp
   id: bigint_comparison_exp
   name: String_comparison_exp
   province: String_comparison_exp
@@ -2617,13 +2641,29 @@ input type for inserting data into table "campuses"
 input campuses_insert_input {
   buildings: buildings_arr_rel_insert_input
   campus_users: campus_users_arr_rel_insert_input
+
+  """学校所在城市"""
   city: String
   created_at: timestamptz
+
+  """学校所在区"""
   district: String
+
+  """
+  首页轮播图配置（按学校维度）。  顶层为 JSON 数组，每个元素一张图。字段说明： - image_url: string，图片 URL，建议 HTTPS - title: string，可选，标题或无障碍文案 - sort_order: number，排序，数值越大越靠前 - link: object，点击跳转，结构见下  link 对象： - type: "none" | "shop" | "mini_page" | "h5" - shop_id: string，type 为 shop 时必填，店铺 id（字符串） - path: string，type 为 mini_page 时，小程序页面路径 - query: object，type 为 mini_page 时可选，页面参数（键值建议字符串） - url: string，type 为 h5 时，外链 HTTPS  示例：[{"image_url":"https://.../a.jpg","title":"","sort_order":10,"link":{"type":"none"}}]
+  """
+  home_page_carousel_config: json
+
+  """
+  首页金刚区（快捷入口）配置（按学校维度）。  顶层为 JSON 数组，每个元素一个入口。字段说明： - title: string，入口标题 - icon_url: string，图标 URL，建议 HTTPS - sort_order: number，排序，数值越大越靠前 - link: object，点击跳转，与轮播 link 约定相同  link 对象： - type: "none" | "shop" | "mini_page" | "h5" - shop_id: string，type 为 shop 时必填 - path: string，type 为 mini_page 时 - query: object，type 为 mini_page 时可选 - url: string，type 为 h5 时  示例：[{"title":"进店","icon_url":"https://.../i.png","sort_order":10,"link":{"type":"shop","shop_id":"123"}}]
+  """
+  home_page_quick_nav_config: json
   id: bigint
 
   """学校名称"""
   name: String
+
+  """学校所在省"""
   province: String
   updated_at: timestamptz
   user_addresses: user_addresses_arr_rel_insert_input
@@ -2632,26 +2672,36 @@ input campuses_insert_input {
 
 """aggregate max on columns"""
 type campuses_max_fields {
+  """学校所在城市"""
   city: String
   created_at: timestamptz
+
+  """学校所在区"""
   district: String
   id: bigint
 
   """学校名称"""
   name: String
+
+  """学校所在省"""
   province: String
   updated_at: timestamptz
 }
 
 """aggregate min on columns"""
 type campuses_min_fields {
+  """学校所在城市"""
   city: String
   created_at: timestamptz
+
+  """学校所在区"""
   district: String
   id: bigint
 
   """学校名称"""
   name: String
+
+  """学校所在省"""
   province: String
   updated_at: timestamptz
 }
@@ -2693,6 +2743,8 @@ input campuses_order_by {
   city: order_by
   created_at: order_by
   district: order_by
+  home_page_carousel_config: order_by
+  home_page_quick_nav_config: order_by
   id: order_by
   name: order_by
   province: order_by
@@ -2720,6 +2772,12 @@ enum campuses_select_column {
   district
 
   """column name"""
+  home_page_carousel_config
+
+  """column name"""
+  home_page_quick_nav_config
+
+  """column name"""
   id
 
   """column name"""
@@ -2736,13 +2794,28 @@ enum campuses_select_column {
 input type for updating data in table "campuses"
 """
 input campuses_set_input {
+  """学校所在城市"""
   city: String
   created_at: timestamptz
+
+  """学校所在区"""
   district: String
+
+  """
+  首页轮播图配置（按学校维度）。  顶层为 JSON 数组，每个元素一张图。字段说明： - image_url: string，图片 URL，建议 HTTPS - title: string，可选，标题或无障碍文案 - sort_order: number，排序，数值越大越靠前 - link: object，点击跳转，结构见下  link 对象： - type: "none" | "shop" | "mini_page" | "h5" - shop_id: string，type 为 shop 时必填，店铺 id（字符串） - path: string，type 为 mini_page 时，小程序页面路径 - query: object，type 为 mini_page 时可选，页面参数（键值建议字符串） - url: string，type 为 h5 时，外链 HTTPS  示例：[{"image_url":"https://.../a.jpg","title":"","sort_order":10,"link":{"type":"none"}}]
+  """
+  home_page_carousel_config: json
+
+  """
+  首页金刚区（快捷入口）配置（按学校维度）。  顶层为 JSON 数组，每个元素一个入口。字段说明： - title: string，入口标题 - icon_url: string，图标 URL，建议 HTTPS - sort_order: number，排序，数值越大越靠前 - link: object，点击跳转，与轮播 link 约定相同  link 对象： - type: "none" | "shop" | "mini_page" | "h5" - shop_id: string，type 为 shop 时必填 - path: string，type 为 mini_page 时 - query: object，type 为 mini_page 时可选 - url: string，type 为 h5 时  示例：[{"title":"进店","icon_url":"https://.../i.png","sort_order":10,"link":{"type":"shop","shop_id":"123"}}]
+  """
+  home_page_quick_nav_config: json
   id: bigint
 
   """学校名称"""
   name: String
+
+  """学校所在省"""
   province: String
   updated_at: timestamptz
 }
@@ -2775,13 +2848,28 @@ input campuses_stream_cursor_input {
 
 """Initial value of the column from where the streaming should start"""
 input campuses_stream_cursor_value_input {
+  """学校所在城市"""
   city: String
   created_at: timestamptz
+
+  """学校所在区"""
   district: String
+
+  """
+  首页轮播图配置（按学校维度）。  顶层为 JSON 数组，每个元素一张图。字段说明： - image_url: string，图片 URL，建议 HTTPS - title: string，可选，标题或无障碍文案 - sort_order: number，排序，数值越大越靠前 - link: object，点击跳转，结构见下  link 对象： - type: "none" | "shop" | "mini_page" | "h5" - shop_id: string，type 为 shop 时必填，店铺 id（字符串） - path: string，type 为 mini_page 时，小程序页面路径 - query: object，type 为 mini_page 时可选，页面参数（键值建议字符串） - url: string，type 为 h5 时，外链 HTTPS  示例：[{"image_url":"https://.../a.jpg","title":"","sort_order":10,"link":{"type":"none"}}]
+  """
+  home_page_carousel_config: json
+
+  """
+  首页金刚区（快捷入口）配置（按学校维度）。  顶层为 JSON 数组，每个元素一个入口。字段说明： - title: string，入口标题 - icon_url: string，图标 URL，建议 HTTPS - sort_order: number，排序，数值越大越靠前 - link: object，点击跳转，与轮播 link 约定相同  link 对象： - type: "none" | "shop" | "mini_page" | "h5" - shop_id: string，type 为 shop 时必填 - path: string，type 为 mini_page 时 - query: object，type 为 mini_page 时可选 - url: string，type 为 h5 时  示例：[{"title":"进店","icon_url":"https://.../i.png","sort_order":10,"link":{"type":"shop","shop_id":"123"}}]
+  """
+  home_page_quick_nav_config: json
   id: bigint
 
   """学校名称"""
   name: String
+
+  """学校所在省"""
   province: String
   updated_at: timestamptz
 }
@@ -2803,6 +2891,12 @@ enum campuses_update_column {
 
   """column name"""
   district
+
+  """column name"""
+  home_page_carousel_config
+
+  """column name"""
+  home_page_quick_nav_config
 
   """column name"""
   id
@@ -11217,6 +11311,9 @@ input shop_users_variance_order_by {
 type shops {
   created_at: timestamptz!
 
+  """店铺自我介绍"""
+  description: String
+
   """扩展店铺id列表，在当前店铺同时展示这些店铺的所有商品"""
   extend_shop_ids(
     """JSON select path"""
@@ -11489,6 +11586,7 @@ input shops_bool_exp {
   _not: shops_bool_exp
   _or: [shops_bool_exp!]
   created_at: timestamptz_comparison_exp
+  description: String_comparison_exp
   extend_shop_ids: json_comparison_exp
   hidden_product_ids: json_comparison_exp
   id: bigint_comparison_exp
@@ -11536,6 +11634,9 @@ input type for inserting data into table "shops"
 input shops_insert_input {
   created_at: timestamptz
 
+  """店铺自我介绍"""
+  description: String
+
   """扩展店铺id列表，在当前店铺同时展示这些店铺的所有商品"""
   extend_shop_ids: json
 
@@ -11557,6 +11658,9 @@ input shops_insert_input {
 """aggregate max on columns"""
 type shops_max_fields {
   created_at: timestamptz
+
+  """店铺自我介绍"""
+  description: String
   id: bigint
 
   """店铺名称"""
@@ -11567,6 +11671,9 @@ type shops_max_fields {
 """aggregate min on columns"""
 type shops_min_fields {
   created_at: timestamptz
+
+  """店铺自我介绍"""
+  description: String
   id: bigint
 
   """店铺名称"""
@@ -11607,6 +11714,7 @@ input shops_on_conflict {
 """Ordering options when selecting data from "shops"."""
 input shops_order_by {
   created_at: order_by
+  description: order_by
   extend_shop_ids: order_by
   hidden_product_ids: order_by
   id: order_by
@@ -11633,6 +11741,9 @@ enum shops_select_column {
   created_at
 
   """column name"""
+  description
+
+  """column name"""
   extend_shop_ids
 
   """column name"""
@@ -11653,6 +11764,9 @@ input type for updating data in table "shops"
 """
 input shops_set_input {
   created_at: timestamptz
+
+  """店铺自我介绍"""
+  description: String
 
   """扩展店铺id列表，在当前店铺同时展示这些店铺的所有商品"""
   extend_shop_ids: json
@@ -11696,6 +11810,9 @@ input shops_stream_cursor_input {
 input shops_stream_cursor_value_input {
   created_at: timestamptz
 
+  """店铺自我介绍"""
+  description: String
+
   """扩展店铺id列表，在当前店铺同时展示这些店铺的所有商品"""
   extend_shop_ids: json
 
@@ -11719,6 +11836,9 @@ update columns of table "shops"
 enum shops_update_column {
   """column name"""
   created_at
+
+  """column name"""
+  description
 
   """column name"""
   extend_shop_ids

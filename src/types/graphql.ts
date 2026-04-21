@@ -1957,12 +1957,19 @@ export type Campuses = {
   campus_users: Array<Campus_Users>;
   /** An aggregate relationship */
   campus_users_aggregate: Campus_Users_Aggregate;
+  /** 学校所在城市 */
   city?: Maybe<Scalars['String']['output']>;
   created_at: Scalars['timestamptz']['output'];
+  /** 学校所在区 */
   district?: Maybe<Scalars['String']['output']>;
+  /** 首页轮播图配置（按学校维度）。  顶层为 JSON 数组，每个元素一张图。字段说明： - image_url: string，图片 URL，建议 HTTPS - title: string，可选，标题或无障碍文案 - sort_order: number，排序，数值越大越靠前 - link: object，点击跳转，结构见下  link 对象： - type: "none" | "shop" | "mini_page" | "h5" - shop_id: string，type 为 shop 时必填，店铺 id（字符串） - path: string，type 为 mini_page 时，小程序页面路径 - query: object，type 为 mini_page 时可选，页面参数（键值建议字符串） - url: string，type 为 h5 时，外链 HTTPS  示例：[{"image_url":"https://.../a.jpg","title":"","sort_order":10,"link":{"type":"none"}}] */
+  home_page_carousel_config: Scalars['json']['output'];
+  /** 首页金刚区（快捷入口）配置（按学校维度）。  顶层为 JSON 数组，每个元素一个入口。字段说明： - title: string，入口标题 - icon_url: string，图标 URL，建议 HTTPS - sort_order: number，排序，数值越大越靠前 - link: object，点击跳转，与轮播 link 约定相同  link 对象： - type: "none" | "shop" | "mini_page" | "h5" - shop_id: string，type 为 shop 时必填 - path: string，type 为 mini_page 时 - query: object，type 为 mini_page 时可选 - url: string，type 为 h5 时  示例：[{"title":"进店","icon_url":"https://.../i.png","sort_order":10,"link":{"type":"shop","shop_id":"123"}}] */
+  home_page_quick_nav_config: Scalars['json']['output'];
   id: Scalars['bigint']['output'];
   /** 学校名称 */
   name: Scalars['String']['output'];
+  /** 学校所在省 */
   province?: Maybe<Scalars['String']['output']>;
   updated_at: Scalars['timestamptz']['output'];
   /** An array relationship */
@@ -2013,6 +2020,18 @@ export type CampusesCampus_Users_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Campus_Users_Order_By>>;
   where?: InputMaybe<Campus_Users_Bool_Exp>;
+};
+
+
+/** 校园表 */
+export type CampusesHome_Page_Carousel_ConfigArgs = {
+  path?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+/** 校园表 */
+export type CampusesHome_Page_Quick_Nav_ConfigArgs = {
+  path?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -2103,6 +2122,8 @@ export type Campuses_Bool_Exp = {
   city?: InputMaybe<String_Comparison_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   district?: InputMaybe<String_Comparison_Exp>;
+  home_page_carousel_config?: InputMaybe<Json_Comparison_Exp>;
+  home_page_quick_nav_config?: InputMaybe<Json_Comparison_Exp>;
   id?: InputMaybe<Bigint_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   province?: InputMaybe<String_Comparison_Exp>;
@@ -2130,12 +2151,19 @@ export type Campuses_Inc_Input = {
 export type Campuses_Insert_Input = {
   buildings?: InputMaybe<Buildings_Arr_Rel_Insert_Input>;
   campus_users?: InputMaybe<Campus_Users_Arr_Rel_Insert_Input>;
+  /** 学校所在城市 */
   city?: InputMaybe<Scalars['String']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  /** 学校所在区 */
   district?: InputMaybe<Scalars['String']['input']>;
+  /** 首页轮播图配置（按学校维度）。  顶层为 JSON 数组，每个元素一张图。字段说明： - image_url: string，图片 URL，建议 HTTPS - title: string，可选，标题或无障碍文案 - sort_order: number，排序，数值越大越靠前 - link: object，点击跳转，结构见下  link 对象： - type: "none" | "shop" | "mini_page" | "h5" - shop_id: string，type 为 shop 时必填，店铺 id（字符串） - path: string，type 为 mini_page 时，小程序页面路径 - query: object，type 为 mini_page 时可选，页面参数（键值建议字符串） - url: string，type 为 h5 时，外链 HTTPS  示例：[{"image_url":"https://.../a.jpg","title":"","sort_order":10,"link":{"type":"none"}}] */
+  home_page_carousel_config?: InputMaybe<Scalars['json']['input']>;
+  /** 首页金刚区（快捷入口）配置（按学校维度）。  顶层为 JSON 数组，每个元素一个入口。字段说明： - title: string，入口标题 - icon_url: string，图标 URL，建议 HTTPS - sort_order: number，排序，数值越大越靠前 - link: object，点击跳转，与轮播 link 约定相同  link 对象： - type: "none" | "shop" | "mini_page" | "h5" - shop_id: string，type 为 shop 时必填 - path: string，type 为 mini_page 时 - query: object，type 为 mini_page 时可选 - url: string，type 为 h5 时  示例：[{"title":"进店","icon_url":"https://.../i.png","sort_order":10,"link":{"type":"shop","shop_id":"123"}}] */
+  home_page_quick_nav_config?: InputMaybe<Scalars['json']['input']>;
   id?: InputMaybe<Scalars['bigint']['input']>;
   /** 学校名称 */
   name?: InputMaybe<Scalars['String']['input']>;
+  /** 学校所在省 */
   province?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   user_addresses?: InputMaybe<User_Addresses_Arr_Rel_Insert_Input>;
@@ -2145,12 +2173,15 @@ export type Campuses_Insert_Input = {
 /** aggregate max on columns */
 export type Campuses_Max_Fields = {
   __typename?: 'campuses_max_fields';
+  /** 学校所在城市 */
   city?: Maybe<Scalars['String']['output']>;
   created_at?: Maybe<Scalars['timestamptz']['output']>;
+  /** 学校所在区 */
   district?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['bigint']['output']>;
   /** 学校名称 */
   name?: Maybe<Scalars['String']['output']>;
+  /** 学校所在省 */
   province?: Maybe<Scalars['String']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
@@ -2158,12 +2189,15 @@ export type Campuses_Max_Fields = {
 /** aggregate min on columns */
 export type Campuses_Min_Fields = {
   __typename?: 'campuses_min_fields';
+  /** 学校所在城市 */
   city?: Maybe<Scalars['String']['output']>;
   created_at?: Maybe<Scalars['timestamptz']['output']>;
+  /** 学校所在区 */
   district?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['bigint']['output']>;
   /** 学校名称 */
   name?: Maybe<Scalars['String']['output']>;
+  /** 学校所在省 */
   province?: Maybe<Scalars['String']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
 };
@@ -2198,6 +2232,8 @@ export type Campuses_Order_By = {
   city?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
   district?: InputMaybe<Order_By>;
+  home_page_carousel_config?: InputMaybe<Order_By>;
+  home_page_quick_nav_config?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   province?: InputMaybe<Order_By>;
@@ -2220,6 +2256,10 @@ export enum Campuses_Select_Column {
   /** column name */
   District = 'district',
   /** column name */
+  HomePageCarouselConfig = 'home_page_carousel_config',
+  /** column name */
+  HomePageQuickNavConfig = 'home_page_quick_nav_config',
+  /** column name */
   Id = 'id',
   /** column name */
   Name = 'name',
@@ -2231,12 +2271,19 @@ export enum Campuses_Select_Column {
 
 /** input type for updating data in table "campuses" */
 export type Campuses_Set_Input = {
+  /** 学校所在城市 */
   city?: InputMaybe<Scalars['String']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  /** 学校所在区 */
   district?: InputMaybe<Scalars['String']['input']>;
+  /** 首页轮播图配置（按学校维度）。  顶层为 JSON 数组，每个元素一张图。字段说明： - image_url: string，图片 URL，建议 HTTPS - title: string，可选，标题或无障碍文案 - sort_order: number，排序，数值越大越靠前 - link: object，点击跳转，结构见下  link 对象： - type: "none" | "shop" | "mini_page" | "h5" - shop_id: string，type 为 shop 时必填，店铺 id（字符串） - path: string，type 为 mini_page 时，小程序页面路径 - query: object，type 为 mini_page 时可选，页面参数（键值建议字符串） - url: string，type 为 h5 时，外链 HTTPS  示例：[{"image_url":"https://.../a.jpg","title":"","sort_order":10,"link":{"type":"none"}}] */
+  home_page_carousel_config?: InputMaybe<Scalars['json']['input']>;
+  /** 首页金刚区（快捷入口）配置（按学校维度）。  顶层为 JSON 数组，每个元素一个入口。字段说明： - title: string，入口标题 - icon_url: string，图标 URL，建议 HTTPS - sort_order: number，排序，数值越大越靠前 - link: object，点击跳转，与轮播 link 约定相同  link 对象： - type: "none" | "shop" | "mini_page" | "h5" - shop_id: string，type 为 shop 时必填 - path: string，type 为 mini_page 时 - query: object，type 为 mini_page 时可选 - url: string，type 为 h5 时  示例：[{"title":"进店","icon_url":"https://.../i.png","sort_order":10,"link":{"type":"shop","shop_id":"123"}}] */
+  home_page_quick_nav_config?: InputMaybe<Scalars['json']['input']>;
   id?: InputMaybe<Scalars['bigint']['input']>;
   /** 学校名称 */
   name?: InputMaybe<Scalars['String']['input']>;
+  /** 学校所在省 */
   province?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
@@ -2269,12 +2316,19 @@ export type Campuses_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Campuses_Stream_Cursor_Value_Input = {
+  /** 学校所在城市 */
   city?: InputMaybe<Scalars['String']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  /** 学校所在区 */
   district?: InputMaybe<Scalars['String']['input']>;
+  /** 首页轮播图配置（按学校维度）。  顶层为 JSON 数组，每个元素一张图。字段说明： - image_url: string，图片 URL，建议 HTTPS - title: string，可选，标题或无障碍文案 - sort_order: number，排序，数值越大越靠前 - link: object，点击跳转，结构见下  link 对象： - type: "none" | "shop" | "mini_page" | "h5" - shop_id: string，type 为 shop 时必填，店铺 id（字符串） - path: string，type 为 mini_page 时，小程序页面路径 - query: object，type 为 mini_page 时可选，页面参数（键值建议字符串） - url: string，type 为 h5 时，外链 HTTPS  示例：[{"image_url":"https://.../a.jpg","title":"","sort_order":10,"link":{"type":"none"}}] */
+  home_page_carousel_config?: InputMaybe<Scalars['json']['input']>;
+  /** 首页金刚区（快捷入口）配置（按学校维度）。  顶层为 JSON 数组，每个元素一个入口。字段说明： - title: string，入口标题 - icon_url: string，图标 URL，建议 HTTPS - sort_order: number，排序，数值越大越靠前 - link: object，点击跳转，与轮播 link 约定相同  link 对象： - type: "none" | "shop" | "mini_page" | "h5" - shop_id: string，type 为 shop 时必填 - path: string，type 为 mini_page 时 - query: object，type 为 mini_page 时可选 - url: string，type 为 h5 时  示例：[{"title":"进店","icon_url":"https://.../i.png","sort_order":10,"link":{"type":"shop","shop_id":"123"}}] */
+  home_page_quick_nav_config?: InputMaybe<Scalars['json']['input']>;
   id?: InputMaybe<Scalars['bigint']['input']>;
   /** 学校名称 */
   name?: InputMaybe<Scalars['String']['input']>;
+  /** 学校所在省 */
   province?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
@@ -2293,6 +2347,10 @@ export enum Campuses_Update_Column {
   CreatedAt = 'created_at',
   /** column name */
   District = 'district',
+  /** column name */
+  HomePageCarouselConfig = 'home_page_carousel_config',
+  /** column name */
+  HomePageQuickNavConfig = 'home_page_quick_nav_config',
   /** column name */
   Id = 'id',
   /** column name */
@@ -8752,6 +8810,8 @@ export type Shop_Users_Variance_Order_By = {
 export type Shops = {
   __typename?: 'shops';
   created_at: Scalars['timestamptz']['output'];
+  /** 店铺自我介绍 */
+  description?: Maybe<Scalars['String']['output']>;
   /** 扩展店铺id列表，在当前店铺同时展示这些店铺的所有商品 */
   extend_shop_ids: Scalars['json']['output'];
   /** 店铺中（包括扩展的店铺）隐藏这些特定商品 */
@@ -8960,6 +9020,7 @@ export type Shops_Bool_Exp = {
   _not?: InputMaybe<Shops_Bool_Exp>;
   _or?: InputMaybe<Array<Shops_Bool_Exp>>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  description?: InputMaybe<String_Comparison_Exp>;
   extend_shop_ids?: InputMaybe<Json_Comparison_Exp>;
   hidden_product_ids?: InputMaybe<Json_Comparison_Exp>;
   id?: InputMaybe<Bigint_Comparison_Exp>;
@@ -8995,6 +9056,8 @@ export type Shops_Inc_Input = {
 /** input type for inserting data into table "shops" */
 export type Shops_Insert_Input = {
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  /** 店铺自我介绍 */
+  description?: InputMaybe<Scalars['String']['input']>;
   /** 扩展店铺id列表，在当前店铺同时展示这些店铺的所有商品 */
   extend_shop_ids?: InputMaybe<Scalars['json']['input']>;
   /** 店铺中（包括扩展的店铺）隐藏这些特定商品 */
@@ -9015,6 +9078,8 @@ export type Shops_Insert_Input = {
 export type Shops_Max_Fields = {
   __typename?: 'shops_max_fields';
   created_at?: Maybe<Scalars['timestamptz']['output']>;
+  /** 店铺自我介绍 */
+  description?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['bigint']['output']>;
   /** 店铺名称 */
   name?: Maybe<Scalars['String']['output']>;
@@ -9025,6 +9090,8 @@ export type Shops_Max_Fields = {
 export type Shops_Min_Fields = {
   __typename?: 'shops_min_fields';
   created_at?: Maybe<Scalars['timestamptz']['output']>;
+  /** 店铺自我介绍 */
+  description?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['bigint']['output']>;
   /** 店铺名称 */
   name?: Maybe<Scalars['String']['output']>;
@@ -9057,6 +9124,7 @@ export type Shops_On_Conflict = {
 /** Ordering options when selecting data from "shops". */
 export type Shops_Order_By = {
   created_at?: InputMaybe<Order_By>;
+  description?: InputMaybe<Order_By>;
   extend_shop_ids?: InputMaybe<Order_By>;
   hidden_product_ids?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
@@ -9080,6 +9148,8 @@ export enum Shops_Select_Column {
   /** column name */
   CreatedAt = 'created_at',
   /** column name */
+  Description = 'description',
+  /** column name */
   ExtendShopIds = 'extend_shop_ids',
   /** column name */
   HiddenProductIds = 'hidden_product_ids',
@@ -9094,6 +9164,8 @@ export enum Shops_Select_Column {
 /** input type for updating data in table "shops" */
 export type Shops_Set_Input = {
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  /** 店铺自我介绍 */
+  description?: InputMaybe<Scalars['String']['input']>;
   /** 扩展店铺id列表，在当前店铺同时展示这些店铺的所有商品 */
   extend_shop_ids?: InputMaybe<Scalars['json']['input']>;
   /** 店铺中（包括扩展的店铺）隐藏这些特定商品 */
@@ -9133,6 +9205,8 @@ export type Shops_Stream_Cursor_Input = {
 /** Initial value of the column from where the streaming should start */
 export type Shops_Stream_Cursor_Value_Input = {
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  /** 店铺自我介绍 */
+  description?: InputMaybe<Scalars['String']['input']>;
   /** 扩展店铺id列表，在当前店铺同时展示这些店铺的所有商品 */
   extend_shop_ids?: InputMaybe<Scalars['json']['input']>;
   /** 店铺中（包括扩展的店铺）隐藏这些特定商品 */
@@ -9153,6 +9227,8 @@ export type Shops_Sum_Fields = {
 export enum Shops_Update_Column {
   /** column name */
   CreatedAt = 'created_at',
+  /** column name */
+  Description = 'description',
   /** column name */
   ExtendShopIds = 'extend_shop_ids',
   /** column name */

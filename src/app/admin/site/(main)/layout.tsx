@@ -94,6 +94,21 @@ export default async function AdminSiteMainLayout({ children }: { children: Reac
         { href: "/admin/site/members", label: "本校成员" },
       ],
     },
+    {
+      title: "站点配置",
+      items: [
+        {
+          href: "/admin/site/settings/carousel",
+          label: "首页轮播图管理",
+          activeHrefPrefixes: ["/admin/site/settings/carousel"],
+        },
+        {
+          href: "/admin/site/settings/quick-nav",
+          label: "首页快捷菜单管理",
+          activeHrefPrefixes: ["/admin/site/settings/quick-nav"],
+        },
+      ],
+    },
   ];
 
   return (
