@@ -4,6 +4,8 @@ import { HasuraJwtToken } from "@/config-lib/hasura/HasuraJwtToken";
 
 const wxAuth = new WxAuth();
 
+/** 微信小程序侧登录；统一返回 `{ userId, token }`，与 `phone-password-login` 一致。 */
+
 export async function POST(req: NextRequest) {
   try {
     const { code, codeSource } = await req.json();

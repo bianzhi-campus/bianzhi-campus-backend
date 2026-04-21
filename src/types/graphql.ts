@@ -423,9 +423,35 @@ export type Building_Rooms = {
   id: Scalars['bigint']['output'];
   /** 房间名称 */
   name: Scalars['String']['output'];
+  /** 排序，越大越前 */
+  sort_order: Scalars['bigint']['output'];
   updated_at: Scalars['timestamptz']['output'];
+  /** An array relationship */
+  user_addresses: Array<User_Addresses>;
+  /** An aggregate relationship */
+  user_addresses_aggregate: User_Addresses_Aggregate;
   /** 标注房间在哪个区域 ，如房间名称是C502，则属于C区，可不填 */
   zone?: Maybe<Scalars['String']['output']>;
+};
+
+
+/** 楼栋房间表 */
+export type Building_RoomsUser_AddressesArgs = {
+  distinct_on?: InputMaybe<Array<User_Addresses_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<User_Addresses_Order_By>>;
+  where?: InputMaybe<User_Addresses_Bool_Exp>;
+};
+
+
+/** 楼栋房间表 */
+export type Building_RoomsUser_Addresses_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<User_Addresses_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<User_Addresses_Order_By>>;
+  where?: InputMaybe<User_Addresses_Bool_Exp>;
 };
 
 /** aggregated selection of "building_rooms" */
@@ -499,6 +525,8 @@ export type Building_Rooms_Avg_Fields = {
   /** 标注房间在第几楼 */
   floor_number?: Maybe<Scalars['Float']['output']>;
   id?: Maybe<Scalars['Float']['output']>;
+  /** 排序，越大越前 */
+  sort_order?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by avg() on columns of table "building_rooms" */
@@ -508,6 +536,8 @@ export type Building_Rooms_Avg_Order_By = {
   /** 标注房间在第几楼 */
   floor_number?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  /** 排序，越大越前 */
+  sort_order?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "building_rooms". All fields are combined with a logical 'AND'. */
@@ -521,7 +551,10 @@ export type Building_Rooms_Bool_Exp = {
   floor_number?: InputMaybe<Int_Comparison_Exp>;
   id?: InputMaybe<Bigint_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
+  sort_order?: InputMaybe<Bigint_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  user_addresses?: InputMaybe<User_Addresses_Bool_Exp>;
+  user_addresses_aggregate?: InputMaybe<User_Addresses_Aggregate_Bool_Exp>;
   zone?: InputMaybe<String_Comparison_Exp>;
 };
 
@@ -540,6 +573,8 @@ export type Building_Rooms_Inc_Input = {
   /** 标注房间在第几楼 */
   floor_number?: InputMaybe<Scalars['Int']['input']>;
   id?: InputMaybe<Scalars['bigint']['input']>;
+  /** 排序，越大越前 */
+  sort_order?: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** input type for inserting data into table "building_rooms" */
@@ -553,7 +588,10 @@ export type Building_Rooms_Insert_Input = {
   id?: InputMaybe<Scalars['bigint']['input']>;
   /** 房间名称 */
   name?: InputMaybe<Scalars['String']['input']>;
+  /** 排序，越大越前 */
+  sort_order?: InputMaybe<Scalars['bigint']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  user_addresses?: InputMaybe<User_Addresses_Arr_Rel_Insert_Input>;
   /** 标注房间在哪个区域 ，如房间名称是C502，则属于C区，可不填 */
   zone?: InputMaybe<Scalars['String']['input']>;
 };
@@ -569,6 +607,8 @@ export type Building_Rooms_Max_Fields = {
   id?: Maybe<Scalars['bigint']['output']>;
   /** 房间名称 */
   name?: Maybe<Scalars['String']['output']>;
+  /** 排序，越大越前 */
+  sort_order?: Maybe<Scalars['bigint']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
   /** 标注房间在哪个区域 ，如房间名称是C502，则属于C区，可不填 */
   zone?: Maybe<Scalars['String']['output']>;
@@ -584,6 +624,8 @@ export type Building_Rooms_Max_Order_By = {
   id?: InputMaybe<Order_By>;
   /** 房间名称 */
   name?: InputMaybe<Order_By>;
+  /** 排序，越大越前 */
+  sort_order?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
   /** 标注房间在哪个区域 ，如房间名称是C502，则属于C区，可不填 */
   zone?: InputMaybe<Order_By>;
@@ -600,6 +642,8 @@ export type Building_Rooms_Min_Fields = {
   id?: Maybe<Scalars['bigint']['output']>;
   /** 房间名称 */
   name?: Maybe<Scalars['String']['output']>;
+  /** 排序，越大越前 */
+  sort_order?: Maybe<Scalars['bigint']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
   /** 标注房间在哪个区域 ，如房间名称是C502，则属于C区，可不填 */
   zone?: Maybe<Scalars['String']['output']>;
@@ -615,6 +659,8 @@ export type Building_Rooms_Min_Order_By = {
   id?: InputMaybe<Order_By>;
   /** 房间名称 */
   name?: InputMaybe<Order_By>;
+  /** 排序，越大越前 */
+  sort_order?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
   /** 标注房间在哪个区域 ，如房间名称是C502，则属于C区，可不填 */
   zone?: InputMaybe<Order_By>;
@@ -627,6 +673,13 @@ export type Building_Rooms_Mutation_Response = {
   affected_rows: Scalars['Int']['output'];
   /** data from the rows affected by the mutation */
   returning: Array<Building_Rooms>;
+};
+
+/** input type for inserting object relation for remote table "building_rooms" */
+export type Building_Rooms_Obj_Rel_Insert_Input = {
+  data: Building_Rooms_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Building_Rooms_On_Conflict>;
 };
 
 /** on_conflict condition type for table "building_rooms" */
@@ -644,7 +697,9 @@ export type Building_Rooms_Order_By = {
   floor_number?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
+  sort_order?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
+  user_addresses_aggregate?: InputMaybe<User_Addresses_Aggregate_Order_By>;
   zone?: InputMaybe<Order_By>;
 };
 
@@ -666,6 +721,8 @@ export enum Building_Rooms_Select_Column {
   /** column name */
   Name = 'name',
   /** column name */
+  SortOrder = 'sort_order',
+  /** column name */
   UpdatedAt = 'updated_at',
   /** column name */
   Zone = 'zone'
@@ -681,6 +738,8 @@ export type Building_Rooms_Set_Input = {
   id?: InputMaybe<Scalars['bigint']['input']>;
   /** 房间名称 */
   name?: InputMaybe<Scalars['String']['input']>;
+  /** 排序，越大越前 */
+  sort_order?: InputMaybe<Scalars['bigint']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   /** 标注房间在哪个区域 ，如房间名称是C502，则属于C区，可不填 */
   zone?: InputMaybe<Scalars['String']['input']>;
@@ -694,6 +753,8 @@ export type Building_Rooms_Stddev_Fields = {
   /** 标注房间在第几楼 */
   floor_number?: Maybe<Scalars['Float']['output']>;
   id?: Maybe<Scalars['Float']['output']>;
+  /** 排序，越大越前 */
+  sort_order?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev() on columns of table "building_rooms" */
@@ -703,6 +764,8 @@ export type Building_Rooms_Stddev_Order_By = {
   /** 标注房间在第几楼 */
   floor_number?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  /** 排序，越大越前 */
+  sort_order?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_pop on columns */
@@ -713,6 +776,8 @@ export type Building_Rooms_Stddev_Pop_Fields = {
   /** 标注房间在第几楼 */
   floor_number?: Maybe<Scalars['Float']['output']>;
   id?: Maybe<Scalars['Float']['output']>;
+  /** 排序，越大越前 */
+  sort_order?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_pop() on columns of table "building_rooms" */
@@ -722,6 +787,8 @@ export type Building_Rooms_Stddev_Pop_Order_By = {
   /** 标注房间在第几楼 */
   floor_number?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  /** 排序，越大越前 */
+  sort_order?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
@@ -732,6 +799,8 @@ export type Building_Rooms_Stddev_Samp_Fields = {
   /** 标注房间在第几楼 */
   floor_number?: Maybe<Scalars['Float']['output']>;
   id?: Maybe<Scalars['Float']['output']>;
+  /** 排序，越大越前 */
+  sort_order?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_samp() on columns of table "building_rooms" */
@@ -741,6 +810,8 @@ export type Building_Rooms_Stddev_Samp_Order_By = {
   /** 标注房间在第几楼 */
   floor_number?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  /** 排序，越大越前 */
+  sort_order?: InputMaybe<Order_By>;
 };
 
 /** Streaming cursor of the table "building_rooms" */
@@ -761,6 +832,8 @@ export type Building_Rooms_Stream_Cursor_Value_Input = {
   id?: InputMaybe<Scalars['bigint']['input']>;
   /** 房间名称 */
   name?: InputMaybe<Scalars['String']['input']>;
+  /** 排序，越大越前 */
+  sort_order?: InputMaybe<Scalars['bigint']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   /** 标注房间在哪个区域 ，如房间名称是C502，则属于C区，可不填 */
   zone?: InputMaybe<Scalars['String']['input']>;
@@ -774,6 +847,8 @@ export type Building_Rooms_Sum_Fields = {
   /** 标注房间在第几楼 */
   floor_number?: Maybe<Scalars['Int']['output']>;
   id?: Maybe<Scalars['bigint']['output']>;
+  /** 排序，越大越前 */
+  sort_order?: Maybe<Scalars['bigint']['output']>;
 };
 
 /** order by sum() on columns of table "building_rooms" */
@@ -783,6 +858,8 @@ export type Building_Rooms_Sum_Order_By = {
   /** 标注房间在第几楼 */
   floor_number?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  /** 排序，越大越前 */
+  sort_order?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "building_rooms" */
@@ -797,6 +874,8 @@ export enum Building_Rooms_Update_Column {
   Id = 'id',
   /** column name */
   Name = 'name',
+  /** column name */
+  SortOrder = 'sort_order',
   /** column name */
   UpdatedAt = 'updated_at',
   /** column name */
@@ -820,6 +899,8 @@ export type Building_Rooms_Var_Pop_Fields = {
   /** 标注房间在第几楼 */
   floor_number?: Maybe<Scalars['Float']['output']>;
   id?: Maybe<Scalars['Float']['output']>;
+  /** 排序，越大越前 */
+  sort_order?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_pop() on columns of table "building_rooms" */
@@ -829,6 +910,8 @@ export type Building_Rooms_Var_Pop_Order_By = {
   /** 标注房间在第几楼 */
   floor_number?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  /** 排序，越大越前 */
+  sort_order?: InputMaybe<Order_By>;
 };
 
 /** aggregate var_samp on columns */
@@ -839,6 +922,8 @@ export type Building_Rooms_Var_Samp_Fields = {
   /** 标注房间在第几楼 */
   floor_number?: Maybe<Scalars['Float']['output']>;
   id?: Maybe<Scalars['Float']['output']>;
+  /** 排序，越大越前 */
+  sort_order?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_samp() on columns of table "building_rooms" */
@@ -848,6 +933,8 @@ export type Building_Rooms_Var_Samp_Order_By = {
   /** 标注房间在第几楼 */
   floor_number?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  /** 排序，越大越前 */
+  sort_order?: InputMaybe<Order_By>;
 };
 
 /** aggregate variance on columns */
@@ -858,6 +945,8 @@ export type Building_Rooms_Variance_Fields = {
   /** 标注房间在第几楼 */
   floor_number?: Maybe<Scalars['Float']['output']>;
   id?: Maybe<Scalars['Float']['output']>;
+  /** 排序，越大越前 */
+  sort_order?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by variance() on columns of table "building_rooms" */
@@ -867,6 +956,8 @@ export type Building_Rooms_Variance_Order_By = {
   /** 标注房间在第几楼 */
   floor_number?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  /** 排序，越大越前 */
+  sort_order?: InputMaybe<Order_By>;
 };
 
 /** 楼栋 */
@@ -882,9 +973,17 @@ export type Buildings = {
   campus_campuses: Scalars['bigint']['output'];
   created_at: Scalars['timestamptz']['output'];
   id: Scalars['bigint']['output'];
-  /** 楼栋的类型，如 1.教学楼 2.宿舍楼 3.商业楼 等 */
+  /** 学校名称 */
+  name: Scalars['String']['output'];
+  /** 排序，越大的在越前 */
+  sort_order: Scalars['bigint']['output'];
+  /** 楼栋的类型，如 [教学楼、宿舍楼 、商业楼 ] */
   type?: Maybe<Scalars['String']['output']>;
   updated_at: Scalars['timestamptz']['output'];
+  /** An array relationship */
+  user_addresses: Array<User_Addresses>;
+  /** An aggregate relationship */
+  user_addresses_aggregate: User_Addresses_Aggregate;
   /** 楼栋所在区域，如：品正园，可不设置 */
   zone?: Maybe<Scalars['String']['output']>;
 };
@@ -907,6 +1006,26 @@ export type BuildingsBuilding_Rooms_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Building_Rooms_Order_By>>;
   where?: InputMaybe<Building_Rooms_Bool_Exp>;
+};
+
+
+/** 楼栋 */
+export type BuildingsUser_AddressesArgs = {
+  distinct_on?: InputMaybe<Array<User_Addresses_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<User_Addresses_Order_By>>;
+  where?: InputMaybe<User_Addresses_Bool_Exp>;
+};
+
+
+/** 楼栋 */
+export type BuildingsUser_Addresses_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<User_Addresses_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<User_Addresses_Order_By>>;
+  where?: InputMaybe<User_Addresses_Bool_Exp>;
 };
 
 /** aggregated selection of "buildings" */
@@ -978,6 +1097,8 @@ export type Buildings_Avg_Fields = {
   /** 关联外键，哪个学校的楼栋 */
   campus_campuses?: Maybe<Scalars['Float']['output']>;
   id?: Maybe<Scalars['Float']['output']>;
+  /** 排序，越大的在越前 */
+  sort_order?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by avg() on columns of table "buildings" */
@@ -985,6 +1106,8 @@ export type Buildings_Avg_Order_By = {
   /** 关联外键，哪个学校的楼栋 */
   campus_campuses?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  /** 排序，越大的在越前 */
+  sort_order?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "buildings". All fields are combined with a logical 'AND'. */
@@ -998,13 +1121,19 @@ export type Buildings_Bool_Exp = {
   campus_campuses?: InputMaybe<Bigint_Comparison_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   id?: InputMaybe<Bigint_Comparison_Exp>;
+  name?: InputMaybe<String_Comparison_Exp>;
+  sort_order?: InputMaybe<Bigint_Comparison_Exp>;
   type?: InputMaybe<String_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  user_addresses?: InputMaybe<User_Addresses_Bool_Exp>;
+  user_addresses_aggregate?: InputMaybe<User_Addresses_Aggregate_Bool_Exp>;
   zone?: InputMaybe<String_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "buildings" */
 export enum Buildings_Constraint {
+  /** unique or primary key constraint on columns "campus_campuses", "name" */
+  BuildingsCampusCampusesNameKey = 'buildings_campus_campuses_name_key',
   /** unique or primary key constraint on columns "id" */
   BuildingsPkey = 'buildings_pkey'
 }
@@ -1014,6 +1143,8 @@ export type Buildings_Inc_Input = {
   /** 关联外键，哪个学校的楼栋 */
   campus_campuses?: InputMaybe<Scalars['bigint']['input']>;
   id?: InputMaybe<Scalars['bigint']['input']>;
+  /** 排序，越大的在越前 */
+  sort_order?: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** input type for inserting data into table "buildings" */
@@ -1024,9 +1155,14 @@ export type Buildings_Insert_Input = {
   campus_campuses?: InputMaybe<Scalars['bigint']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   id?: InputMaybe<Scalars['bigint']['input']>;
-  /** 楼栋的类型，如 1.教学楼 2.宿舍楼 3.商业楼 等 */
+  /** 学校名称 */
+  name?: InputMaybe<Scalars['String']['input']>;
+  /** 排序，越大的在越前 */
+  sort_order?: InputMaybe<Scalars['bigint']['input']>;
+  /** 楼栋的类型，如 [教学楼、宿舍楼 、商业楼 ] */
   type?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  user_addresses?: InputMaybe<User_Addresses_Arr_Rel_Insert_Input>;
   /** 楼栋所在区域，如：品正园，可不设置 */
   zone?: InputMaybe<Scalars['String']['input']>;
 };
@@ -1038,7 +1174,11 @@ export type Buildings_Max_Fields = {
   campus_campuses?: Maybe<Scalars['bigint']['output']>;
   created_at?: Maybe<Scalars['timestamptz']['output']>;
   id?: Maybe<Scalars['bigint']['output']>;
-  /** 楼栋的类型，如 1.教学楼 2.宿舍楼 3.商业楼 等 */
+  /** 学校名称 */
+  name?: Maybe<Scalars['String']['output']>;
+  /** 排序，越大的在越前 */
+  sort_order?: Maybe<Scalars['bigint']['output']>;
+  /** 楼栋的类型，如 [教学楼、宿舍楼 、商业楼 ] */
   type?: Maybe<Scalars['String']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
   /** 楼栋所在区域，如：品正园，可不设置 */
@@ -1051,7 +1191,11 @@ export type Buildings_Max_Order_By = {
   campus_campuses?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-  /** 楼栋的类型，如 1.教学楼 2.宿舍楼 3.商业楼 等 */
+  /** 学校名称 */
+  name?: InputMaybe<Order_By>;
+  /** 排序，越大的在越前 */
+  sort_order?: InputMaybe<Order_By>;
+  /** 楼栋的类型，如 [教学楼、宿舍楼 、商业楼 ] */
   type?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
   /** 楼栋所在区域，如：品正园，可不设置 */
@@ -1065,7 +1209,11 @@ export type Buildings_Min_Fields = {
   campus_campuses?: Maybe<Scalars['bigint']['output']>;
   created_at?: Maybe<Scalars['timestamptz']['output']>;
   id?: Maybe<Scalars['bigint']['output']>;
-  /** 楼栋的类型，如 1.教学楼 2.宿舍楼 3.商业楼 等 */
+  /** 学校名称 */
+  name?: Maybe<Scalars['String']['output']>;
+  /** 排序，越大的在越前 */
+  sort_order?: Maybe<Scalars['bigint']['output']>;
+  /** 楼栋的类型，如 [教学楼、宿舍楼 、商业楼 ] */
   type?: Maybe<Scalars['String']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
   /** 楼栋所在区域，如：品正园，可不设置 */
@@ -1078,7 +1226,11 @@ export type Buildings_Min_Order_By = {
   campus_campuses?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-  /** 楼栋的类型，如 1.教学楼 2.宿舍楼 3.商业楼 等 */
+  /** 学校名称 */
+  name?: InputMaybe<Order_By>;
+  /** 排序，越大的在越前 */
+  sort_order?: InputMaybe<Order_By>;
+  /** 楼栋的类型，如 [教学楼、宿舍楼 、商业楼 ] */
   type?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
   /** 楼栋所在区域，如：品正园，可不设置 */
@@ -1115,8 +1267,11 @@ export type Buildings_Order_By = {
   campus_campuses?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  name?: InputMaybe<Order_By>;
+  sort_order?: InputMaybe<Order_By>;
   type?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
+  user_addresses_aggregate?: InputMaybe<User_Addresses_Aggregate_Order_By>;
   zone?: InputMaybe<Order_By>;
 };
 
@@ -1134,6 +1289,10 @@ export enum Buildings_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  Name = 'name',
+  /** column name */
+  SortOrder = 'sort_order',
+  /** column name */
   Type = 'type',
   /** column name */
   UpdatedAt = 'updated_at',
@@ -1147,7 +1306,11 @@ export type Buildings_Set_Input = {
   campus_campuses?: InputMaybe<Scalars['bigint']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   id?: InputMaybe<Scalars['bigint']['input']>;
-  /** 楼栋的类型，如 1.教学楼 2.宿舍楼 3.商业楼 等 */
+  /** 学校名称 */
+  name?: InputMaybe<Scalars['String']['input']>;
+  /** 排序，越大的在越前 */
+  sort_order?: InputMaybe<Scalars['bigint']['input']>;
+  /** 楼栋的类型，如 [教学楼、宿舍楼 、商业楼 ] */
   type?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   /** 楼栋所在区域，如：品正园，可不设置 */
@@ -1160,6 +1323,8 @@ export type Buildings_Stddev_Fields = {
   /** 关联外键，哪个学校的楼栋 */
   campus_campuses?: Maybe<Scalars['Float']['output']>;
   id?: Maybe<Scalars['Float']['output']>;
+  /** 排序，越大的在越前 */
+  sort_order?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev() on columns of table "buildings" */
@@ -1167,6 +1332,8 @@ export type Buildings_Stddev_Order_By = {
   /** 关联外键，哪个学校的楼栋 */
   campus_campuses?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  /** 排序，越大的在越前 */
+  sort_order?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_pop on columns */
@@ -1175,6 +1342,8 @@ export type Buildings_Stddev_Pop_Fields = {
   /** 关联外键，哪个学校的楼栋 */
   campus_campuses?: Maybe<Scalars['Float']['output']>;
   id?: Maybe<Scalars['Float']['output']>;
+  /** 排序，越大的在越前 */
+  sort_order?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_pop() on columns of table "buildings" */
@@ -1182,6 +1351,8 @@ export type Buildings_Stddev_Pop_Order_By = {
   /** 关联外键，哪个学校的楼栋 */
   campus_campuses?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  /** 排序，越大的在越前 */
+  sort_order?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
@@ -1190,6 +1361,8 @@ export type Buildings_Stddev_Samp_Fields = {
   /** 关联外键，哪个学校的楼栋 */
   campus_campuses?: Maybe<Scalars['Float']['output']>;
   id?: Maybe<Scalars['Float']['output']>;
+  /** 排序，越大的在越前 */
+  sort_order?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_samp() on columns of table "buildings" */
@@ -1197,6 +1370,8 @@ export type Buildings_Stddev_Samp_Order_By = {
   /** 关联外键，哪个学校的楼栋 */
   campus_campuses?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  /** 排序，越大的在越前 */
+  sort_order?: InputMaybe<Order_By>;
 };
 
 /** Streaming cursor of the table "buildings" */
@@ -1213,7 +1388,11 @@ export type Buildings_Stream_Cursor_Value_Input = {
   campus_campuses?: InputMaybe<Scalars['bigint']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   id?: InputMaybe<Scalars['bigint']['input']>;
-  /** 楼栋的类型，如 1.教学楼 2.宿舍楼 3.商业楼 等 */
+  /** 学校名称 */
+  name?: InputMaybe<Scalars['String']['input']>;
+  /** 排序，越大的在越前 */
+  sort_order?: InputMaybe<Scalars['bigint']['input']>;
+  /** 楼栋的类型，如 [教学楼、宿舍楼 、商业楼 ] */
   type?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   /** 楼栋所在区域，如：品正园，可不设置 */
@@ -1226,6 +1405,8 @@ export type Buildings_Sum_Fields = {
   /** 关联外键，哪个学校的楼栋 */
   campus_campuses?: Maybe<Scalars['bigint']['output']>;
   id?: Maybe<Scalars['bigint']['output']>;
+  /** 排序，越大的在越前 */
+  sort_order?: Maybe<Scalars['bigint']['output']>;
 };
 
 /** order by sum() on columns of table "buildings" */
@@ -1233,6 +1414,8 @@ export type Buildings_Sum_Order_By = {
   /** 关联外键，哪个学校的楼栋 */
   campus_campuses?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  /** 排序，越大的在越前 */
+  sort_order?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "buildings" */
@@ -1243,6 +1426,10 @@ export enum Buildings_Update_Column {
   CreatedAt = 'created_at',
   /** column name */
   Id = 'id',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  SortOrder = 'sort_order',
   /** column name */
   Type = 'type',
   /** column name */
@@ -1266,6 +1453,8 @@ export type Buildings_Var_Pop_Fields = {
   /** 关联外键，哪个学校的楼栋 */
   campus_campuses?: Maybe<Scalars['Float']['output']>;
   id?: Maybe<Scalars['Float']['output']>;
+  /** 排序，越大的在越前 */
+  sort_order?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_pop() on columns of table "buildings" */
@@ -1273,6 +1462,8 @@ export type Buildings_Var_Pop_Order_By = {
   /** 关联外键，哪个学校的楼栋 */
   campus_campuses?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  /** 排序，越大的在越前 */
+  sort_order?: InputMaybe<Order_By>;
 };
 
 /** aggregate var_samp on columns */
@@ -1281,6 +1472,8 @@ export type Buildings_Var_Samp_Fields = {
   /** 关联外键，哪个学校的楼栋 */
   campus_campuses?: Maybe<Scalars['Float']['output']>;
   id?: Maybe<Scalars['Float']['output']>;
+  /** 排序，越大的在越前 */
+  sort_order?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_samp() on columns of table "buildings" */
@@ -1288,6 +1481,8 @@ export type Buildings_Var_Samp_Order_By = {
   /** 关联外键，哪个学校的楼栋 */
   campus_campuses?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  /** 排序，越大的在越前 */
+  sort_order?: InputMaybe<Order_By>;
 };
 
 /** aggregate variance on columns */
@@ -1296,6 +1491,8 @@ export type Buildings_Variance_Fields = {
   /** 关联外键，哪个学校的楼栋 */
   campus_campuses?: Maybe<Scalars['Float']['output']>;
   id?: Maybe<Scalars['Float']['output']>;
+  /** 排序，越大的在越前 */
+  sort_order?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by variance() on columns of table "buildings" */
@@ -1303,6 +1500,450 @@ export type Buildings_Variance_Order_By = {
   /** 关联外键，哪个学校的楼栋 */
   campus_campuses?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  /** 排序，越大的在越前 */
+  sort_order?: InputMaybe<Order_By>;
+};
+
+/** 学校用户表 */
+export type Campus_Users = {
+  __typename?: 'campus_users';
+  /** An object relationship */
+  campus: Campuses;
+  /** 外键，关联学校 */
+  campus_campuses: Scalars['bigint']['output'];
+  created_at: Scalars['timestamptz']['output'];
+  id: Scalars['bigint']['output'];
+  /** 角色：[admin（学校管理员，有全部权限）、visitor（学校的用户）] */
+  role: Scalars['String']['output'];
+  updated_at: Scalars['timestamptz']['output'];
+  /** An object relationship */
+  user: Users;
+  /** 外键，关联用户 */
+  user_users: Scalars['bigint']['output'];
+};
+
+/** aggregated selection of "campus_users" */
+export type Campus_Users_Aggregate = {
+  __typename?: 'campus_users_aggregate';
+  aggregate?: Maybe<Campus_Users_Aggregate_Fields>;
+  nodes: Array<Campus_Users>;
+};
+
+export type Campus_Users_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Campus_Users_Aggregate_Bool_Exp_Count>;
+};
+
+export type Campus_Users_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Campus_Users_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Campus_Users_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
+/** aggregate fields of "campus_users" */
+export type Campus_Users_Aggregate_Fields = {
+  __typename?: 'campus_users_aggregate_fields';
+  avg?: Maybe<Campus_Users_Avg_Fields>;
+  count: Scalars['Int']['output'];
+  max?: Maybe<Campus_Users_Max_Fields>;
+  min?: Maybe<Campus_Users_Min_Fields>;
+  stddev?: Maybe<Campus_Users_Stddev_Fields>;
+  stddev_pop?: Maybe<Campus_Users_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Campus_Users_Stddev_Samp_Fields>;
+  sum?: Maybe<Campus_Users_Sum_Fields>;
+  var_pop?: Maybe<Campus_Users_Var_Pop_Fields>;
+  var_samp?: Maybe<Campus_Users_Var_Samp_Fields>;
+  variance?: Maybe<Campus_Users_Variance_Fields>;
+};
+
+
+/** aggregate fields of "campus_users" */
+export type Campus_Users_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Campus_Users_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** order by aggregate values of table "campus_users" */
+export type Campus_Users_Aggregate_Order_By = {
+  avg?: InputMaybe<Campus_Users_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Campus_Users_Max_Order_By>;
+  min?: InputMaybe<Campus_Users_Min_Order_By>;
+  stddev?: InputMaybe<Campus_Users_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Campus_Users_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Campus_Users_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Campus_Users_Sum_Order_By>;
+  var_pop?: InputMaybe<Campus_Users_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Campus_Users_Var_Samp_Order_By>;
+  variance?: InputMaybe<Campus_Users_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "campus_users" */
+export type Campus_Users_Arr_Rel_Insert_Input = {
+  data: Array<Campus_Users_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Campus_Users_On_Conflict>;
+};
+
+/** aggregate avg on columns */
+export type Campus_Users_Avg_Fields = {
+  __typename?: 'campus_users_avg_fields';
+  /** 外键，关联学校 */
+  campus_campuses?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars['Float']['output']>;
+  /** 外键，关联用户 */
+  user_users?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by avg() on columns of table "campus_users" */
+export type Campus_Users_Avg_Order_By = {
+  /** 外键，关联学校 */
+  campus_campuses?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  /** 外键，关联用户 */
+  user_users?: InputMaybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "campus_users". All fields are combined with a logical 'AND'. */
+export type Campus_Users_Bool_Exp = {
+  _and?: InputMaybe<Array<Campus_Users_Bool_Exp>>;
+  _not?: InputMaybe<Campus_Users_Bool_Exp>;
+  _or?: InputMaybe<Array<Campus_Users_Bool_Exp>>;
+  campus?: InputMaybe<Campuses_Bool_Exp>;
+  campus_campuses?: InputMaybe<Bigint_Comparison_Exp>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  id?: InputMaybe<Bigint_Comparison_Exp>;
+  role?: InputMaybe<String_Comparison_Exp>;
+  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  user?: InputMaybe<Users_Bool_Exp>;
+  user_users?: InputMaybe<Bigint_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "campus_users" */
+export enum Campus_Users_Constraint {
+  /** unique or primary key constraint on columns "user_users", "campus_campuses" */
+  CampusUsersCampusCampusesUserUsersKey = 'campus_users_campus_campuses_user_users_key',
+  /** unique or primary key constraint on columns "id" */
+  CampusUsersPkey = 'campus_users_pkey'
+}
+
+/** input type for incrementing numeric columns in table "campus_users" */
+export type Campus_Users_Inc_Input = {
+  /** 外键，关联学校 */
+  campus_campuses?: InputMaybe<Scalars['bigint']['input']>;
+  id?: InputMaybe<Scalars['bigint']['input']>;
+  /** 外键，关联用户 */
+  user_users?: InputMaybe<Scalars['bigint']['input']>;
+};
+
+/** input type for inserting data into table "campus_users" */
+export type Campus_Users_Insert_Input = {
+  campus?: InputMaybe<Campuses_Obj_Rel_Insert_Input>;
+  /** 外键，关联学校 */
+  campus_campuses?: InputMaybe<Scalars['bigint']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  id?: InputMaybe<Scalars['bigint']['input']>;
+  /** 角色：[admin（学校管理员，有全部权限）、visitor（学校的用户）] */
+  role?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
+  /** 外键，关联用户 */
+  user_users?: InputMaybe<Scalars['bigint']['input']>;
+};
+
+/** aggregate max on columns */
+export type Campus_Users_Max_Fields = {
+  __typename?: 'campus_users_max_fields';
+  /** 外键，关联学校 */
+  campus_campuses?: Maybe<Scalars['bigint']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  id?: Maybe<Scalars['bigint']['output']>;
+  /** 角色：[admin（学校管理员，有全部权限）、visitor（学校的用户）] */
+  role?: Maybe<Scalars['String']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  /** 外键，关联用户 */
+  user_users?: Maybe<Scalars['bigint']['output']>;
+};
+
+/** order by max() on columns of table "campus_users" */
+export type Campus_Users_Max_Order_By = {
+  /** 外键，关联学校 */
+  campus_campuses?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  /** 角色：[admin（学校管理员，有全部权限）、visitor（学校的用户）] */
+  role?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  /** 外键，关联用户 */
+  user_users?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Campus_Users_Min_Fields = {
+  __typename?: 'campus_users_min_fields';
+  /** 外键，关联学校 */
+  campus_campuses?: Maybe<Scalars['bigint']['output']>;
+  created_at?: Maybe<Scalars['timestamptz']['output']>;
+  id?: Maybe<Scalars['bigint']['output']>;
+  /** 角色：[admin（学校管理员，有全部权限）、visitor（学校的用户）] */
+  role?: Maybe<Scalars['String']['output']>;
+  updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  /** 外键，关联用户 */
+  user_users?: Maybe<Scalars['bigint']['output']>;
+};
+
+/** order by min() on columns of table "campus_users" */
+export type Campus_Users_Min_Order_By = {
+  /** 外键，关联学校 */
+  campus_campuses?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  /** 角色：[admin（学校管理员，有全部权限）、visitor（学校的用户）] */
+  role?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  /** 外键，关联用户 */
+  user_users?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "campus_users" */
+export type Campus_Users_Mutation_Response = {
+  __typename?: 'campus_users_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']['output'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Campus_Users>;
+};
+
+/** on_conflict condition type for table "campus_users" */
+export type Campus_Users_On_Conflict = {
+  constraint: Campus_Users_Constraint;
+  update_columns?: Array<Campus_Users_Update_Column>;
+  where?: InputMaybe<Campus_Users_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "campus_users". */
+export type Campus_Users_Order_By = {
+  campus?: InputMaybe<Campuses_Order_By>;
+  campus_campuses?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  role?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  user?: InputMaybe<Users_Order_By>;
+  user_users?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: campus_users */
+export type Campus_Users_Pk_Columns_Input = {
+  id: Scalars['bigint']['input'];
+};
+
+/** select columns of table "campus_users" */
+export enum Campus_Users_Select_Column {
+  /** column name */
+  CampusCampuses = 'campus_campuses',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Role = 'role',
+  /** column name */
+  UpdatedAt = 'updated_at',
+  /** column name */
+  UserUsers = 'user_users'
+}
+
+/** input type for updating data in table "campus_users" */
+export type Campus_Users_Set_Input = {
+  /** 外键，关联学校 */
+  campus_campuses?: InputMaybe<Scalars['bigint']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  id?: InputMaybe<Scalars['bigint']['input']>;
+  /** 角色：[admin（学校管理员，有全部权限）、visitor（学校的用户）] */
+  role?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  /** 外键，关联用户 */
+  user_users?: InputMaybe<Scalars['bigint']['input']>;
+};
+
+/** aggregate stddev on columns */
+export type Campus_Users_Stddev_Fields = {
+  __typename?: 'campus_users_stddev_fields';
+  /** 外键，关联学校 */
+  campus_campuses?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars['Float']['output']>;
+  /** 外键，关联用户 */
+  user_users?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by stddev() on columns of table "campus_users" */
+export type Campus_Users_Stddev_Order_By = {
+  /** 外键，关联学校 */
+  campus_campuses?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  /** 外键，关联用户 */
+  user_users?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Campus_Users_Stddev_Pop_Fields = {
+  __typename?: 'campus_users_stddev_pop_fields';
+  /** 外键，关联学校 */
+  campus_campuses?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars['Float']['output']>;
+  /** 外键，关联用户 */
+  user_users?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by stddev_pop() on columns of table "campus_users" */
+export type Campus_Users_Stddev_Pop_Order_By = {
+  /** 外键，关联学校 */
+  campus_campuses?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  /** 外键，关联用户 */
+  user_users?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Campus_Users_Stddev_Samp_Fields = {
+  __typename?: 'campus_users_stddev_samp_fields';
+  /** 外键，关联学校 */
+  campus_campuses?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars['Float']['output']>;
+  /** 外键，关联用户 */
+  user_users?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by stddev_samp() on columns of table "campus_users" */
+export type Campus_Users_Stddev_Samp_Order_By = {
+  /** 外键，关联学校 */
+  campus_campuses?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  /** 外键，关联用户 */
+  user_users?: InputMaybe<Order_By>;
+};
+
+/** Streaming cursor of the table "campus_users" */
+export type Campus_Users_Stream_Cursor_Input = {
+  /** Stream column input with initial value */
+  initial_value: Campus_Users_Stream_Cursor_Value_Input;
+  /** cursor ordering */
+  ordering?: InputMaybe<Cursor_Ordering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type Campus_Users_Stream_Cursor_Value_Input = {
+  /** 外键，关联学校 */
+  campus_campuses?: InputMaybe<Scalars['bigint']['input']>;
+  created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  id?: InputMaybe<Scalars['bigint']['input']>;
+  /** 角色：[admin（学校管理员，有全部权限）、visitor（学校的用户）] */
+  role?: InputMaybe<Scalars['String']['input']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  /** 外键，关联用户 */
+  user_users?: InputMaybe<Scalars['bigint']['input']>;
+};
+
+/** aggregate sum on columns */
+export type Campus_Users_Sum_Fields = {
+  __typename?: 'campus_users_sum_fields';
+  /** 外键，关联学校 */
+  campus_campuses?: Maybe<Scalars['bigint']['output']>;
+  id?: Maybe<Scalars['bigint']['output']>;
+  /** 外键，关联用户 */
+  user_users?: Maybe<Scalars['bigint']['output']>;
+};
+
+/** order by sum() on columns of table "campus_users" */
+export type Campus_Users_Sum_Order_By = {
+  /** 外键，关联学校 */
+  campus_campuses?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  /** 外键，关联用户 */
+  user_users?: InputMaybe<Order_By>;
+};
+
+/** update columns of table "campus_users" */
+export enum Campus_Users_Update_Column {
+  /** column name */
+  CampusCampuses = 'campus_campuses',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Role = 'role',
+  /** column name */
+  UpdatedAt = 'updated_at',
+  /** column name */
+  UserUsers = 'user_users'
+}
+
+export type Campus_Users_Updates = {
+  /** increments the numeric columns with given value of the filtered values */
+  _inc?: InputMaybe<Campus_Users_Inc_Input>;
+  /** sets the columns of the filtered rows to the given values */
+  _set?: InputMaybe<Campus_Users_Set_Input>;
+  /** filter the rows which have to be updated */
+  where: Campus_Users_Bool_Exp;
+};
+
+/** aggregate var_pop on columns */
+export type Campus_Users_Var_Pop_Fields = {
+  __typename?: 'campus_users_var_pop_fields';
+  /** 外键，关联学校 */
+  campus_campuses?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars['Float']['output']>;
+  /** 外键，关联用户 */
+  user_users?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by var_pop() on columns of table "campus_users" */
+export type Campus_Users_Var_Pop_Order_By = {
+  /** 外键，关联学校 */
+  campus_campuses?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  /** 外键，关联用户 */
+  user_users?: InputMaybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type Campus_Users_Var_Samp_Fields = {
+  __typename?: 'campus_users_var_samp_fields';
+  /** 外键，关联学校 */
+  campus_campuses?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars['Float']['output']>;
+  /** 外键，关联用户 */
+  user_users?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by var_samp() on columns of table "campus_users" */
+export type Campus_Users_Var_Samp_Order_By = {
+  /** 外键，关联学校 */
+  campus_campuses?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  /** 外键，关联用户 */
+  user_users?: InputMaybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type Campus_Users_Variance_Fields = {
+  __typename?: 'campus_users_variance_fields';
+  /** 外键，关联学校 */
+  campus_campuses?: Maybe<Scalars['Float']['output']>;
+  id?: Maybe<Scalars['Float']['output']>;
+  /** 外键，关联用户 */
+  user_users?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by variance() on columns of table "campus_users" */
+export type Campus_Users_Variance_Order_By = {
+  /** 外键，关联学校 */
+  campus_campuses?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  /** 外键，关联用户 */
+  user_users?: InputMaybe<Order_By>;
 };
 
 /** 校园表 */
@@ -1312,6 +1953,10 @@ export type Campuses = {
   buildings: Array<Buildings>;
   /** An aggregate relationship */
   buildings_aggregate: Buildings_Aggregate;
+  /** An array relationship */
+  campus_users: Array<Campus_Users>;
+  /** An aggregate relationship */
+  campus_users_aggregate: Campus_Users_Aggregate;
   city?: Maybe<Scalars['String']['output']>;
   created_at: Scalars['timestamptz']['output'];
   district?: Maybe<Scalars['String']['output']>;
@@ -1320,6 +1965,14 @@ export type Campuses = {
   name: Scalars['String']['output'];
   province?: Maybe<Scalars['String']['output']>;
   updated_at: Scalars['timestamptz']['output'];
+  /** An array relationship */
+  user_addresses: Array<User_Addresses>;
+  /** An aggregate relationship */
+  user_addresses_aggregate: User_Addresses_Aggregate;
+  /** An array relationship */
+  users: Array<Users>;
+  /** An aggregate relationship */
+  users_aggregate: Users_Aggregate;
 };
 
 
@@ -1340,6 +1993,66 @@ export type CampusesBuildings_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Buildings_Order_By>>;
   where?: InputMaybe<Buildings_Bool_Exp>;
+};
+
+
+/** 校园表 */
+export type CampusesCampus_UsersArgs = {
+  distinct_on?: InputMaybe<Array<Campus_Users_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Campus_Users_Order_By>>;
+  where?: InputMaybe<Campus_Users_Bool_Exp>;
+};
+
+
+/** 校园表 */
+export type CampusesCampus_Users_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Campus_Users_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Campus_Users_Order_By>>;
+  where?: InputMaybe<Campus_Users_Bool_Exp>;
+};
+
+
+/** 校园表 */
+export type CampusesUser_AddressesArgs = {
+  distinct_on?: InputMaybe<Array<User_Addresses_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<User_Addresses_Order_By>>;
+  where?: InputMaybe<User_Addresses_Bool_Exp>;
+};
+
+
+/** 校园表 */
+export type CampusesUser_Addresses_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<User_Addresses_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<User_Addresses_Order_By>>;
+  where?: InputMaybe<User_Addresses_Bool_Exp>;
+};
+
+
+/** 校园表 */
+export type CampusesUsersArgs = {
+  distinct_on?: InputMaybe<Array<Users_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Users_Order_By>>;
+  where?: InputMaybe<Users_Bool_Exp>;
+};
+
+
+/** 校园表 */
+export type CampusesUsers_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Users_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Users_Order_By>>;
+  where?: InputMaybe<Users_Bool_Exp>;
 };
 
 /** aggregated selection of "campuses" */
@@ -1385,6 +2098,8 @@ export type Campuses_Bool_Exp = {
   _or?: InputMaybe<Array<Campuses_Bool_Exp>>;
   buildings?: InputMaybe<Buildings_Bool_Exp>;
   buildings_aggregate?: InputMaybe<Buildings_Aggregate_Bool_Exp>;
+  campus_users?: InputMaybe<Campus_Users_Bool_Exp>;
+  campus_users_aggregate?: InputMaybe<Campus_Users_Aggregate_Bool_Exp>;
   city?: InputMaybe<String_Comparison_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   district?: InputMaybe<String_Comparison_Exp>;
@@ -1392,6 +2107,10 @@ export type Campuses_Bool_Exp = {
   name?: InputMaybe<String_Comparison_Exp>;
   province?: InputMaybe<String_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  user_addresses?: InputMaybe<User_Addresses_Bool_Exp>;
+  user_addresses_aggregate?: InputMaybe<User_Addresses_Aggregate_Bool_Exp>;
+  users?: InputMaybe<Users_Bool_Exp>;
+  users_aggregate?: InputMaybe<Users_Aggregate_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "campuses" */
@@ -1410,6 +2129,7 @@ export type Campuses_Inc_Input = {
 /** input type for inserting data into table "campuses" */
 export type Campuses_Insert_Input = {
   buildings?: InputMaybe<Buildings_Arr_Rel_Insert_Input>;
+  campus_users?: InputMaybe<Campus_Users_Arr_Rel_Insert_Input>;
   city?: InputMaybe<Scalars['String']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   district?: InputMaybe<Scalars['String']['input']>;
@@ -1418,6 +2138,8 @@ export type Campuses_Insert_Input = {
   name?: InputMaybe<Scalars['String']['input']>;
   province?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  user_addresses?: InputMaybe<User_Addresses_Arr_Rel_Insert_Input>;
+  users?: InputMaybe<Users_Arr_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
@@ -1472,6 +2194,7 @@ export type Campuses_On_Conflict = {
 /** Ordering options when selecting data from "campuses". */
 export type Campuses_Order_By = {
   buildings_aggregate?: InputMaybe<Buildings_Aggregate_Order_By>;
+  campus_users_aggregate?: InputMaybe<Campus_Users_Aggregate_Order_By>;
   city?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
   district?: InputMaybe<Order_By>;
@@ -1479,6 +2202,8 @@ export type Campuses_Order_By = {
   name?: InputMaybe<Order_By>;
   province?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
+  user_addresses_aggregate?: InputMaybe<User_Addresses_Aggregate_Order_By>;
+  users_aggregate?: InputMaybe<Users_Aggregate_Order_By>;
 };
 
 /** primary key columns input for table: campuses */
@@ -1641,6 +2366,10 @@ export type Mutation_Root = {
   delete_buildings?: Maybe<Buildings_Mutation_Response>;
   /** delete single row from the table: "buildings" */
   delete_buildings_by_pk?: Maybe<Buildings>;
+  /** delete data from the table: "campus_users" */
+  delete_campus_users?: Maybe<Campus_Users_Mutation_Response>;
+  /** delete single row from the table: "campus_users" */
+  delete_campus_users_by_pk?: Maybe<Campus_Users>;
   /** delete data from the table: "campuses" */
   delete_campuses?: Maybe<Campuses_Mutation_Response>;
   /** delete single row from the table: "campuses" */
@@ -1701,6 +2430,10 @@ export type Mutation_Root = {
   insert_buildings?: Maybe<Buildings_Mutation_Response>;
   /** insert a single row into the table: "buildings" */
   insert_buildings_one?: Maybe<Buildings>;
+  /** insert data into the table: "campus_users" */
+  insert_campus_users?: Maybe<Campus_Users_Mutation_Response>;
+  /** insert a single row into the table: "campus_users" */
+  insert_campus_users_one?: Maybe<Campus_Users>;
   /** insert data into the table: "campuses" */
   insert_campuses?: Maybe<Campuses_Mutation_Response>;
   /** insert a single row into the table: "campuses" */
@@ -1767,6 +2500,12 @@ export type Mutation_Root = {
   update_buildings_by_pk?: Maybe<Buildings>;
   /** update multiples rows of table: "buildings" */
   update_buildings_many?: Maybe<Array<Maybe<Buildings_Mutation_Response>>>;
+  /** update data of the table: "campus_users" */
+  update_campus_users?: Maybe<Campus_Users_Mutation_Response>;
+  /** update single row of the table: "campus_users" */
+  update_campus_users_by_pk?: Maybe<Campus_Users>;
+  /** update multiples rows of table: "campus_users" */
+  update_campus_users_many?: Maybe<Array<Maybe<Campus_Users_Mutation_Response>>>;
   /** update data of the table: "campuses" */
   update_campuses?: Maybe<Campuses_Mutation_Response>;
   /** update single row of the table: "campuses" */
@@ -1874,6 +2613,18 @@ export type Mutation_RootDelete_BuildingsArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Buildings_By_PkArgs = {
+  id: Scalars['bigint']['input'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Campus_UsersArgs = {
+  where: Campus_Users_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Campus_Users_By_PkArgs = {
   id: Scalars['bigint']['input'];
 };
 
@@ -2061,6 +2812,20 @@ export type Mutation_RootInsert_BuildingsArgs = {
 export type Mutation_RootInsert_Buildings_OneArgs = {
   object: Buildings_Insert_Input;
   on_conflict?: InputMaybe<Buildings_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Campus_UsersArgs = {
+  objects: Array<Campus_Users_Insert_Input>;
+  on_conflict?: InputMaybe<Campus_Users_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Campus_Users_OneArgs = {
+  object: Campus_Users_Insert_Input;
+  on_conflict?: InputMaybe<Campus_Users_On_Conflict>;
 };
 
 
@@ -2295,6 +3060,28 @@ export type Mutation_RootUpdate_Buildings_By_PkArgs = {
 /** mutation root */
 export type Mutation_RootUpdate_Buildings_ManyArgs = {
   updates: Array<Buildings_Updates>;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Campus_UsersArgs = {
+  _inc?: InputMaybe<Campus_Users_Inc_Input>;
+  _set?: InputMaybe<Campus_Users_Set_Input>;
+  where: Campus_Users_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Campus_Users_By_PkArgs = {
+  _inc?: InputMaybe<Campus_Users_Inc_Input>;
+  _set?: InputMaybe<Campus_Users_Set_Input>;
+  pk_columns: Campus_Users_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Campus_Users_ManyArgs = {
+  updates: Array<Campus_Users_Updates>;
 };
 
 
@@ -2603,6 +3390,8 @@ export type Product_Skus = {
   name: Scalars['String']['output'];
   /** 价格，单位元 */
   price: Scalars['numeric']['output'];
+  /** 单位 ，如 个 份 斤 箱 */
+  price_unit?: Maybe<Scalars['String']['output']>;
   /** An object relationship */
   product: Products;
   /** 关联外建，哪个产品 */
@@ -2755,6 +3544,7 @@ export type Product_Skus_Bool_Exp = {
   is_shelved?: InputMaybe<Boolean_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   price?: InputMaybe<Numeric_Comparison_Exp>;
+  price_unit?: InputMaybe<String_Comparison_Exp>;
   product?: InputMaybe<Products_Bool_Exp>;
   product_products?: InputMaybe<Bigint_Comparison_Exp>;
   shop_order_items?: InputMaybe<Shop_Order_Items_Bool_Exp>;
@@ -2795,6 +3585,8 @@ export type Product_Skus_Insert_Input = {
   name?: InputMaybe<Scalars['String']['input']>;
   /** 价格，单位元 */
   price?: InputMaybe<Scalars['numeric']['input']>;
+  /** 单位 ，如 个 份 斤 箱 */
+  price_unit?: InputMaybe<Scalars['String']['input']>;
   product?: InputMaybe<Products_Obj_Rel_Insert_Input>;
   /** 关联外建，哪个产品 */
   product_products?: InputMaybe<Scalars['bigint']['input']>;
@@ -2817,6 +3609,8 @@ export type Product_Skus_Max_Fields = {
   name?: Maybe<Scalars['String']['output']>;
   /** 价格，单位元 */
   price?: Maybe<Scalars['numeric']['output']>;
+  /** 单位 ，如 个 份 斤 箱 */
+  price_unit?: Maybe<Scalars['String']['output']>;
   /** 关联外建，哪个产品 */
   product_products?: Maybe<Scalars['bigint']['output']>;
   /** 排序，越大在越前面 */
@@ -2836,6 +3630,8 @@ export type Product_Skus_Max_Order_By = {
   name?: InputMaybe<Order_By>;
   /** 价格，单位元 */
   price?: InputMaybe<Order_By>;
+  /** 单位 ，如 个 份 斤 箱 */
+  price_unit?: InputMaybe<Order_By>;
   /** 关联外建，哪个产品 */
   product_products?: InputMaybe<Order_By>;
   /** 排序，越大在越前面 */
@@ -2856,6 +3652,8 @@ export type Product_Skus_Min_Fields = {
   name?: Maybe<Scalars['String']['output']>;
   /** 价格，单位元 */
   price?: Maybe<Scalars['numeric']['output']>;
+  /** 单位 ，如 个 份 斤 箱 */
+  price_unit?: Maybe<Scalars['String']['output']>;
   /** 关联外建，哪个产品 */
   product_products?: Maybe<Scalars['bigint']['output']>;
   /** 排序，越大在越前面 */
@@ -2875,6 +3673,8 @@ export type Product_Skus_Min_Order_By = {
   name?: InputMaybe<Order_By>;
   /** 价格，单位元 */
   price?: InputMaybe<Order_By>;
+  /** 单位 ，如 个 份 斤 箱 */
+  price_unit?: InputMaybe<Order_By>;
   /** 关联外建，哪个产品 */
   product_products?: InputMaybe<Order_By>;
   /** 排序，越大在越前面 */
@@ -2915,6 +3715,7 @@ export type Product_Skus_Order_By = {
   is_shelved?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   price?: InputMaybe<Order_By>;
+  price_unit?: InputMaybe<Order_By>;
   product?: InputMaybe<Products_Order_By>;
   product_products?: InputMaybe<Order_By>;
   shop_order_items_aggregate?: InputMaybe<Shop_Order_Items_Aggregate_Order_By>;
@@ -2942,6 +3743,8 @@ export enum Product_Skus_Select_Column {
   Name = 'name',
   /** column name */
   Price = 'price',
+  /** column name */
+  PriceUnit = 'price_unit',
   /** column name */
   ProductProducts = 'product_products',
   /** column name */
@@ -2976,6 +3779,8 @@ export type Product_Skus_Set_Input = {
   name?: InputMaybe<Scalars['String']['input']>;
   /** 价格，单位元 */
   price?: InputMaybe<Scalars['numeric']['input']>;
+  /** 单位 ，如 个 份 斤 箱 */
+  price_unit?: InputMaybe<Scalars['String']['input']>;
   /** 关联外建，哪个产品 */
   product_products?: InputMaybe<Scalars['bigint']['input']>;
   /** 排序，越大在越前面 */
@@ -3086,6 +3891,8 @@ export type Product_Skus_Stream_Cursor_Value_Input = {
   name?: InputMaybe<Scalars['String']['input']>;
   /** 价格，单位元 */
   price?: InputMaybe<Scalars['numeric']['input']>;
+  /** 单位 ，如 个 份 斤 箱 */
+  price_unit?: InputMaybe<Scalars['String']['input']>;
   /** 关联外建，哪个产品 */
   product_products?: InputMaybe<Scalars['bigint']['input']>;
   /** 排序，越大在越前面 */
@@ -3136,6 +3943,8 @@ export enum Product_Skus_Update_Column {
   Name = 'name',
   /** column name */
   Price = 'price',
+  /** column name */
+  PriceUnit = 'price_unit',
   /** column name */
   ProductProducts = 'product_products',
   /** column name */
@@ -3834,6 +4643,12 @@ export type Query_Root = {
   buildings_aggregate: Buildings_Aggregate;
   /** fetch data from the table: "buildings" using primary key columns */
   buildings_by_pk?: Maybe<Buildings>;
+  /** An array relationship */
+  campus_users: Array<Campus_Users>;
+  /** An aggregate relationship */
+  campus_users_aggregate: Campus_Users_Aggregate;
+  /** fetch data from the table: "campus_users" using primary key columns */
+  campus_users_by_pk?: Maybe<Campus_Users>;
   /** fetch data from the table: "campuses" */
   campuses: Array<Campuses>;
   /** fetch aggregated fields from the table: "campuses" */
@@ -3894,15 +4709,15 @@ export type Query_Root = {
   user_accounts_aggregate: User_Accounts_Aggregate;
   /** fetch data from the table: "user_accounts" using primary key columns */
   user_accounts_by_pk?: Maybe<User_Accounts>;
-  /** fetch data from the table: "user_addresses" */
+  /** An array relationship */
   user_addresses: Array<User_Addresses>;
-  /** fetch aggregated fields from the table: "user_addresses" */
+  /** An aggregate relationship */
   user_addresses_aggregate: User_Addresses_Aggregate;
   /** fetch data from the table: "user_addresses" using primary key columns */
   user_addresses_by_pk?: Maybe<User_Addresses>;
-  /** fetch data from the table: "users" */
+  /** An array relationship */
   users: Array<Users>;
-  /** fetch aggregated fields from the table: "users" */
+  /** An aggregate relationship */
   users_aggregate: Users_Aggregate;
   /** fetch data from the table: "users" using primary key columns */
   users_by_pk?: Maybe<Users>;
@@ -3974,6 +4789,29 @@ export type Query_RootBuildings_AggregateArgs = {
 
 
 export type Query_RootBuildings_By_PkArgs = {
+  id: Scalars['bigint']['input'];
+};
+
+
+export type Query_RootCampus_UsersArgs = {
+  distinct_on?: InputMaybe<Array<Campus_Users_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Campus_Users_Order_By>>;
+  where?: InputMaybe<Campus_Users_Bool_Exp>;
+};
+
+
+export type Query_RootCampus_Users_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Campus_Users_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Campus_Users_Order_By>>;
+  where?: InputMaybe<Campus_Users_Bool_Exp>;
+};
+
+
+export type Query_RootCampus_Users_By_PkArgs = {
   id: Scalars['bigint']['input'];
 };
 
@@ -4266,11 +5104,13 @@ export type Shop_Carts = {
   shop: Shops;
   /** 关联店铺 */
   shop_shops: Scalars['bigint']['output'];
+  /** 取值：[online（线上）、offline（线下，主要用于店铺收银）] */
+  type: Scalars['String']['output'];
   updated_at: Scalars['timestamptz']['output'];
   /** An object relationship */
-  user: Users;
+  user?: Maybe<Users>;
   /** 关联用户 */
-  user_users: Scalars['bigint']['output'];
+  user_users?: Maybe<Scalars['bigint']['output']>;
 };
 
 /** aggregated selection of "shop_carts" */
@@ -4374,6 +5214,7 @@ export type Shop_Carts_Bool_Exp = {
   quantity?: InputMaybe<Bigint_Comparison_Exp>;
   shop?: InputMaybe<Shops_Bool_Exp>;
   shop_shops?: InputMaybe<Bigint_Comparison_Exp>;
+  type?: InputMaybe<String_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   user?: InputMaybe<Users_Bool_Exp>;
   user_users?: InputMaybe<Bigint_Comparison_Exp>;
@@ -4383,8 +5224,8 @@ export type Shop_Carts_Bool_Exp = {
 export enum Shop_Carts_Constraint {
   /** unique or primary key constraint on columns "id" */
   ShopCartsPkey = 'shop_carts_pkey',
-  /** unique or primary key constraint on columns "user_users", "shop_shops", "product_sku_product_skus" */
-  ShopCartsShopShopsUserUsersProductSkuProductSkusKey = 'shop_carts_shop_shops_user_users_product_sku_product_skus_key'
+  /** unique or primary key constraint on columns "user_users", "type", "shop_shops", "product_sku_product_skus" */
+  ShopCartsProductSkuProductSkusShopShopsUserUsersType = 'shop_carts_product_sku_product_skus_shop_shops_user_users_type_'
 }
 
 /** input type for incrementing numeric columns in table "shop_carts" */
@@ -4411,6 +5252,8 @@ export type Shop_Carts_Insert_Input = {
   shop?: InputMaybe<Shops_Obj_Rel_Insert_Input>;
   /** 关联店铺 */
   shop_shops?: InputMaybe<Scalars['bigint']['input']>;
+  /** 取值：[online（线上）、offline（线下，主要用于店铺收银）] */
+  type?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
   /** 关联用户 */
@@ -4428,6 +5271,8 @@ export type Shop_Carts_Max_Fields = {
   quantity?: Maybe<Scalars['bigint']['output']>;
   /** 关联店铺 */
   shop_shops?: Maybe<Scalars['bigint']['output']>;
+  /** 取值：[online（线上）、offline（线下，主要用于店铺收银）] */
+  type?: Maybe<Scalars['String']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
   /** 关联用户 */
   user_users?: Maybe<Scalars['bigint']['output']>;
@@ -4443,6 +5288,8 @@ export type Shop_Carts_Max_Order_By = {
   quantity?: InputMaybe<Order_By>;
   /** 关联店铺 */
   shop_shops?: InputMaybe<Order_By>;
+  /** 取值：[online（线上）、offline（线下，主要用于店铺收银）] */
+  type?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
   /** 关联用户 */
   user_users?: InputMaybe<Order_By>;
@@ -4459,6 +5306,8 @@ export type Shop_Carts_Min_Fields = {
   quantity?: Maybe<Scalars['bigint']['output']>;
   /** 关联店铺 */
   shop_shops?: Maybe<Scalars['bigint']['output']>;
+  /** 取值：[online（线上）、offline（线下，主要用于店铺收银）] */
+  type?: Maybe<Scalars['String']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
   /** 关联用户 */
   user_users?: Maybe<Scalars['bigint']['output']>;
@@ -4474,6 +5323,8 @@ export type Shop_Carts_Min_Order_By = {
   quantity?: InputMaybe<Order_By>;
   /** 关联店铺 */
   shop_shops?: InputMaybe<Order_By>;
+  /** 取值：[online（线上）、offline（线下，主要用于店铺收银）] */
+  type?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
   /** 关联用户 */
   user_users?: InputMaybe<Order_By>;
@@ -4503,6 +5354,7 @@ export type Shop_Carts_Order_By = {
   quantity?: InputMaybe<Order_By>;
   shop?: InputMaybe<Shops_Order_By>;
   shop_shops?: InputMaybe<Order_By>;
+  type?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
   user?: InputMaybe<Users_Order_By>;
   user_users?: InputMaybe<Order_By>;
@@ -4526,6 +5378,8 @@ export enum Shop_Carts_Select_Column {
   /** column name */
   ShopShops = 'shop_shops',
   /** column name */
+  Type = 'type',
+  /** column name */
   UpdatedAt = 'updated_at',
   /** column name */
   UserUsers = 'user_users'
@@ -4541,6 +5395,8 @@ export type Shop_Carts_Set_Input = {
   quantity?: InputMaybe<Scalars['bigint']['input']>;
   /** 关联店铺 */
   shop_shops?: InputMaybe<Scalars['bigint']['input']>;
+  /** 取值：[online（线上）、offline（线下，主要用于店铺收银）] */
+  type?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   /** 关联用户 */
   user_users?: InputMaybe<Scalars['bigint']['input']>;
@@ -4645,6 +5501,8 @@ export type Shop_Carts_Stream_Cursor_Value_Input = {
   quantity?: InputMaybe<Scalars['bigint']['input']>;
   /** 关联店铺 */
   shop_shops?: InputMaybe<Scalars['bigint']['input']>;
+  /** 取值：[online（线上）、offline（线下，主要用于店铺收银）] */
+  type?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   /** 关联用户 */
   user_users?: InputMaybe<Scalars['bigint']['input']>;
@@ -4689,6 +5547,8 @@ export enum Shop_Carts_Update_Column {
   Quantity = 'quantity',
   /** column name */
   ShopShops = 'shop_shops',
+  /** column name */
+  Type = 'type',
   /** column name */
   UpdatedAt = 'updated_at',
   /** column name */
@@ -5406,6 +6266,14 @@ export type Shop_Order_Items_Variance_Order_By = {
 /** 店铺订单表 */
 export type Shop_Orders = {
   __typename?: 'shop_orders';
+  /** 快照，如果选择的校内地址，记录楼栋id，方便统计 */
+  building_buildings?: Maybe<Scalars['bigint']['output']>;
+  /** 快照，如果选择的校内地址，记录房间id，方便统计 */
+  building_room_building_rooms?: Maybe<Scalars['bigint']['output']>;
+  /** -- 买家订单备注 */
+  buyer_remark?: Maybe<Scalars['String']['output']>;
+  /** 快照，如果选择的校内地址，记录学校id，方便统计 */
+  campus_campuses?: Maybe<Scalars['bigint']['output']>;
   /** 取消时间(超时未付或商家拒单) */
   cancelled_at?: Maybe<Scalars['timestamptz']['output']>;
   /** 订单完成时间(确认收货或自动完成) */
@@ -5417,8 +6285,10 @@ export type Shop_Orders = {
   delivered_at?: Maybe<Scalars['timestamptz']['output']>;
   /** 配送费 */
   delivery_fee: Scalars['numeric']['output'];
-  /** 优惠/折扣 */
+  /** 店铺 优惠/折扣 */
   discount_amount: Scalars['numeric']['output'];
+  /** 配送方式/履约方式：campus_delivery=校园配（要求用户地址必须是校内地址）；store_express=快递；store_pickup=门店自提；store_direct =门店直接购买；store_delivery=门店自配/第三方（非校园网）。 */
+  fulfillment_type: Scalars['String']['output'];
   id: Scalars['bigint']['output'];
   /** | 场景    | pay_status      | ship_status | refund_status | | ----- | ---------------- | ------------ | -------------- | | 刚下单未付 | `unpaid`         | `pending`    | `NULL`         | | 已付待确认 | `paid`           | `pending`    | `NULL`         | | 商家已接单 | `paid`           | `confirmed`  | `NULL`         | | 备货中   | `paid`           | `processing` | `NULL`         | | 已发货   | `paid`           | `shipped`    | `NULL`         | | 已送达   | `paid`           | `delivered`  | `NULL`         | | 已完成   | `paid`           | `completed`  | `NULL`         | | 申请退款中 | `paid`           | `shipped`    | `refunding`    | | 退款完成  | `fully_refunded` | `completed`  | `refunded`     | | 商家拒单  | `paid`           | `cancelled`  | `refunding`    | | 超时取消  | `unpaid`         | `cancelled`  | `NULL`         | */
   order_status?: Maybe<Scalars['String']['output']>;
@@ -5430,9 +6300,23 @@ export type Shop_Orders = {
   product_amount?: Maybe<Scalars['numeric']['output']>;
   /** 用户确认收货时间（用户点击确认） */
   received_at?: Maybe<Scalars['timestamptz']['output']>;
+  /** 快照，收货人详细地址 */
+  receiver_address?: Maybe<Scalars['String']['output']>;
+  /** 快照，收货城市 */
+  receiver_city?: Maybe<Scalars['String']['output']>;
+  /** 快照，收货街道 */
+  receiver_district?: Maybe<Scalars['String']['output']>;
+  /** 快照，收货人姓名 */
+  receiver_name?: Maybe<Scalars['String']['output']>;
+  /** 快照，收货人电话 */
+  receiver_phone?: Maybe<Scalars['String']['output']>;
+  /** 快照，收货省份 */
+  receiver_province?: Maybe<Scalars['String']['output']>;
   /** | 状态值         | 含义  | 触发条件     | | ----------- | --- | -------- | | `NULL`      | 无售后 | 正常订单     | | `refunding` | 退款中 | 用户申请退款   | | `refunded`  | 已退款 | 退款完成     | | `rejected`  | 已拒绝 | 商家拒绝退款申请 | */
   refund_status?: Maybe<Scalars['String']['output']>;
-  /** 店铺结算金额=商品总金额+配送费-优惠/折扣 */
+  /** -- 卖家/商家备注（内部使用） */
+  seller_remark?: Maybe<Scalars['String']['output']>;
+  /** 店铺结算金额=商品总金额+配送费- 店铺优惠/折扣 */
   settle_amount: Scalars['numeric']['output'];
   /** 给店铺结算的时间 */
   settled_at?: Maybe<Scalars['timestamptz']['output']>;
@@ -5453,6 +6337,16 @@ export type Shop_Orders = {
   /** 关联外建，由哪个用户订单产生的店铺订单 */
   shop_userorder_shop_userorders: Scalars['bigint']['output'];
   updated_at: Scalars['timestamptz']['output'];
+  /** An object relationship */
+  user?: Maybe<Users>;
+  /** An object relationship */
+  user_address?: Maybe<User_Addresses>;
+  /** 快照 用户地址类型取值：[campus（校内）、normal（校外）]  为空表示下单时无需收货地址（如部分线下单、自提等，以业务规则为准） */
+  user_address_type?: Maybe<Scalars['String']['output']>;
+  /** 外键，用户地址id，仅用于记录 */
+  user_address_user_addresses?: Maybe<Scalars['bigint']['output']>;
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计 */
+  user_users?: Maybe<Scalars['bigint']['output']>;
 };
 
 
@@ -5541,36 +6435,56 @@ export type Shop_Orders_Arr_Rel_Insert_Input = {
 /** aggregate avg on columns */
 export type Shop_Orders_Avg_Fields = {
   __typename?: 'shop_orders_avg_fields';
+  /** 快照，如果选择的校内地址，记录楼栋id，方便统计 */
+  building_buildings?: Maybe<Scalars['Float']['output']>;
+  /** 快照，如果选择的校内地址，记录房间id，方便统计 */
+  building_room_building_rooms?: Maybe<Scalars['Float']['output']>;
+  /** 快照，如果选择的校内地址，记录学校id，方便统计 */
+  campus_campuses?: Maybe<Scalars['Float']['output']>;
   /** 配送费 */
   delivery_fee?: Maybe<Scalars['Float']['output']>;
-  /** 优惠/折扣 */
+  /** 店铺 优惠/折扣 */
   discount_amount?: Maybe<Scalars['Float']['output']>;
   id?: Maybe<Scalars['Float']['output']>;
   /** 商品总金额=所有的产品 价格*数量 之和 */
   product_amount?: Maybe<Scalars['Float']['output']>;
-  /** 店铺结算金额=商品总金额+配送费-优惠/折扣 */
+  /** 店铺结算金额=商品总金额+配送费- 店铺优惠/折扣 */
   settle_amount?: Maybe<Scalars['Float']['output']>;
   /** 关联外键，哪个店铺的订单 */
   shop_shops?: Maybe<Scalars['Float']['output']>;
   /** 关联外建，由哪个用户订单产生的店铺订单 */
   shop_userorder_shop_userorders?: Maybe<Scalars['Float']['output']>;
+  /** 外键，用户地址id，仅用于记录 */
+  user_address_user_addresses?: Maybe<Scalars['Float']['output']>;
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计 */
+  user_users?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by avg() on columns of table "shop_orders" */
 export type Shop_Orders_Avg_Order_By = {
+  /** 快照，如果选择的校内地址，记录楼栋id，方便统计 */
+  building_buildings?: InputMaybe<Order_By>;
+  /** 快照，如果选择的校内地址，记录房间id，方便统计 */
+  building_room_building_rooms?: InputMaybe<Order_By>;
+  /** 快照，如果选择的校内地址，记录学校id，方便统计 */
+  campus_campuses?: InputMaybe<Order_By>;
   /** 配送费 */
   delivery_fee?: InputMaybe<Order_By>;
-  /** 优惠/折扣 */
+  /** 店铺 优惠/折扣 */
   discount_amount?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   /** 商品总金额=所有的产品 价格*数量 之和 */
   product_amount?: InputMaybe<Order_By>;
-  /** 店铺结算金额=商品总金额+配送费-优惠/折扣 */
+  /** 店铺结算金额=商品总金额+配送费- 店铺优惠/折扣 */
   settle_amount?: InputMaybe<Order_By>;
   /** 关联外键，哪个店铺的订单 */
   shop_shops?: InputMaybe<Order_By>;
   /** 关联外建，由哪个用户订单产生的店铺订单 */
   shop_userorder_shop_userorders?: InputMaybe<Order_By>;
+  /** 外键，用户地址id，仅用于记录 */
+  user_address_user_addresses?: InputMaybe<Order_By>;
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计 */
+  user_users?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "shop_orders". All fields are combined with a logical 'AND'. */
@@ -5578,6 +6492,10 @@ export type Shop_Orders_Bool_Exp = {
   _and?: InputMaybe<Array<Shop_Orders_Bool_Exp>>;
   _not?: InputMaybe<Shop_Orders_Bool_Exp>;
   _or?: InputMaybe<Array<Shop_Orders_Bool_Exp>>;
+  building_buildings?: InputMaybe<Bigint_Comparison_Exp>;
+  building_room_building_rooms?: InputMaybe<Bigint_Comparison_Exp>;
+  buyer_remark?: InputMaybe<String_Comparison_Exp>;
+  campus_campuses?: InputMaybe<Bigint_Comparison_Exp>;
   cancelled_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   completed_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   confirmed_at?: InputMaybe<Timestamptz_Comparison_Exp>;
@@ -5585,13 +6503,21 @@ export type Shop_Orders_Bool_Exp = {
   delivered_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   delivery_fee?: InputMaybe<Numeric_Comparison_Exp>;
   discount_amount?: InputMaybe<Numeric_Comparison_Exp>;
+  fulfillment_type?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<Bigint_Comparison_Exp>;
   order_status?: InputMaybe<String_Comparison_Exp>;
   paid_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   pay_status?: InputMaybe<String_Comparison_Exp>;
   product_amount?: InputMaybe<Numeric_Comparison_Exp>;
   received_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  receiver_address?: InputMaybe<String_Comparison_Exp>;
+  receiver_city?: InputMaybe<String_Comparison_Exp>;
+  receiver_district?: InputMaybe<String_Comparison_Exp>;
+  receiver_name?: InputMaybe<String_Comparison_Exp>;
+  receiver_phone?: InputMaybe<String_Comparison_Exp>;
+  receiver_province?: InputMaybe<String_Comparison_Exp>;
   refund_status?: InputMaybe<String_Comparison_Exp>;
+  seller_remark?: InputMaybe<String_Comparison_Exp>;
   settle_amount?: InputMaybe<Numeric_Comparison_Exp>;
   settled_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   ship_status?: InputMaybe<String_Comparison_Exp>;
@@ -5603,6 +6529,11 @@ export type Shop_Orders_Bool_Exp = {
   shop_userorder?: InputMaybe<Shop_Userorders_Bool_Exp>;
   shop_userorder_shop_userorders?: InputMaybe<Bigint_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  user?: InputMaybe<Users_Bool_Exp>;
+  user_address?: InputMaybe<User_Addresses_Bool_Exp>;
+  user_address_type?: InputMaybe<String_Comparison_Exp>;
+  user_address_user_addresses?: InputMaybe<Bigint_Comparison_Exp>;
+  user_users?: InputMaybe<Bigint_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "shop_orders" */
@@ -5613,23 +6544,41 @@ export enum Shop_Orders_Constraint {
 
 /** input type for incrementing numeric columns in table "shop_orders" */
 export type Shop_Orders_Inc_Input = {
+  /** 快照，如果选择的校内地址，记录楼栋id，方便统计 */
+  building_buildings?: InputMaybe<Scalars['bigint']['input']>;
+  /** 快照，如果选择的校内地址，记录房间id，方便统计 */
+  building_room_building_rooms?: InputMaybe<Scalars['bigint']['input']>;
+  /** 快照，如果选择的校内地址，记录学校id，方便统计 */
+  campus_campuses?: InputMaybe<Scalars['bigint']['input']>;
   /** 配送费 */
   delivery_fee?: InputMaybe<Scalars['numeric']['input']>;
-  /** 优惠/折扣 */
+  /** 店铺 优惠/折扣 */
   discount_amount?: InputMaybe<Scalars['numeric']['input']>;
   id?: InputMaybe<Scalars['bigint']['input']>;
   /** 商品总金额=所有的产品 价格*数量 之和 */
   product_amount?: InputMaybe<Scalars['numeric']['input']>;
-  /** 店铺结算金额=商品总金额+配送费-优惠/折扣 */
+  /** 店铺结算金额=商品总金额+配送费- 店铺优惠/折扣 */
   settle_amount?: InputMaybe<Scalars['numeric']['input']>;
   /** 关联外键，哪个店铺的订单 */
   shop_shops?: InputMaybe<Scalars['bigint']['input']>;
   /** 关联外建，由哪个用户订单产生的店铺订单 */
   shop_userorder_shop_userorders?: InputMaybe<Scalars['bigint']['input']>;
+  /** 外键，用户地址id，仅用于记录 */
+  user_address_user_addresses?: InputMaybe<Scalars['bigint']['input']>;
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计 */
+  user_users?: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** input type for inserting data into table "shop_orders" */
 export type Shop_Orders_Insert_Input = {
+  /** 快照，如果选择的校内地址，记录楼栋id，方便统计 */
+  building_buildings?: InputMaybe<Scalars['bigint']['input']>;
+  /** 快照，如果选择的校内地址，记录房间id，方便统计 */
+  building_room_building_rooms?: InputMaybe<Scalars['bigint']['input']>;
+  /** -- 买家订单备注 */
+  buyer_remark?: InputMaybe<Scalars['String']['input']>;
+  /** 快照，如果选择的校内地址，记录学校id，方便统计 */
+  campus_campuses?: InputMaybe<Scalars['bigint']['input']>;
   /** 取消时间(超时未付或商家拒单) */
   cancelled_at?: InputMaybe<Scalars['timestamptz']['input']>;
   /** 订单完成时间(确认收货或自动完成) */
@@ -5641,8 +6590,10 @@ export type Shop_Orders_Insert_Input = {
   delivered_at?: InputMaybe<Scalars['timestamptz']['input']>;
   /** 配送费 */
   delivery_fee?: InputMaybe<Scalars['numeric']['input']>;
-  /** 优惠/折扣 */
+  /** 店铺 优惠/折扣 */
   discount_amount?: InputMaybe<Scalars['numeric']['input']>;
+  /** 配送方式/履约方式：campus_delivery=校园配（要求用户地址必须是校内地址）；store_express=快递；store_pickup=门店自提；store_direct =门店直接购买；store_delivery=门店自配/第三方（非校园网）。 */
+  fulfillment_type?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['bigint']['input']>;
   /** | 场景    | pay_status      | ship_status | refund_status | | ----- | ---------------- | ------------ | -------------- | | 刚下单未付 | `unpaid`         | `pending`    | `NULL`         | | 已付待确认 | `paid`           | `pending`    | `NULL`         | | 商家已接单 | `paid`           | `confirmed`  | `NULL`         | | 备货中   | `paid`           | `processing` | `NULL`         | | 已发货   | `paid`           | `shipped`    | `NULL`         | | 已送达   | `paid`           | `delivered`  | `NULL`         | | 已完成   | `paid`           | `completed`  | `NULL`         | | 申请退款中 | `paid`           | `shipped`    | `refunding`    | | 退款完成  | `fully_refunded` | `completed`  | `refunded`     | | 商家拒单  | `paid`           | `cancelled`  | `refunding`    | | 超时取消  | `unpaid`         | `cancelled`  | `NULL`         | */
   order_status?: InputMaybe<Scalars['String']['input']>;
@@ -5654,9 +6605,23 @@ export type Shop_Orders_Insert_Input = {
   product_amount?: InputMaybe<Scalars['numeric']['input']>;
   /** 用户确认收货时间（用户点击确认） */
   received_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  /** 快照，收货人详细地址 */
+  receiver_address?: InputMaybe<Scalars['String']['input']>;
+  /** 快照，收货城市 */
+  receiver_city?: InputMaybe<Scalars['String']['input']>;
+  /** 快照，收货街道 */
+  receiver_district?: InputMaybe<Scalars['String']['input']>;
+  /** 快照，收货人姓名 */
+  receiver_name?: InputMaybe<Scalars['String']['input']>;
+  /** 快照，收货人电话 */
+  receiver_phone?: InputMaybe<Scalars['String']['input']>;
+  /** 快照，收货省份 */
+  receiver_province?: InputMaybe<Scalars['String']['input']>;
   /** | 状态值         | 含义  | 触发条件     | | ----------- | --- | -------- | | `NULL`      | 无售后 | 正常订单     | | `refunding` | 退款中 | 用户申请退款   | | `refunded`  | 已退款 | 退款完成     | | `rejected`  | 已拒绝 | 商家拒绝退款申请 | */
   refund_status?: InputMaybe<Scalars['String']['input']>;
-  /** 店铺结算金额=商品总金额+配送费-优惠/折扣 */
+  /** -- 卖家/商家备注（内部使用） */
+  seller_remark?: InputMaybe<Scalars['String']['input']>;
+  /** 店铺结算金额=商品总金额+配送费- 店铺优惠/折扣 */
   settle_amount?: InputMaybe<Scalars['numeric']['input']>;
   /** 给店铺结算的时间 */
   settled_at?: InputMaybe<Scalars['timestamptz']['input']>;
@@ -5672,11 +6637,27 @@ export type Shop_Orders_Insert_Input = {
   /** 关联外建，由哪个用户订单产生的店铺订单 */
   shop_userorder_shop_userorders?: InputMaybe<Scalars['bigint']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
+  user_address?: InputMaybe<User_Addresses_Obj_Rel_Insert_Input>;
+  /** 快照 用户地址类型取值：[campus（校内）、normal（校外）]  为空表示下单时无需收货地址（如部分线下单、自提等，以业务规则为准） */
+  user_address_type?: InputMaybe<Scalars['String']['input']>;
+  /** 外键，用户地址id，仅用于记录 */
+  user_address_user_addresses?: InputMaybe<Scalars['bigint']['input']>;
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计 */
+  user_users?: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** aggregate max on columns */
 export type Shop_Orders_Max_Fields = {
   __typename?: 'shop_orders_max_fields';
+  /** 快照，如果选择的校内地址，记录楼栋id，方便统计 */
+  building_buildings?: Maybe<Scalars['bigint']['output']>;
+  /** 快照，如果选择的校内地址，记录房间id，方便统计 */
+  building_room_building_rooms?: Maybe<Scalars['bigint']['output']>;
+  /** -- 买家订单备注 */
+  buyer_remark?: Maybe<Scalars['String']['output']>;
+  /** 快照，如果选择的校内地址，记录学校id，方便统计 */
+  campus_campuses?: Maybe<Scalars['bigint']['output']>;
   /** 取消时间(超时未付或商家拒单) */
   cancelled_at?: Maybe<Scalars['timestamptz']['output']>;
   /** 订单完成时间(确认收货或自动完成) */
@@ -5688,8 +6669,10 @@ export type Shop_Orders_Max_Fields = {
   delivered_at?: Maybe<Scalars['timestamptz']['output']>;
   /** 配送费 */
   delivery_fee?: Maybe<Scalars['numeric']['output']>;
-  /** 优惠/折扣 */
+  /** 店铺 优惠/折扣 */
   discount_amount?: Maybe<Scalars['numeric']['output']>;
+  /** 配送方式/履约方式：campus_delivery=校园配（要求用户地址必须是校内地址）；store_express=快递；store_pickup=门店自提；store_direct =门店直接购买；store_delivery=门店自配/第三方（非校园网）。 */
+  fulfillment_type?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['bigint']['output']>;
   /** | 场景    | pay_status      | ship_status | refund_status | | ----- | ---------------- | ------------ | -------------- | | 刚下单未付 | `unpaid`         | `pending`    | `NULL`         | | 已付待确认 | `paid`           | `pending`    | `NULL`         | | 商家已接单 | `paid`           | `confirmed`  | `NULL`         | | 备货中   | `paid`           | `processing` | `NULL`         | | 已发货   | `paid`           | `shipped`    | `NULL`         | | 已送达   | `paid`           | `delivered`  | `NULL`         | | 已完成   | `paid`           | `completed`  | `NULL`         | | 申请退款中 | `paid`           | `shipped`    | `refunding`    | | 退款完成  | `fully_refunded` | `completed`  | `refunded`     | | 商家拒单  | `paid`           | `cancelled`  | `refunding`    | | 超时取消  | `unpaid`         | `cancelled`  | `NULL`         | */
   order_status?: Maybe<Scalars['String']['output']>;
@@ -5701,9 +6684,23 @@ export type Shop_Orders_Max_Fields = {
   product_amount?: Maybe<Scalars['numeric']['output']>;
   /** 用户确认收货时间（用户点击确认） */
   received_at?: Maybe<Scalars['timestamptz']['output']>;
+  /** 快照，收货人详细地址 */
+  receiver_address?: Maybe<Scalars['String']['output']>;
+  /** 快照，收货城市 */
+  receiver_city?: Maybe<Scalars['String']['output']>;
+  /** 快照，收货街道 */
+  receiver_district?: Maybe<Scalars['String']['output']>;
+  /** 快照，收货人姓名 */
+  receiver_name?: Maybe<Scalars['String']['output']>;
+  /** 快照，收货人电话 */
+  receiver_phone?: Maybe<Scalars['String']['output']>;
+  /** 快照，收货省份 */
+  receiver_province?: Maybe<Scalars['String']['output']>;
   /** | 状态值         | 含义  | 触发条件     | | ----------- | --- | -------- | | `NULL`      | 无售后 | 正常订单     | | `refunding` | 退款中 | 用户申请退款   | | `refunded`  | 已退款 | 退款完成     | | `rejected`  | 已拒绝 | 商家拒绝退款申请 | */
   refund_status?: Maybe<Scalars['String']['output']>;
-  /** 店铺结算金额=商品总金额+配送费-优惠/折扣 */
+  /** -- 卖家/商家备注（内部使用） */
+  seller_remark?: Maybe<Scalars['String']['output']>;
+  /** 店铺结算金额=商品总金额+配送费- 店铺优惠/折扣 */
   settle_amount?: Maybe<Scalars['numeric']['output']>;
   /** 给店铺结算的时间 */
   settled_at?: Maybe<Scalars['timestamptz']['output']>;
@@ -5716,10 +6713,24 @@ export type Shop_Orders_Max_Fields = {
   /** 关联外建，由哪个用户订单产生的店铺订单 */
   shop_userorder_shop_userorders?: Maybe<Scalars['bigint']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  /** 快照 用户地址类型取值：[campus（校内）、normal（校外）]  为空表示下单时无需收货地址（如部分线下单、自提等，以业务规则为准） */
+  user_address_type?: Maybe<Scalars['String']['output']>;
+  /** 外键，用户地址id，仅用于记录 */
+  user_address_user_addresses?: Maybe<Scalars['bigint']['output']>;
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计 */
+  user_users?: Maybe<Scalars['bigint']['output']>;
 };
 
 /** order by max() on columns of table "shop_orders" */
 export type Shop_Orders_Max_Order_By = {
+  /** 快照，如果选择的校内地址，记录楼栋id，方便统计 */
+  building_buildings?: InputMaybe<Order_By>;
+  /** 快照，如果选择的校内地址，记录房间id，方便统计 */
+  building_room_building_rooms?: InputMaybe<Order_By>;
+  /** -- 买家订单备注 */
+  buyer_remark?: InputMaybe<Order_By>;
+  /** 快照，如果选择的校内地址，记录学校id，方便统计 */
+  campus_campuses?: InputMaybe<Order_By>;
   /** 取消时间(超时未付或商家拒单) */
   cancelled_at?: InputMaybe<Order_By>;
   /** 订单完成时间(确认收货或自动完成) */
@@ -5731,8 +6742,10 @@ export type Shop_Orders_Max_Order_By = {
   delivered_at?: InputMaybe<Order_By>;
   /** 配送费 */
   delivery_fee?: InputMaybe<Order_By>;
-  /** 优惠/折扣 */
+  /** 店铺 优惠/折扣 */
   discount_amount?: InputMaybe<Order_By>;
+  /** 配送方式/履约方式：campus_delivery=校园配（要求用户地址必须是校内地址）；store_express=快递；store_pickup=门店自提；store_direct =门店直接购买；store_delivery=门店自配/第三方（非校园网）。 */
+  fulfillment_type?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   /** | 场景    | pay_status      | ship_status | refund_status | | ----- | ---------------- | ------------ | -------------- | | 刚下单未付 | `unpaid`         | `pending`    | `NULL`         | | 已付待确认 | `paid`           | `pending`    | `NULL`         | | 商家已接单 | `paid`           | `confirmed`  | `NULL`         | | 备货中   | `paid`           | `processing` | `NULL`         | | 已发货   | `paid`           | `shipped`    | `NULL`         | | 已送达   | `paid`           | `delivered`  | `NULL`         | | 已完成   | `paid`           | `completed`  | `NULL`         | | 申请退款中 | `paid`           | `shipped`    | `refunding`    | | 退款完成  | `fully_refunded` | `completed`  | `refunded`     | | 商家拒单  | `paid`           | `cancelled`  | `refunding`    | | 超时取消  | `unpaid`         | `cancelled`  | `NULL`         | */
   order_status?: InputMaybe<Order_By>;
@@ -5744,9 +6757,23 @@ export type Shop_Orders_Max_Order_By = {
   product_amount?: InputMaybe<Order_By>;
   /** 用户确认收货时间（用户点击确认） */
   received_at?: InputMaybe<Order_By>;
+  /** 快照，收货人详细地址 */
+  receiver_address?: InputMaybe<Order_By>;
+  /** 快照，收货城市 */
+  receiver_city?: InputMaybe<Order_By>;
+  /** 快照，收货街道 */
+  receiver_district?: InputMaybe<Order_By>;
+  /** 快照，收货人姓名 */
+  receiver_name?: InputMaybe<Order_By>;
+  /** 快照，收货人电话 */
+  receiver_phone?: InputMaybe<Order_By>;
+  /** 快照，收货省份 */
+  receiver_province?: InputMaybe<Order_By>;
   /** | 状态值         | 含义  | 触发条件     | | ----------- | --- | -------- | | `NULL`      | 无售后 | 正常订单     | | `refunding` | 退款中 | 用户申请退款   | | `refunded`  | 已退款 | 退款完成     | | `rejected`  | 已拒绝 | 商家拒绝退款申请 | */
   refund_status?: InputMaybe<Order_By>;
-  /** 店铺结算金额=商品总金额+配送费-优惠/折扣 */
+  /** -- 卖家/商家备注（内部使用） */
+  seller_remark?: InputMaybe<Order_By>;
+  /** 店铺结算金额=商品总金额+配送费- 店铺优惠/折扣 */
   settle_amount?: InputMaybe<Order_By>;
   /** 给店铺结算的时间 */
   settled_at?: InputMaybe<Order_By>;
@@ -5759,11 +6786,25 @@ export type Shop_Orders_Max_Order_By = {
   /** 关联外建，由哪个用户订单产生的店铺订单 */
   shop_userorder_shop_userorders?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
+  /** 快照 用户地址类型取值：[campus（校内）、normal（校外）]  为空表示下单时无需收货地址（如部分线下单、自提等，以业务规则为准） */
+  user_address_type?: InputMaybe<Order_By>;
+  /** 外键，用户地址id，仅用于记录 */
+  user_address_user_addresses?: InputMaybe<Order_By>;
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计 */
+  user_users?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
 export type Shop_Orders_Min_Fields = {
   __typename?: 'shop_orders_min_fields';
+  /** 快照，如果选择的校内地址，记录楼栋id，方便统计 */
+  building_buildings?: Maybe<Scalars['bigint']['output']>;
+  /** 快照，如果选择的校内地址，记录房间id，方便统计 */
+  building_room_building_rooms?: Maybe<Scalars['bigint']['output']>;
+  /** -- 买家订单备注 */
+  buyer_remark?: Maybe<Scalars['String']['output']>;
+  /** 快照，如果选择的校内地址，记录学校id，方便统计 */
+  campus_campuses?: Maybe<Scalars['bigint']['output']>;
   /** 取消时间(超时未付或商家拒单) */
   cancelled_at?: Maybe<Scalars['timestamptz']['output']>;
   /** 订单完成时间(确认收货或自动完成) */
@@ -5775,8 +6816,10 @@ export type Shop_Orders_Min_Fields = {
   delivered_at?: Maybe<Scalars['timestamptz']['output']>;
   /** 配送费 */
   delivery_fee?: Maybe<Scalars['numeric']['output']>;
-  /** 优惠/折扣 */
+  /** 店铺 优惠/折扣 */
   discount_amount?: Maybe<Scalars['numeric']['output']>;
+  /** 配送方式/履约方式：campus_delivery=校园配（要求用户地址必须是校内地址）；store_express=快递；store_pickup=门店自提；store_direct =门店直接购买；store_delivery=门店自配/第三方（非校园网）。 */
+  fulfillment_type?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['bigint']['output']>;
   /** | 场景    | pay_status      | ship_status | refund_status | | ----- | ---------------- | ------------ | -------------- | | 刚下单未付 | `unpaid`         | `pending`    | `NULL`         | | 已付待确认 | `paid`           | `pending`    | `NULL`         | | 商家已接单 | `paid`           | `confirmed`  | `NULL`         | | 备货中   | `paid`           | `processing` | `NULL`         | | 已发货   | `paid`           | `shipped`    | `NULL`         | | 已送达   | `paid`           | `delivered`  | `NULL`         | | 已完成   | `paid`           | `completed`  | `NULL`         | | 申请退款中 | `paid`           | `shipped`    | `refunding`    | | 退款完成  | `fully_refunded` | `completed`  | `refunded`     | | 商家拒单  | `paid`           | `cancelled`  | `refunding`    | | 超时取消  | `unpaid`         | `cancelled`  | `NULL`         | */
   order_status?: Maybe<Scalars['String']['output']>;
@@ -5788,9 +6831,23 @@ export type Shop_Orders_Min_Fields = {
   product_amount?: Maybe<Scalars['numeric']['output']>;
   /** 用户确认收货时间（用户点击确认） */
   received_at?: Maybe<Scalars['timestamptz']['output']>;
+  /** 快照，收货人详细地址 */
+  receiver_address?: Maybe<Scalars['String']['output']>;
+  /** 快照，收货城市 */
+  receiver_city?: Maybe<Scalars['String']['output']>;
+  /** 快照，收货街道 */
+  receiver_district?: Maybe<Scalars['String']['output']>;
+  /** 快照，收货人姓名 */
+  receiver_name?: Maybe<Scalars['String']['output']>;
+  /** 快照，收货人电话 */
+  receiver_phone?: Maybe<Scalars['String']['output']>;
+  /** 快照，收货省份 */
+  receiver_province?: Maybe<Scalars['String']['output']>;
   /** | 状态值         | 含义  | 触发条件     | | ----------- | --- | -------- | | `NULL`      | 无售后 | 正常订单     | | `refunding` | 退款中 | 用户申请退款   | | `refunded`  | 已退款 | 退款完成     | | `rejected`  | 已拒绝 | 商家拒绝退款申请 | */
   refund_status?: Maybe<Scalars['String']['output']>;
-  /** 店铺结算金额=商品总金额+配送费-优惠/折扣 */
+  /** -- 卖家/商家备注（内部使用） */
+  seller_remark?: Maybe<Scalars['String']['output']>;
+  /** 店铺结算金额=商品总金额+配送费- 店铺优惠/折扣 */
   settle_amount?: Maybe<Scalars['numeric']['output']>;
   /** 给店铺结算的时间 */
   settled_at?: Maybe<Scalars['timestamptz']['output']>;
@@ -5803,10 +6860,24 @@ export type Shop_Orders_Min_Fields = {
   /** 关联外建，由哪个用户订单产生的店铺订单 */
   shop_userorder_shop_userorders?: Maybe<Scalars['bigint']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
+  /** 快照 用户地址类型取值：[campus（校内）、normal（校外）]  为空表示下单时无需收货地址（如部分线下单、自提等，以业务规则为准） */
+  user_address_type?: Maybe<Scalars['String']['output']>;
+  /** 外键，用户地址id，仅用于记录 */
+  user_address_user_addresses?: Maybe<Scalars['bigint']['output']>;
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计 */
+  user_users?: Maybe<Scalars['bigint']['output']>;
 };
 
 /** order by min() on columns of table "shop_orders" */
 export type Shop_Orders_Min_Order_By = {
+  /** 快照，如果选择的校内地址，记录楼栋id，方便统计 */
+  building_buildings?: InputMaybe<Order_By>;
+  /** 快照，如果选择的校内地址，记录房间id，方便统计 */
+  building_room_building_rooms?: InputMaybe<Order_By>;
+  /** -- 买家订单备注 */
+  buyer_remark?: InputMaybe<Order_By>;
+  /** 快照，如果选择的校内地址，记录学校id，方便统计 */
+  campus_campuses?: InputMaybe<Order_By>;
   /** 取消时间(超时未付或商家拒单) */
   cancelled_at?: InputMaybe<Order_By>;
   /** 订单完成时间(确认收货或自动完成) */
@@ -5818,8 +6889,10 @@ export type Shop_Orders_Min_Order_By = {
   delivered_at?: InputMaybe<Order_By>;
   /** 配送费 */
   delivery_fee?: InputMaybe<Order_By>;
-  /** 优惠/折扣 */
+  /** 店铺 优惠/折扣 */
   discount_amount?: InputMaybe<Order_By>;
+  /** 配送方式/履约方式：campus_delivery=校园配（要求用户地址必须是校内地址）；store_express=快递；store_pickup=门店自提；store_direct =门店直接购买；store_delivery=门店自配/第三方（非校园网）。 */
+  fulfillment_type?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   /** | 场景    | pay_status      | ship_status | refund_status | | ----- | ---------------- | ------------ | -------------- | | 刚下单未付 | `unpaid`         | `pending`    | `NULL`         | | 已付待确认 | `paid`           | `pending`    | `NULL`         | | 商家已接单 | `paid`           | `confirmed`  | `NULL`         | | 备货中   | `paid`           | `processing` | `NULL`         | | 已发货   | `paid`           | `shipped`    | `NULL`         | | 已送达   | `paid`           | `delivered`  | `NULL`         | | 已完成   | `paid`           | `completed`  | `NULL`         | | 申请退款中 | `paid`           | `shipped`    | `refunding`    | | 退款完成  | `fully_refunded` | `completed`  | `refunded`     | | 商家拒单  | `paid`           | `cancelled`  | `refunding`    | | 超时取消  | `unpaid`         | `cancelled`  | `NULL`         | */
   order_status?: InputMaybe<Order_By>;
@@ -5831,9 +6904,23 @@ export type Shop_Orders_Min_Order_By = {
   product_amount?: InputMaybe<Order_By>;
   /** 用户确认收货时间（用户点击确认） */
   received_at?: InputMaybe<Order_By>;
+  /** 快照，收货人详细地址 */
+  receiver_address?: InputMaybe<Order_By>;
+  /** 快照，收货城市 */
+  receiver_city?: InputMaybe<Order_By>;
+  /** 快照，收货街道 */
+  receiver_district?: InputMaybe<Order_By>;
+  /** 快照，收货人姓名 */
+  receiver_name?: InputMaybe<Order_By>;
+  /** 快照，收货人电话 */
+  receiver_phone?: InputMaybe<Order_By>;
+  /** 快照，收货省份 */
+  receiver_province?: InputMaybe<Order_By>;
   /** | 状态值         | 含义  | 触发条件     | | ----------- | --- | -------- | | `NULL`      | 无售后 | 正常订单     | | `refunding` | 退款中 | 用户申请退款   | | `refunded`  | 已退款 | 退款完成     | | `rejected`  | 已拒绝 | 商家拒绝退款申请 | */
   refund_status?: InputMaybe<Order_By>;
-  /** 店铺结算金额=商品总金额+配送费-优惠/折扣 */
+  /** -- 卖家/商家备注（内部使用） */
+  seller_remark?: InputMaybe<Order_By>;
+  /** 店铺结算金额=商品总金额+配送费- 店铺优惠/折扣 */
   settle_amount?: InputMaybe<Order_By>;
   /** 给店铺结算的时间 */
   settled_at?: InputMaybe<Order_By>;
@@ -5846,6 +6933,12 @@ export type Shop_Orders_Min_Order_By = {
   /** 关联外建，由哪个用户订单产生的店铺订单 */
   shop_userorder_shop_userorders?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
+  /** 快照 用户地址类型取值：[campus（校内）、normal（校外）]  为空表示下单时无需收货地址（如部分线下单、自提等，以业务规则为准） */
+  user_address_type?: InputMaybe<Order_By>;
+  /** 外键，用户地址id，仅用于记录 */
+  user_address_user_addresses?: InputMaybe<Order_By>;
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计 */
+  user_users?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "shop_orders" */
@@ -5873,6 +6966,10 @@ export type Shop_Orders_On_Conflict = {
 
 /** Ordering options when selecting data from "shop_orders". */
 export type Shop_Orders_Order_By = {
+  building_buildings?: InputMaybe<Order_By>;
+  building_room_building_rooms?: InputMaybe<Order_By>;
+  buyer_remark?: InputMaybe<Order_By>;
+  campus_campuses?: InputMaybe<Order_By>;
   cancelled_at?: InputMaybe<Order_By>;
   completed_at?: InputMaybe<Order_By>;
   confirmed_at?: InputMaybe<Order_By>;
@@ -5880,13 +6977,21 @@ export type Shop_Orders_Order_By = {
   delivered_at?: InputMaybe<Order_By>;
   delivery_fee?: InputMaybe<Order_By>;
   discount_amount?: InputMaybe<Order_By>;
+  fulfillment_type?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   order_status?: InputMaybe<Order_By>;
   paid_at?: InputMaybe<Order_By>;
   pay_status?: InputMaybe<Order_By>;
   product_amount?: InputMaybe<Order_By>;
   received_at?: InputMaybe<Order_By>;
+  receiver_address?: InputMaybe<Order_By>;
+  receiver_city?: InputMaybe<Order_By>;
+  receiver_district?: InputMaybe<Order_By>;
+  receiver_name?: InputMaybe<Order_By>;
+  receiver_phone?: InputMaybe<Order_By>;
+  receiver_province?: InputMaybe<Order_By>;
   refund_status?: InputMaybe<Order_By>;
+  seller_remark?: InputMaybe<Order_By>;
   settle_amount?: InputMaybe<Order_By>;
   settled_at?: InputMaybe<Order_By>;
   ship_status?: InputMaybe<Order_By>;
@@ -5897,6 +7002,11 @@ export type Shop_Orders_Order_By = {
   shop_userorder?: InputMaybe<Shop_Userorders_Order_By>;
   shop_userorder_shop_userorders?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
+  user?: InputMaybe<Users_Order_By>;
+  user_address?: InputMaybe<User_Addresses_Order_By>;
+  user_address_type?: InputMaybe<Order_By>;
+  user_address_user_addresses?: InputMaybe<Order_By>;
+  user_users?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: shop_orders */
@@ -5906,6 +7016,14 @@ export type Shop_Orders_Pk_Columns_Input = {
 
 /** select columns of table "shop_orders" */
 export enum Shop_Orders_Select_Column {
+  /** column name */
+  BuildingBuildings = 'building_buildings',
+  /** column name */
+  BuildingRoomBuildingRooms = 'building_room_building_rooms',
+  /** column name */
+  BuyerRemark = 'buyer_remark',
+  /** column name */
+  CampusCampuses = 'campus_campuses',
   /** column name */
   CancelledAt = 'cancelled_at',
   /** column name */
@@ -5921,6 +7039,8 @@ export enum Shop_Orders_Select_Column {
   /** column name */
   DiscountAmount = 'discount_amount',
   /** column name */
+  FulfillmentType = 'fulfillment_type',
+  /** column name */
   Id = 'id',
   /** column name */
   OrderStatus = 'order_status',
@@ -5933,7 +7053,21 @@ export enum Shop_Orders_Select_Column {
   /** column name */
   ReceivedAt = 'received_at',
   /** column name */
+  ReceiverAddress = 'receiver_address',
+  /** column name */
+  ReceiverCity = 'receiver_city',
+  /** column name */
+  ReceiverDistrict = 'receiver_district',
+  /** column name */
+  ReceiverName = 'receiver_name',
+  /** column name */
+  ReceiverPhone = 'receiver_phone',
+  /** column name */
+  ReceiverProvince = 'receiver_province',
+  /** column name */
   RefundStatus = 'refund_status',
+  /** column name */
+  SellerRemark = 'seller_remark',
   /** column name */
   SettleAmount = 'settle_amount',
   /** column name */
@@ -5947,11 +7081,25 @@ export enum Shop_Orders_Select_Column {
   /** column name */
   ShopUserorderShopUserorders = 'shop_userorder_shop_userorders',
   /** column name */
-  UpdatedAt = 'updated_at'
+  UpdatedAt = 'updated_at',
+  /** column name */
+  UserAddressType = 'user_address_type',
+  /** column name */
+  UserAddressUserAddresses = 'user_address_user_addresses',
+  /** column name */
+  UserUsers = 'user_users'
 }
 
 /** input type for updating data in table "shop_orders" */
 export type Shop_Orders_Set_Input = {
+  /** 快照，如果选择的校内地址，记录楼栋id，方便统计 */
+  building_buildings?: InputMaybe<Scalars['bigint']['input']>;
+  /** 快照，如果选择的校内地址，记录房间id，方便统计 */
+  building_room_building_rooms?: InputMaybe<Scalars['bigint']['input']>;
+  /** -- 买家订单备注 */
+  buyer_remark?: InputMaybe<Scalars['String']['input']>;
+  /** 快照，如果选择的校内地址，记录学校id，方便统计 */
+  campus_campuses?: InputMaybe<Scalars['bigint']['input']>;
   /** 取消时间(超时未付或商家拒单) */
   cancelled_at?: InputMaybe<Scalars['timestamptz']['input']>;
   /** 订单完成时间(确认收货或自动完成) */
@@ -5963,8 +7111,10 @@ export type Shop_Orders_Set_Input = {
   delivered_at?: InputMaybe<Scalars['timestamptz']['input']>;
   /** 配送费 */
   delivery_fee?: InputMaybe<Scalars['numeric']['input']>;
-  /** 优惠/折扣 */
+  /** 店铺 优惠/折扣 */
   discount_amount?: InputMaybe<Scalars['numeric']['input']>;
+  /** 配送方式/履约方式：campus_delivery=校园配（要求用户地址必须是校内地址）；store_express=快递；store_pickup=门店自提；store_direct =门店直接购买；store_delivery=门店自配/第三方（非校园网）。 */
+  fulfillment_type?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['bigint']['input']>;
   /** | 场景    | pay_status      | ship_status | refund_status | | ----- | ---------------- | ------------ | -------------- | | 刚下单未付 | `unpaid`         | `pending`    | `NULL`         | | 已付待确认 | `paid`           | `pending`    | `NULL`         | | 商家已接单 | `paid`           | `confirmed`  | `NULL`         | | 备货中   | `paid`           | `processing` | `NULL`         | | 已发货   | `paid`           | `shipped`    | `NULL`         | | 已送达   | `paid`           | `delivered`  | `NULL`         | | 已完成   | `paid`           | `completed`  | `NULL`         | | 申请退款中 | `paid`           | `shipped`    | `refunding`    | | 退款完成  | `fully_refunded` | `completed`  | `refunded`     | | 商家拒单  | `paid`           | `cancelled`  | `refunding`    | | 超时取消  | `unpaid`         | `cancelled`  | `NULL`         | */
   order_status?: InputMaybe<Scalars['String']['input']>;
@@ -5976,9 +7126,23 @@ export type Shop_Orders_Set_Input = {
   product_amount?: InputMaybe<Scalars['numeric']['input']>;
   /** 用户确认收货时间（用户点击确认） */
   received_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  /** 快照，收货人详细地址 */
+  receiver_address?: InputMaybe<Scalars['String']['input']>;
+  /** 快照，收货城市 */
+  receiver_city?: InputMaybe<Scalars['String']['input']>;
+  /** 快照，收货街道 */
+  receiver_district?: InputMaybe<Scalars['String']['input']>;
+  /** 快照，收货人姓名 */
+  receiver_name?: InputMaybe<Scalars['String']['input']>;
+  /** 快照，收货人电话 */
+  receiver_phone?: InputMaybe<Scalars['String']['input']>;
+  /** 快照，收货省份 */
+  receiver_province?: InputMaybe<Scalars['String']['input']>;
   /** | 状态值         | 含义  | 触发条件     | | ----------- | --- | -------- | | `NULL`      | 无售后 | 正常订单     | | `refunding` | 退款中 | 用户申请退款   | | `refunded`  | 已退款 | 退款完成     | | `rejected`  | 已拒绝 | 商家拒绝退款申请 | */
   refund_status?: InputMaybe<Scalars['String']['input']>;
-  /** 店铺结算金额=商品总金额+配送费-优惠/折扣 */
+  /** -- 卖家/商家备注（内部使用） */
+  seller_remark?: InputMaybe<Scalars['String']['input']>;
+  /** 店铺结算金额=商品总金额+配送费- 店铺优惠/折扣 */
   settle_amount?: InputMaybe<Scalars['numeric']['input']>;
   /** 给店铺结算的时间 */
   settled_at?: InputMaybe<Scalars['timestamptz']['input']>;
@@ -5991,111 +7155,177 @@ export type Shop_Orders_Set_Input = {
   /** 关联外建，由哪个用户订单产生的店铺订单 */
   shop_userorder_shop_userorders?: InputMaybe<Scalars['bigint']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  /** 快照 用户地址类型取值：[campus（校内）、normal（校外）]  为空表示下单时无需收货地址（如部分线下单、自提等，以业务规则为准） */
+  user_address_type?: InputMaybe<Scalars['String']['input']>;
+  /** 外键，用户地址id，仅用于记录 */
+  user_address_user_addresses?: InputMaybe<Scalars['bigint']['input']>;
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计 */
+  user_users?: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type Shop_Orders_Stddev_Fields = {
   __typename?: 'shop_orders_stddev_fields';
+  /** 快照，如果选择的校内地址，记录楼栋id，方便统计 */
+  building_buildings?: Maybe<Scalars['Float']['output']>;
+  /** 快照，如果选择的校内地址，记录房间id，方便统计 */
+  building_room_building_rooms?: Maybe<Scalars['Float']['output']>;
+  /** 快照，如果选择的校内地址，记录学校id，方便统计 */
+  campus_campuses?: Maybe<Scalars['Float']['output']>;
   /** 配送费 */
   delivery_fee?: Maybe<Scalars['Float']['output']>;
-  /** 优惠/折扣 */
+  /** 店铺 优惠/折扣 */
   discount_amount?: Maybe<Scalars['Float']['output']>;
   id?: Maybe<Scalars['Float']['output']>;
   /** 商品总金额=所有的产品 价格*数量 之和 */
   product_amount?: Maybe<Scalars['Float']['output']>;
-  /** 店铺结算金额=商品总金额+配送费-优惠/折扣 */
+  /** 店铺结算金额=商品总金额+配送费- 店铺优惠/折扣 */
   settle_amount?: Maybe<Scalars['Float']['output']>;
   /** 关联外键，哪个店铺的订单 */
   shop_shops?: Maybe<Scalars['Float']['output']>;
   /** 关联外建，由哪个用户订单产生的店铺订单 */
   shop_userorder_shop_userorders?: Maybe<Scalars['Float']['output']>;
+  /** 外键，用户地址id，仅用于记录 */
+  user_address_user_addresses?: Maybe<Scalars['Float']['output']>;
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计 */
+  user_users?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev() on columns of table "shop_orders" */
 export type Shop_Orders_Stddev_Order_By = {
+  /** 快照，如果选择的校内地址，记录楼栋id，方便统计 */
+  building_buildings?: InputMaybe<Order_By>;
+  /** 快照，如果选择的校内地址，记录房间id，方便统计 */
+  building_room_building_rooms?: InputMaybe<Order_By>;
+  /** 快照，如果选择的校内地址，记录学校id，方便统计 */
+  campus_campuses?: InputMaybe<Order_By>;
   /** 配送费 */
   delivery_fee?: InputMaybe<Order_By>;
-  /** 优惠/折扣 */
+  /** 店铺 优惠/折扣 */
   discount_amount?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   /** 商品总金额=所有的产品 价格*数量 之和 */
   product_amount?: InputMaybe<Order_By>;
-  /** 店铺结算金额=商品总金额+配送费-优惠/折扣 */
+  /** 店铺结算金额=商品总金额+配送费- 店铺优惠/折扣 */
   settle_amount?: InputMaybe<Order_By>;
   /** 关联外键，哪个店铺的订单 */
   shop_shops?: InputMaybe<Order_By>;
   /** 关联外建，由哪个用户订单产生的店铺订单 */
   shop_userorder_shop_userorders?: InputMaybe<Order_By>;
+  /** 外键，用户地址id，仅用于记录 */
+  user_address_user_addresses?: InputMaybe<Order_By>;
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计 */
+  user_users?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Shop_Orders_Stddev_Pop_Fields = {
   __typename?: 'shop_orders_stddev_pop_fields';
+  /** 快照，如果选择的校内地址，记录楼栋id，方便统计 */
+  building_buildings?: Maybe<Scalars['Float']['output']>;
+  /** 快照，如果选择的校内地址，记录房间id，方便统计 */
+  building_room_building_rooms?: Maybe<Scalars['Float']['output']>;
+  /** 快照，如果选择的校内地址，记录学校id，方便统计 */
+  campus_campuses?: Maybe<Scalars['Float']['output']>;
   /** 配送费 */
   delivery_fee?: Maybe<Scalars['Float']['output']>;
-  /** 优惠/折扣 */
+  /** 店铺 优惠/折扣 */
   discount_amount?: Maybe<Scalars['Float']['output']>;
   id?: Maybe<Scalars['Float']['output']>;
   /** 商品总金额=所有的产品 价格*数量 之和 */
   product_amount?: Maybe<Scalars['Float']['output']>;
-  /** 店铺结算金额=商品总金额+配送费-优惠/折扣 */
+  /** 店铺结算金额=商品总金额+配送费- 店铺优惠/折扣 */
   settle_amount?: Maybe<Scalars['Float']['output']>;
   /** 关联外键，哪个店铺的订单 */
   shop_shops?: Maybe<Scalars['Float']['output']>;
   /** 关联外建，由哪个用户订单产生的店铺订单 */
   shop_userorder_shop_userorders?: Maybe<Scalars['Float']['output']>;
+  /** 外键，用户地址id，仅用于记录 */
+  user_address_user_addresses?: Maybe<Scalars['Float']['output']>;
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计 */
+  user_users?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_pop() on columns of table "shop_orders" */
 export type Shop_Orders_Stddev_Pop_Order_By = {
+  /** 快照，如果选择的校内地址，记录楼栋id，方便统计 */
+  building_buildings?: InputMaybe<Order_By>;
+  /** 快照，如果选择的校内地址，记录房间id，方便统计 */
+  building_room_building_rooms?: InputMaybe<Order_By>;
+  /** 快照，如果选择的校内地址，记录学校id，方便统计 */
+  campus_campuses?: InputMaybe<Order_By>;
   /** 配送费 */
   delivery_fee?: InputMaybe<Order_By>;
-  /** 优惠/折扣 */
+  /** 店铺 优惠/折扣 */
   discount_amount?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   /** 商品总金额=所有的产品 价格*数量 之和 */
   product_amount?: InputMaybe<Order_By>;
-  /** 店铺结算金额=商品总金额+配送费-优惠/折扣 */
+  /** 店铺结算金额=商品总金额+配送费- 店铺优惠/折扣 */
   settle_amount?: InputMaybe<Order_By>;
   /** 关联外键，哪个店铺的订单 */
   shop_shops?: InputMaybe<Order_By>;
   /** 关联外建，由哪个用户订单产生的店铺订单 */
   shop_userorder_shop_userorders?: InputMaybe<Order_By>;
+  /** 外键，用户地址id，仅用于记录 */
+  user_address_user_addresses?: InputMaybe<Order_By>;
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计 */
+  user_users?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Shop_Orders_Stddev_Samp_Fields = {
   __typename?: 'shop_orders_stddev_samp_fields';
+  /** 快照，如果选择的校内地址，记录楼栋id，方便统计 */
+  building_buildings?: Maybe<Scalars['Float']['output']>;
+  /** 快照，如果选择的校内地址，记录房间id，方便统计 */
+  building_room_building_rooms?: Maybe<Scalars['Float']['output']>;
+  /** 快照，如果选择的校内地址，记录学校id，方便统计 */
+  campus_campuses?: Maybe<Scalars['Float']['output']>;
   /** 配送费 */
   delivery_fee?: Maybe<Scalars['Float']['output']>;
-  /** 优惠/折扣 */
+  /** 店铺 优惠/折扣 */
   discount_amount?: Maybe<Scalars['Float']['output']>;
   id?: Maybe<Scalars['Float']['output']>;
   /** 商品总金额=所有的产品 价格*数量 之和 */
   product_amount?: Maybe<Scalars['Float']['output']>;
-  /** 店铺结算金额=商品总金额+配送费-优惠/折扣 */
+  /** 店铺结算金额=商品总金额+配送费- 店铺优惠/折扣 */
   settle_amount?: Maybe<Scalars['Float']['output']>;
   /** 关联外键，哪个店铺的订单 */
   shop_shops?: Maybe<Scalars['Float']['output']>;
   /** 关联外建，由哪个用户订单产生的店铺订单 */
   shop_userorder_shop_userorders?: Maybe<Scalars['Float']['output']>;
+  /** 外键，用户地址id，仅用于记录 */
+  user_address_user_addresses?: Maybe<Scalars['Float']['output']>;
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计 */
+  user_users?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_samp() on columns of table "shop_orders" */
 export type Shop_Orders_Stddev_Samp_Order_By = {
+  /** 快照，如果选择的校内地址，记录楼栋id，方便统计 */
+  building_buildings?: InputMaybe<Order_By>;
+  /** 快照，如果选择的校内地址，记录房间id，方便统计 */
+  building_room_building_rooms?: InputMaybe<Order_By>;
+  /** 快照，如果选择的校内地址，记录学校id，方便统计 */
+  campus_campuses?: InputMaybe<Order_By>;
   /** 配送费 */
   delivery_fee?: InputMaybe<Order_By>;
-  /** 优惠/折扣 */
+  /** 店铺 优惠/折扣 */
   discount_amount?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   /** 商品总金额=所有的产品 价格*数量 之和 */
   product_amount?: InputMaybe<Order_By>;
-  /** 店铺结算金额=商品总金额+配送费-优惠/折扣 */
+  /** 店铺结算金额=商品总金额+配送费- 店铺优惠/折扣 */
   settle_amount?: InputMaybe<Order_By>;
   /** 关联外键，哪个店铺的订单 */
   shop_shops?: InputMaybe<Order_By>;
   /** 关联外建，由哪个用户订单产生的店铺订单 */
   shop_userorder_shop_userorders?: InputMaybe<Order_By>;
+  /** 外键，用户地址id，仅用于记录 */
+  user_address_user_addresses?: InputMaybe<Order_By>;
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计 */
+  user_users?: InputMaybe<Order_By>;
 };
 
 /** Streaming cursor of the table "shop_orders" */
@@ -6108,6 +7338,14 @@ export type Shop_Orders_Stream_Cursor_Input = {
 
 /** Initial value of the column from where the streaming should start */
 export type Shop_Orders_Stream_Cursor_Value_Input = {
+  /** 快照，如果选择的校内地址，记录楼栋id，方便统计 */
+  building_buildings?: InputMaybe<Scalars['bigint']['input']>;
+  /** 快照，如果选择的校内地址，记录房间id，方便统计 */
+  building_room_building_rooms?: InputMaybe<Scalars['bigint']['input']>;
+  /** -- 买家订单备注 */
+  buyer_remark?: InputMaybe<Scalars['String']['input']>;
+  /** 快照，如果选择的校内地址，记录学校id，方便统计 */
+  campus_campuses?: InputMaybe<Scalars['bigint']['input']>;
   /** 取消时间(超时未付或商家拒单) */
   cancelled_at?: InputMaybe<Scalars['timestamptz']['input']>;
   /** 订单完成时间(确认收货或自动完成) */
@@ -6119,8 +7357,10 @@ export type Shop_Orders_Stream_Cursor_Value_Input = {
   delivered_at?: InputMaybe<Scalars['timestamptz']['input']>;
   /** 配送费 */
   delivery_fee?: InputMaybe<Scalars['numeric']['input']>;
-  /** 优惠/折扣 */
+  /** 店铺 优惠/折扣 */
   discount_amount?: InputMaybe<Scalars['numeric']['input']>;
+  /** 配送方式/履约方式：campus_delivery=校园配（要求用户地址必须是校内地址）；store_express=快递；store_pickup=门店自提；store_direct =门店直接购买；store_delivery=门店自配/第三方（非校园网）。 */
+  fulfillment_type?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['bigint']['input']>;
   /** | 场景    | pay_status      | ship_status | refund_status | | ----- | ---------------- | ------------ | -------------- | | 刚下单未付 | `unpaid`         | `pending`    | `NULL`         | | 已付待确认 | `paid`           | `pending`    | `NULL`         | | 商家已接单 | `paid`           | `confirmed`  | `NULL`         | | 备货中   | `paid`           | `processing` | `NULL`         | | 已发货   | `paid`           | `shipped`    | `NULL`         | | 已送达   | `paid`           | `delivered`  | `NULL`         | | 已完成   | `paid`           | `completed`  | `NULL`         | | 申请退款中 | `paid`           | `shipped`    | `refunding`    | | 退款完成  | `fully_refunded` | `completed`  | `refunded`     | | 商家拒单  | `paid`           | `cancelled`  | `refunding`    | | 超时取消  | `unpaid`         | `cancelled`  | `NULL`         | */
   order_status?: InputMaybe<Scalars['String']['input']>;
@@ -6132,9 +7372,23 @@ export type Shop_Orders_Stream_Cursor_Value_Input = {
   product_amount?: InputMaybe<Scalars['numeric']['input']>;
   /** 用户确认收货时间（用户点击确认） */
   received_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  /** 快照，收货人详细地址 */
+  receiver_address?: InputMaybe<Scalars['String']['input']>;
+  /** 快照，收货城市 */
+  receiver_city?: InputMaybe<Scalars['String']['input']>;
+  /** 快照，收货街道 */
+  receiver_district?: InputMaybe<Scalars['String']['input']>;
+  /** 快照，收货人姓名 */
+  receiver_name?: InputMaybe<Scalars['String']['input']>;
+  /** 快照，收货人电话 */
+  receiver_phone?: InputMaybe<Scalars['String']['input']>;
+  /** 快照，收货省份 */
+  receiver_province?: InputMaybe<Scalars['String']['input']>;
   /** | 状态值         | 含义  | 触发条件     | | ----------- | --- | -------- | | `NULL`      | 无售后 | 正常订单     | | `refunding` | 退款中 | 用户申请退款   | | `refunded`  | 已退款 | 退款完成     | | `rejected`  | 已拒绝 | 商家拒绝退款申请 | */
   refund_status?: InputMaybe<Scalars['String']['input']>;
-  /** 店铺结算金额=商品总金额+配送费-优惠/折扣 */
+  /** -- 卖家/商家备注（内部使用） */
+  seller_remark?: InputMaybe<Scalars['String']['input']>;
+  /** 店铺结算金额=商品总金额+配送费- 店铺优惠/折扣 */
   settle_amount?: InputMaybe<Scalars['numeric']['input']>;
   /** 给店铺结算的时间 */
   settled_at?: InputMaybe<Scalars['timestamptz']['input']>;
@@ -6147,45 +7401,79 @@ export type Shop_Orders_Stream_Cursor_Value_Input = {
   /** 关联外建，由哪个用户订单产生的店铺订单 */
   shop_userorder_shop_userorders?: InputMaybe<Scalars['bigint']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  /** 快照 用户地址类型取值：[campus（校内）、normal（校外）]  为空表示下单时无需收货地址（如部分线下单、自提等，以业务规则为准） */
+  user_address_type?: InputMaybe<Scalars['String']['input']>;
+  /** 外键，用户地址id，仅用于记录 */
+  user_address_user_addresses?: InputMaybe<Scalars['bigint']['input']>;
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计 */
+  user_users?: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** aggregate sum on columns */
 export type Shop_Orders_Sum_Fields = {
   __typename?: 'shop_orders_sum_fields';
+  /** 快照，如果选择的校内地址，记录楼栋id，方便统计 */
+  building_buildings?: Maybe<Scalars['bigint']['output']>;
+  /** 快照，如果选择的校内地址，记录房间id，方便统计 */
+  building_room_building_rooms?: Maybe<Scalars['bigint']['output']>;
+  /** 快照，如果选择的校内地址，记录学校id，方便统计 */
+  campus_campuses?: Maybe<Scalars['bigint']['output']>;
   /** 配送费 */
   delivery_fee?: Maybe<Scalars['numeric']['output']>;
-  /** 优惠/折扣 */
+  /** 店铺 优惠/折扣 */
   discount_amount?: Maybe<Scalars['numeric']['output']>;
   id?: Maybe<Scalars['bigint']['output']>;
   /** 商品总金额=所有的产品 价格*数量 之和 */
   product_amount?: Maybe<Scalars['numeric']['output']>;
-  /** 店铺结算金额=商品总金额+配送费-优惠/折扣 */
+  /** 店铺结算金额=商品总金额+配送费- 店铺优惠/折扣 */
   settle_amount?: Maybe<Scalars['numeric']['output']>;
   /** 关联外键，哪个店铺的订单 */
   shop_shops?: Maybe<Scalars['bigint']['output']>;
   /** 关联外建，由哪个用户订单产生的店铺订单 */
   shop_userorder_shop_userorders?: Maybe<Scalars['bigint']['output']>;
+  /** 外键，用户地址id，仅用于记录 */
+  user_address_user_addresses?: Maybe<Scalars['bigint']['output']>;
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计 */
+  user_users?: Maybe<Scalars['bigint']['output']>;
 };
 
 /** order by sum() on columns of table "shop_orders" */
 export type Shop_Orders_Sum_Order_By = {
+  /** 快照，如果选择的校内地址，记录楼栋id，方便统计 */
+  building_buildings?: InputMaybe<Order_By>;
+  /** 快照，如果选择的校内地址，记录房间id，方便统计 */
+  building_room_building_rooms?: InputMaybe<Order_By>;
+  /** 快照，如果选择的校内地址，记录学校id，方便统计 */
+  campus_campuses?: InputMaybe<Order_By>;
   /** 配送费 */
   delivery_fee?: InputMaybe<Order_By>;
-  /** 优惠/折扣 */
+  /** 店铺 优惠/折扣 */
   discount_amount?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   /** 商品总金额=所有的产品 价格*数量 之和 */
   product_amount?: InputMaybe<Order_By>;
-  /** 店铺结算金额=商品总金额+配送费-优惠/折扣 */
+  /** 店铺结算金额=商品总金额+配送费- 店铺优惠/折扣 */
   settle_amount?: InputMaybe<Order_By>;
   /** 关联外键，哪个店铺的订单 */
   shop_shops?: InputMaybe<Order_By>;
   /** 关联外建，由哪个用户订单产生的店铺订单 */
   shop_userorder_shop_userorders?: InputMaybe<Order_By>;
+  /** 外键，用户地址id，仅用于记录 */
+  user_address_user_addresses?: InputMaybe<Order_By>;
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计 */
+  user_users?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "shop_orders" */
 export enum Shop_Orders_Update_Column {
+  /** column name */
+  BuildingBuildings = 'building_buildings',
+  /** column name */
+  BuildingRoomBuildingRooms = 'building_room_building_rooms',
+  /** column name */
+  BuyerRemark = 'buyer_remark',
+  /** column name */
+  CampusCampuses = 'campus_campuses',
   /** column name */
   CancelledAt = 'cancelled_at',
   /** column name */
@@ -6201,6 +7489,8 @@ export enum Shop_Orders_Update_Column {
   /** column name */
   DiscountAmount = 'discount_amount',
   /** column name */
+  FulfillmentType = 'fulfillment_type',
+  /** column name */
   Id = 'id',
   /** column name */
   OrderStatus = 'order_status',
@@ -6213,7 +7503,21 @@ export enum Shop_Orders_Update_Column {
   /** column name */
   ReceivedAt = 'received_at',
   /** column name */
+  ReceiverAddress = 'receiver_address',
+  /** column name */
+  ReceiverCity = 'receiver_city',
+  /** column name */
+  ReceiverDistrict = 'receiver_district',
+  /** column name */
+  ReceiverName = 'receiver_name',
+  /** column name */
+  ReceiverPhone = 'receiver_phone',
+  /** column name */
+  ReceiverProvince = 'receiver_province',
+  /** column name */
   RefundStatus = 'refund_status',
+  /** column name */
+  SellerRemark = 'seller_remark',
   /** column name */
   SettleAmount = 'settle_amount',
   /** column name */
@@ -6227,7 +7531,13 @@ export enum Shop_Orders_Update_Column {
   /** column name */
   ShopUserorderShopUserorders = 'shop_userorder_shop_userorders',
   /** column name */
-  UpdatedAt = 'updated_at'
+  UpdatedAt = 'updated_at',
+  /** column name */
+  UserAddressType = 'user_address_type',
+  /** column name */
+  UserAddressUserAddresses = 'user_address_user_addresses',
+  /** column name */
+  UserUsers = 'user_users'
 }
 
 export type Shop_Orders_Updates = {
@@ -6242,123 +7552,177 @@ export type Shop_Orders_Updates = {
 /** aggregate var_pop on columns */
 export type Shop_Orders_Var_Pop_Fields = {
   __typename?: 'shop_orders_var_pop_fields';
+  /** 快照，如果选择的校内地址，记录楼栋id，方便统计 */
+  building_buildings?: Maybe<Scalars['Float']['output']>;
+  /** 快照，如果选择的校内地址，记录房间id，方便统计 */
+  building_room_building_rooms?: Maybe<Scalars['Float']['output']>;
+  /** 快照，如果选择的校内地址，记录学校id，方便统计 */
+  campus_campuses?: Maybe<Scalars['Float']['output']>;
   /** 配送费 */
   delivery_fee?: Maybe<Scalars['Float']['output']>;
-  /** 优惠/折扣 */
+  /** 店铺 优惠/折扣 */
   discount_amount?: Maybe<Scalars['Float']['output']>;
   id?: Maybe<Scalars['Float']['output']>;
   /** 商品总金额=所有的产品 价格*数量 之和 */
   product_amount?: Maybe<Scalars['Float']['output']>;
-  /** 店铺结算金额=商品总金额+配送费-优惠/折扣 */
+  /** 店铺结算金额=商品总金额+配送费- 店铺优惠/折扣 */
   settle_amount?: Maybe<Scalars['Float']['output']>;
   /** 关联外键，哪个店铺的订单 */
   shop_shops?: Maybe<Scalars['Float']['output']>;
   /** 关联外建，由哪个用户订单产生的店铺订单 */
   shop_userorder_shop_userorders?: Maybe<Scalars['Float']['output']>;
+  /** 外键，用户地址id，仅用于记录 */
+  user_address_user_addresses?: Maybe<Scalars['Float']['output']>;
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计 */
+  user_users?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_pop() on columns of table "shop_orders" */
 export type Shop_Orders_Var_Pop_Order_By = {
+  /** 快照，如果选择的校内地址，记录楼栋id，方便统计 */
+  building_buildings?: InputMaybe<Order_By>;
+  /** 快照，如果选择的校内地址，记录房间id，方便统计 */
+  building_room_building_rooms?: InputMaybe<Order_By>;
+  /** 快照，如果选择的校内地址，记录学校id，方便统计 */
+  campus_campuses?: InputMaybe<Order_By>;
   /** 配送费 */
   delivery_fee?: InputMaybe<Order_By>;
-  /** 优惠/折扣 */
+  /** 店铺 优惠/折扣 */
   discount_amount?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   /** 商品总金额=所有的产品 价格*数量 之和 */
   product_amount?: InputMaybe<Order_By>;
-  /** 店铺结算金额=商品总金额+配送费-优惠/折扣 */
+  /** 店铺结算金额=商品总金额+配送费- 店铺优惠/折扣 */
   settle_amount?: InputMaybe<Order_By>;
   /** 关联外键，哪个店铺的订单 */
   shop_shops?: InputMaybe<Order_By>;
   /** 关联外建，由哪个用户订单产生的店铺订单 */
   shop_userorder_shop_userorders?: InputMaybe<Order_By>;
+  /** 外键，用户地址id，仅用于记录 */
+  user_address_user_addresses?: InputMaybe<Order_By>;
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计 */
+  user_users?: InputMaybe<Order_By>;
 };
 
 /** aggregate var_samp on columns */
 export type Shop_Orders_Var_Samp_Fields = {
   __typename?: 'shop_orders_var_samp_fields';
+  /** 快照，如果选择的校内地址，记录楼栋id，方便统计 */
+  building_buildings?: Maybe<Scalars['Float']['output']>;
+  /** 快照，如果选择的校内地址，记录房间id，方便统计 */
+  building_room_building_rooms?: Maybe<Scalars['Float']['output']>;
+  /** 快照，如果选择的校内地址，记录学校id，方便统计 */
+  campus_campuses?: Maybe<Scalars['Float']['output']>;
   /** 配送费 */
   delivery_fee?: Maybe<Scalars['Float']['output']>;
-  /** 优惠/折扣 */
+  /** 店铺 优惠/折扣 */
   discount_amount?: Maybe<Scalars['Float']['output']>;
   id?: Maybe<Scalars['Float']['output']>;
   /** 商品总金额=所有的产品 价格*数量 之和 */
   product_amount?: Maybe<Scalars['Float']['output']>;
-  /** 店铺结算金额=商品总金额+配送费-优惠/折扣 */
+  /** 店铺结算金额=商品总金额+配送费- 店铺优惠/折扣 */
   settle_amount?: Maybe<Scalars['Float']['output']>;
   /** 关联外键，哪个店铺的订单 */
   shop_shops?: Maybe<Scalars['Float']['output']>;
   /** 关联外建，由哪个用户订单产生的店铺订单 */
   shop_userorder_shop_userorders?: Maybe<Scalars['Float']['output']>;
+  /** 外键，用户地址id，仅用于记录 */
+  user_address_user_addresses?: Maybe<Scalars['Float']['output']>;
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计 */
+  user_users?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_samp() on columns of table "shop_orders" */
 export type Shop_Orders_Var_Samp_Order_By = {
+  /** 快照，如果选择的校内地址，记录楼栋id，方便统计 */
+  building_buildings?: InputMaybe<Order_By>;
+  /** 快照，如果选择的校内地址，记录房间id，方便统计 */
+  building_room_building_rooms?: InputMaybe<Order_By>;
+  /** 快照，如果选择的校内地址，记录学校id，方便统计 */
+  campus_campuses?: InputMaybe<Order_By>;
   /** 配送费 */
   delivery_fee?: InputMaybe<Order_By>;
-  /** 优惠/折扣 */
+  /** 店铺 优惠/折扣 */
   discount_amount?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   /** 商品总金额=所有的产品 价格*数量 之和 */
   product_amount?: InputMaybe<Order_By>;
-  /** 店铺结算金额=商品总金额+配送费-优惠/折扣 */
+  /** 店铺结算金额=商品总金额+配送费- 店铺优惠/折扣 */
   settle_amount?: InputMaybe<Order_By>;
   /** 关联外键，哪个店铺的订单 */
   shop_shops?: InputMaybe<Order_By>;
   /** 关联外建，由哪个用户订单产生的店铺订单 */
   shop_userorder_shop_userorders?: InputMaybe<Order_By>;
+  /** 外键，用户地址id，仅用于记录 */
+  user_address_user_addresses?: InputMaybe<Order_By>;
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计 */
+  user_users?: InputMaybe<Order_By>;
 };
 
 /** aggregate variance on columns */
 export type Shop_Orders_Variance_Fields = {
   __typename?: 'shop_orders_variance_fields';
+  /** 快照，如果选择的校内地址，记录楼栋id，方便统计 */
+  building_buildings?: Maybe<Scalars['Float']['output']>;
+  /** 快照，如果选择的校内地址，记录房间id，方便统计 */
+  building_room_building_rooms?: Maybe<Scalars['Float']['output']>;
+  /** 快照，如果选择的校内地址，记录学校id，方便统计 */
+  campus_campuses?: Maybe<Scalars['Float']['output']>;
   /** 配送费 */
   delivery_fee?: Maybe<Scalars['Float']['output']>;
-  /** 优惠/折扣 */
+  /** 店铺 优惠/折扣 */
   discount_amount?: Maybe<Scalars['Float']['output']>;
   id?: Maybe<Scalars['Float']['output']>;
   /** 商品总金额=所有的产品 价格*数量 之和 */
   product_amount?: Maybe<Scalars['Float']['output']>;
-  /** 店铺结算金额=商品总金额+配送费-优惠/折扣 */
+  /** 店铺结算金额=商品总金额+配送费- 店铺优惠/折扣 */
   settle_amount?: Maybe<Scalars['Float']['output']>;
   /** 关联外键，哪个店铺的订单 */
   shop_shops?: Maybe<Scalars['Float']['output']>;
   /** 关联外建，由哪个用户订单产生的店铺订单 */
   shop_userorder_shop_userorders?: Maybe<Scalars['Float']['output']>;
+  /** 外键，用户地址id，仅用于记录 */
+  user_address_user_addresses?: Maybe<Scalars['Float']['output']>;
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计 */
+  user_users?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by variance() on columns of table "shop_orders" */
 export type Shop_Orders_Variance_Order_By = {
+  /** 快照，如果选择的校内地址，记录楼栋id，方便统计 */
+  building_buildings?: InputMaybe<Order_By>;
+  /** 快照，如果选择的校内地址，记录房间id，方便统计 */
+  building_room_building_rooms?: InputMaybe<Order_By>;
+  /** 快照，如果选择的校内地址，记录学校id，方便统计 */
+  campus_campuses?: InputMaybe<Order_By>;
   /** 配送费 */
   delivery_fee?: InputMaybe<Order_By>;
-  /** 优惠/折扣 */
+  /** 店铺 优惠/折扣 */
   discount_amount?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   /** 商品总金额=所有的产品 价格*数量 之和 */
   product_amount?: InputMaybe<Order_By>;
-  /** 店铺结算金额=商品总金额+配送费-优惠/折扣 */
+  /** 店铺结算金额=商品总金额+配送费- 店铺优惠/折扣 */
   settle_amount?: InputMaybe<Order_By>;
   /** 关联外键，哪个店铺的订单 */
   shop_shops?: InputMaybe<Order_By>;
   /** 关联外建，由哪个用户订单产生的店铺订单 */
   shop_userorder_shop_userorders?: InputMaybe<Order_By>;
+  /** 外键，用户地址id，仅用于记录 */
+  user_address_user_addresses?: InputMaybe<Order_By>;
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计 */
+  user_users?: InputMaybe<Order_By>;
 };
 
 /** 店铺的用户订单，用户侧看到的 */
 export type Shop_Userorders = {
   __typename?: 'shop_userorders';
   created_at: Scalars['timestamptz']['output'];
+  /** 用于审计，谁操作的用户下单，线下订单必填，线上订单为空 */
+  created_by_users?: Maybe<Scalars['bigint']['output']>;
   id: Scalars['bigint']['output'];
   /** 用户支付金额 */
   pay_amount: Scalars['numeric']['output'];
-  /** 详细地址 */
-  receiver_address?: Maybe<Scalars['String']['output']>;
-  /** 收货人姓名 */
-  receiver_name?: Maybe<Scalars['String']['output']>;
-  /** 收货人电话 */
-  receiver_phone?: Maybe<Scalars['String']['output']>;
-  /** 用户订单备注 */
-  remark?: Maybe<Scalars['String']['output']>;
   /** An object relationship */
   shop: Shops;
   /** An array relationship */
@@ -6367,11 +7731,15 @@ export type Shop_Userorders = {
   shop_orders_aggregate: Shop_Orders_Aggregate;
   /** 关联外建，用户在哪个店铺下的单 */
   shop_shops: Scalars['bigint']['output'];
+  /** 订单类型：[online（线上订单）、offline（线下订单，线下订单下的所有店铺订单的所属店铺一定是当前下单店铺，就是说线下下单时只能下自己店铺的商品，不包含扩展店铺，只会有一个店铺订单）] */
+  type: Scalars['String']['output'];
   updated_at: Scalars['timestamptz']['output'];
   /** An object relationship */
-  user: Users;
-  /** 关联外建，哪个用户下的单 */
-  user_users: Scalars['bigint']['output'];
+  user?: Maybe<Users>;
+  /** An object relationship */
+  userByCreatedByUsers?: Maybe<Users>;
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的 */
+  user_users?: Maybe<Scalars['bigint']['output']>;
 };
 
 
@@ -6460,23 +7828,27 @@ export type Shop_Userorders_Arr_Rel_Insert_Input = {
 /** aggregate avg on columns */
 export type Shop_Userorders_Avg_Fields = {
   __typename?: 'shop_userorders_avg_fields';
+  /** 用于审计，谁操作的用户下单，线下订单必填，线上订单为空 */
+  created_by_users?: Maybe<Scalars['Float']['output']>;
   id?: Maybe<Scalars['Float']['output']>;
   /** 用户支付金额 */
   pay_amount?: Maybe<Scalars['Float']['output']>;
   /** 关联外建，用户在哪个店铺下的单 */
   shop_shops?: Maybe<Scalars['Float']['output']>;
-  /** 关联外建，哪个用户下的单 */
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的 */
   user_users?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by avg() on columns of table "shop_userorders" */
 export type Shop_Userorders_Avg_Order_By = {
+  /** 用于审计，谁操作的用户下单，线下订单必填，线上订单为空 */
+  created_by_users?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   /** 用户支付金额 */
   pay_amount?: InputMaybe<Order_By>;
   /** 关联外建，用户在哪个店铺下的单 */
   shop_shops?: InputMaybe<Order_By>;
-  /** 关联外建，哪个用户下的单 */
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的 */
   user_users?: InputMaybe<Order_By>;
 };
 
@@ -6486,18 +7858,17 @@ export type Shop_Userorders_Bool_Exp = {
   _not?: InputMaybe<Shop_Userorders_Bool_Exp>;
   _or?: InputMaybe<Array<Shop_Userorders_Bool_Exp>>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  created_by_users?: InputMaybe<Bigint_Comparison_Exp>;
   id?: InputMaybe<Bigint_Comparison_Exp>;
   pay_amount?: InputMaybe<Numeric_Comparison_Exp>;
-  receiver_address?: InputMaybe<String_Comparison_Exp>;
-  receiver_name?: InputMaybe<String_Comparison_Exp>;
-  receiver_phone?: InputMaybe<String_Comparison_Exp>;
-  remark?: InputMaybe<String_Comparison_Exp>;
   shop?: InputMaybe<Shops_Bool_Exp>;
   shop_orders?: InputMaybe<Shop_Orders_Bool_Exp>;
   shop_orders_aggregate?: InputMaybe<Shop_Orders_Aggregate_Bool_Exp>;
   shop_shops?: InputMaybe<Bigint_Comparison_Exp>;
+  type?: InputMaybe<String_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   user?: InputMaybe<Users_Bool_Exp>;
+  userByCreatedByUsers?: InputMaybe<Users_Bool_Exp>;
   user_users?: InputMaybe<Bigint_Comparison_Exp>;
 };
 
@@ -6509,36 +7880,35 @@ export enum Shop_Userorders_Constraint {
 
 /** input type for incrementing numeric columns in table "shop_userorders" */
 export type Shop_Userorders_Inc_Input = {
+  /** 用于审计，谁操作的用户下单，线下订单必填，线上订单为空 */
+  created_by_users?: InputMaybe<Scalars['bigint']['input']>;
   id?: InputMaybe<Scalars['bigint']['input']>;
   /** 用户支付金额 */
   pay_amount?: InputMaybe<Scalars['numeric']['input']>;
   /** 关联外建，用户在哪个店铺下的单 */
   shop_shops?: InputMaybe<Scalars['bigint']['input']>;
-  /** 关联外建，哪个用户下的单 */
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的 */
   user_users?: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** input type for inserting data into table "shop_userorders" */
 export type Shop_Userorders_Insert_Input = {
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  /** 用于审计，谁操作的用户下单，线下订单必填，线上订单为空 */
+  created_by_users?: InputMaybe<Scalars['bigint']['input']>;
   id?: InputMaybe<Scalars['bigint']['input']>;
   /** 用户支付金额 */
   pay_amount?: InputMaybe<Scalars['numeric']['input']>;
-  /** 详细地址 */
-  receiver_address?: InputMaybe<Scalars['String']['input']>;
-  /** 收货人姓名 */
-  receiver_name?: InputMaybe<Scalars['String']['input']>;
-  /** 收货人电话 */
-  receiver_phone?: InputMaybe<Scalars['String']['input']>;
-  /** 用户订单备注 */
-  remark?: InputMaybe<Scalars['String']['input']>;
   shop?: InputMaybe<Shops_Obj_Rel_Insert_Input>;
   shop_orders?: InputMaybe<Shop_Orders_Arr_Rel_Insert_Input>;
   /** 关联外建，用户在哪个店铺下的单 */
   shop_shops?: InputMaybe<Scalars['bigint']['input']>;
+  /** 订单类型：[online（线上订单）、offline（线下订单，线下订单下的所有店铺订单的所属店铺一定是当前下单店铺，就是说线下下单时只能下自己店铺的商品，不包含扩展店铺，只会有一个店铺订单）] */
+  type?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
-  /** 关联外建，哪个用户下的单 */
+  userByCreatedByUsers?: InputMaybe<Users_Obj_Rel_Insert_Input>;
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的 */
   user_users?: InputMaybe<Scalars['bigint']['input']>;
 };
 
@@ -6546,42 +7916,34 @@ export type Shop_Userorders_Insert_Input = {
 export type Shop_Userorders_Max_Fields = {
   __typename?: 'shop_userorders_max_fields';
   created_at?: Maybe<Scalars['timestamptz']['output']>;
+  /** 用于审计，谁操作的用户下单，线下订单必填，线上订单为空 */
+  created_by_users?: Maybe<Scalars['bigint']['output']>;
   id?: Maybe<Scalars['bigint']['output']>;
   /** 用户支付金额 */
   pay_amount?: Maybe<Scalars['numeric']['output']>;
-  /** 详细地址 */
-  receiver_address?: Maybe<Scalars['String']['output']>;
-  /** 收货人姓名 */
-  receiver_name?: Maybe<Scalars['String']['output']>;
-  /** 收货人电话 */
-  receiver_phone?: Maybe<Scalars['String']['output']>;
-  /** 用户订单备注 */
-  remark?: Maybe<Scalars['String']['output']>;
   /** 关联外建，用户在哪个店铺下的单 */
   shop_shops?: Maybe<Scalars['bigint']['output']>;
+  /** 订单类型：[online（线上订单）、offline（线下订单，线下订单下的所有店铺订单的所属店铺一定是当前下单店铺，就是说线下下单时只能下自己店铺的商品，不包含扩展店铺，只会有一个店铺订单）] */
+  type?: Maybe<Scalars['String']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
-  /** 关联外建，哪个用户下的单 */
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的 */
   user_users?: Maybe<Scalars['bigint']['output']>;
 };
 
 /** order by max() on columns of table "shop_userorders" */
 export type Shop_Userorders_Max_Order_By = {
   created_at?: InputMaybe<Order_By>;
+  /** 用于审计，谁操作的用户下单，线下订单必填，线上订单为空 */
+  created_by_users?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   /** 用户支付金额 */
   pay_amount?: InputMaybe<Order_By>;
-  /** 详细地址 */
-  receiver_address?: InputMaybe<Order_By>;
-  /** 收货人姓名 */
-  receiver_name?: InputMaybe<Order_By>;
-  /** 收货人电话 */
-  receiver_phone?: InputMaybe<Order_By>;
-  /** 用户订单备注 */
-  remark?: InputMaybe<Order_By>;
   /** 关联外建，用户在哪个店铺下的单 */
   shop_shops?: InputMaybe<Order_By>;
+  /** 订单类型：[online（线上订单）、offline（线下订单，线下订单下的所有店铺订单的所属店铺一定是当前下单店铺，就是说线下下单时只能下自己店铺的商品，不包含扩展店铺，只会有一个店铺订单）] */
+  type?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
-  /** 关联外建，哪个用户下的单 */
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的 */
   user_users?: InputMaybe<Order_By>;
 };
 
@@ -6589,42 +7951,34 @@ export type Shop_Userorders_Max_Order_By = {
 export type Shop_Userorders_Min_Fields = {
   __typename?: 'shop_userorders_min_fields';
   created_at?: Maybe<Scalars['timestamptz']['output']>;
+  /** 用于审计，谁操作的用户下单，线下订单必填，线上订单为空 */
+  created_by_users?: Maybe<Scalars['bigint']['output']>;
   id?: Maybe<Scalars['bigint']['output']>;
   /** 用户支付金额 */
   pay_amount?: Maybe<Scalars['numeric']['output']>;
-  /** 详细地址 */
-  receiver_address?: Maybe<Scalars['String']['output']>;
-  /** 收货人姓名 */
-  receiver_name?: Maybe<Scalars['String']['output']>;
-  /** 收货人电话 */
-  receiver_phone?: Maybe<Scalars['String']['output']>;
-  /** 用户订单备注 */
-  remark?: Maybe<Scalars['String']['output']>;
   /** 关联外建，用户在哪个店铺下的单 */
   shop_shops?: Maybe<Scalars['bigint']['output']>;
+  /** 订单类型：[online（线上订单）、offline（线下订单，线下订单下的所有店铺订单的所属店铺一定是当前下单店铺，就是说线下下单时只能下自己店铺的商品，不包含扩展店铺，只会有一个店铺订单）] */
+  type?: Maybe<Scalars['String']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
-  /** 关联外建，哪个用户下的单 */
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的 */
   user_users?: Maybe<Scalars['bigint']['output']>;
 };
 
 /** order by min() on columns of table "shop_userorders" */
 export type Shop_Userorders_Min_Order_By = {
   created_at?: InputMaybe<Order_By>;
+  /** 用于审计，谁操作的用户下单，线下订单必填，线上订单为空 */
+  created_by_users?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   /** 用户支付金额 */
   pay_amount?: InputMaybe<Order_By>;
-  /** 详细地址 */
-  receiver_address?: InputMaybe<Order_By>;
-  /** 收货人姓名 */
-  receiver_name?: InputMaybe<Order_By>;
-  /** 收货人电话 */
-  receiver_phone?: InputMaybe<Order_By>;
-  /** 用户订单备注 */
-  remark?: InputMaybe<Order_By>;
   /** 关联外建，用户在哪个店铺下的单 */
   shop_shops?: InputMaybe<Order_By>;
+  /** 订单类型：[online（线上订单）、offline（线下订单，线下订单下的所有店铺订单的所属店铺一定是当前下单店铺，就是说线下下单时只能下自己店铺的商品，不包含扩展店铺，只会有一个店铺订单）] */
+  type?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
-  /** 关联外建，哪个用户下的单 */
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的 */
   user_users?: InputMaybe<Order_By>;
 };
 
@@ -6654,17 +8008,16 @@ export type Shop_Userorders_On_Conflict = {
 /** Ordering options when selecting data from "shop_userorders". */
 export type Shop_Userorders_Order_By = {
   created_at?: InputMaybe<Order_By>;
+  created_by_users?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   pay_amount?: InputMaybe<Order_By>;
-  receiver_address?: InputMaybe<Order_By>;
-  receiver_name?: InputMaybe<Order_By>;
-  receiver_phone?: InputMaybe<Order_By>;
-  remark?: InputMaybe<Order_By>;
   shop?: InputMaybe<Shops_Order_By>;
   shop_orders_aggregate?: InputMaybe<Shop_Orders_Aggregate_Order_By>;
   shop_shops?: InputMaybe<Order_By>;
+  type?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
   user?: InputMaybe<Users_Order_By>;
+  userByCreatedByUsers?: InputMaybe<Users_Order_By>;
   user_users?: InputMaybe<Order_By>;
 };
 
@@ -6678,19 +8031,15 @@ export enum Shop_Userorders_Select_Column {
   /** column name */
   CreatedAt = 'created_at',
   /** column name */
+  CreatedByUsers = 'created_by_users',
+  /** column name */
   Id = 'id',
   /** column name */
   PayAmount = 'pay_amount',
   /** column name */
-  ReceiverAddress = 'receiver_address',
-  /** column name */
-  ReceiverName = 'receiver_name',
-  /** column name */
-  ReceiverPhone = 'receiver_phone',
-  /** column name */
-  Remark = 'remark',
-  /** column name */
   ShopShops = 'shop_shops',
+  /** column name */
+  Type = 'type',
   /** column name */
   UpdatedAt = 'updated_at',
   /** column name */
@@ -6700,90 +8049,98 @@ export enum Shop_Userorders_Select_Column {
 /** input type for updating data in table "shop_userorders" */
 export type Shop_Userorders_Set_Input = {
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  /** 用于审计，谁操作的用户下单，线下订单必填，线上订单为空 */
+  created_by_users?: InputMaybe<Scalars['bigint']['input']>;
   id?: InputMaybe<Scalars['bigint']['input']>;
   /** 用户支付金额 */
   pay_amount?: InputMaybe<Scalars['numeric']['input']>;
-  /** 详细地址 */
-  receiver_address?: InputMaybe<Scalars['String']['input']>;
-  /** 收货人姓名 */
-  receiver_name?: InputMaybe<Scalars['String']['input']>;
-  /** 收货人电话 */
-  receiver_phone?: InputMaybe<Scalars['String']['input']>;
-  /** 用户订单备注 */
-  remark?: InputMaybe<Scalars['String']['input']>;
   /** 关联外建，用户在哪个店铺下的单 */
   shop_shops?: InputMaybe<Scalars['bigint']['input']>;
+  /** 订单类型：[online（线上订单）、offline（线下订单，线下订单下的所有店铺订单的所属店铺一定是当前下单店铺，就是说线下下单时只能下自己店铺的商品，不包含扩展店铺，只会有一个店铺订单）] */
+  type?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  /** 关联外建，哪个用户下的单 */
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的 */
   user_users?: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type Shop_Userorders_Stddev_Fields = {
   __typename?: 'shop_userorders_stddev_fields';
+  /** 用于审计，谁操作的用户下单，线下订单必填，线上订单为空 */
+  created_by_users?: Maybe<Scalars['Float']['output']>;
   id?: Maybe<Scalars['Float']['output']>;
   /** 用户支付金额 */
   pay_amount?: Maybe<Scalars['Float']['output']>;
   /** 关联外建，用户在哪个店铺下的单 */
   shop_shops?: Maybe<Scalars['Float']['output']>;
-  /** 关联外建，哪个用户下的单 */
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的 */
   user_users?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev() on columns of table "shop_userorders" */
 export type Shop_Userorders_Stddev_Order_By = {
+  /** 用于审计，谁操作的用户下单，线下订单必填，线上订单为空 */
+  created_by_users?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   /** 用户支付金额 */
   pay_amount?: InputMaybe<Order_By>;
   /** 关联外建，用户在哪个店铺下的单 */
   shop_shops?: InputMaybe<Order_By>;
-  /** 关联外建，哪个用户下的单 */
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的 */
   user_users?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Shop_Userorders_Stddev_Pop_Fields = {
   __typename?: 'shop_userorders_stddev_pop_fields';
+  /** 用于审计，谁操作的用户下单，线下订单必填，线上订单为空 */
+  created_by_users?: Maybe<Scalars['Float']['output']>;
   id?: Maybe<Scalars['Float']['output']>;
   /** 用户支付金额 */
   pay_amount?: Maybe<Scalars['Float']['output']>;
   /** 关联外建，用户在哪个店铺下的单 */
   shop_shops?: Maybe<Scalars['Float']['output']>;
-  /** 关联外建，哪个用户下的单 */
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的 */
   user_users?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_pop() on columns of table "shop_userorders" */
 export type Shop_Userorders_Stddev_Pop_Order_By = {
+  /** 用于审计，谁操作的用户下单，线下订单必填，线上订单为空 */
+  created_by_users?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   /** 用户支付金额 */
   pay_amount?: InputMaybe<Order_By>;
   /** 关联外建，用户在哪个店铺下的单 */
   shop_shops?: InputMaybe<Order_By>;
-  /** 关联外建，哪个用户下的单 */
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的 */
   user_users?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Shop_Userorders_Stddev_Samp_Fields = {
   __typename?: 'shop_userorders_stddev_samp_fields';
+  /** 用于审计，谁操作的用户下单，线下订单必填，线上订单为空 */
+  created_by_users?: Maybe<Scalars['Float']['output']>;
   id?: Maybe<Scalars['Float']['output']>;
   /** 用户支付金额 */
   pay_amount?: Maybe<Scalars['Float']['output']>;
   /** 关联外建，用户在哪个店铺下的单 */
   shop_shops?: Maybe<Scalars['Float']['output']>;
-  /** 关联外建，哪个用户下的单 */
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的 */
   user_users?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by stddev_samp() on columns of table "shop_userorders" */
 export type Shop_Userorders_Stddev_Samp_Order_By = {
+  /** 用于审计，谁操作的用户下单，线下订单必填，线上订单为空 */
+  created_by_users?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   /** 用户支付金额 */
   pay_amount?: InputMaybe<Order_By>;
   /** 关联外建，用户在哪个店铺下的单 */
   shop_shops?: InputMaybe<Order_By>;
-  /** 关联外建，哪个用户下的单 */
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的 */
   user_users?: InputMaybe<Order_By>;
 };
 
@@ -6798,44 +8155,44 @@ export type Shop_Userorders_Stream_Cursor_Input = {
 /** Initial value of the column from where the streaming should start */
 export type Shop_Userorders_Stream_Cursor_Value_Input = {
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  /** 用于审计，谁操作的用户下单，线下订单必填，线上订单为空 */
+  created_by_users?: InputMaybe<Scalars['bigint']['input']>;
   id?: InputMaybe<Scalars['bigint']['input']>;
   /** 用户支付金额 */
   pay_amount?: InputMaybe<Scalars['numeric']['input']>;
-  /** 详细地址 */
-  receiver_address?: InputMaybe<Scalars['String']['input']>;
-  /** 收货人姓名 */
-  receiver_name?: InputMaybe<Scalars['String']['input']>;
-  /** 收货人电话 */
-  receiver_phone?: InputMaybe<Scalars['String']['input']>;
-  /** 用户订单备注 */
-  remark?: InputMaybe<Scalars['String']['input']>;
   /** 关联外建，用户在哪个店铺下的单 */
   shop_shops?: InputMaybe<Scalars['bigint']['input']>;
+  /** 订单类型：[online（线上订单）、offline（线下订单，线下订单下的所有店铺订单的所属店铺一定是当前下单店铺，就是说线下下单时只能下自己店铺的商品，不包含扩展店铺，只会有一个店铺订单）] */
+  type?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
-  /** 关联外建，哪个用户下的单 */
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的 */
   user_users?: InputMaybe<Scalars['bigint']['input']>;
 };
 
 /** aggregate sum on columns */
 export type Shop_Userorders_Sum_Fields = {
   __typename?: 'shop_userorders_sum_fields';
+  /** 用于审计，谁操作的用户下单，线下订单必填，线上订单为空 */
+  created_by_users?: Maybe<Scalars['bigint']['output']>;
   id?: Maybe<Scalars['bigint']['output']>;
   /** 用户支付金额 */
   pay_amount?: Maybe<Scalars['numeric']['output']>;
   /** 关联外建，用户在哪个店铺下的单 */
   shop_shops?: Maybe<Scalars['bigint']['output']>;
-  /** 关联外建，哪个用户下的单 */
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的 */
   user_users?: Maybe<Scalars['bigint']['output']>;
 };
 
 /** order by sum() on columns of table "shop_userorders" */
 export type Shop_Userorders_Sum_Order_By = {
+  /** 用于审计，谁操作的用户下单，线下订单必填，线上订单为空 */
+  created_by_users?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   /** 用户支付金额 */
   pay_amount?: InputMaybe<Order_By>;
   /** 关联外建，用户在哪个店铺下的单 */
   shop_shops?: InputMaybe<Order_By>;
-  /** 关联外建，哪个用户下的单 */
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的 */
   user_users?: InputMaybe<Order_By>;
 };
 
@@ -6844,19 +8201,15 @@ export enum Shop_Userorders_Update_Column {
   /** column name */
   CreatedAt = 'created_at',
   /** column name */
+  CreatedByUsers = 'created_by_users',
+  /** column name */
   Id = 'id',
   /** column name */
   PayAmount = 'pay_amount',
   /** column name */
-  ReceiverAddress = 'receiver_address',
-  /** column name */
-  ReceiverName = 'receiver_name',
-  /** column name */
-  ReceiverPhone = 'receiver_phone',
-  /** column name */
-  Remark = 'remark',
-  /** column name */
   ShopShops = 'shop_shops',
+  /** column name */
+  Type = 'type',
   /** column name */
   UpdatedAt = 'updated_at',
   /** column name */
@@ -6875,69 +8228,81 @@ export type Shop_Userorders_Updates = {
 /** aggregate var_pop on columns */
 export type Shop_Userorders_Var_Pop_Fields = {
   __typename?: 'shop_userorders_var_pop_fields';
+  /** 用于审计，谁操作的用户下单，线下订单必填，线上订单为空 */
+  created_by_users?: Maybe<Scalars['Float']['output']>;
   id?: Maybe<Scalars['Float']['output']>;
   /** 用户支付金额 */
   pay_amount?: Maybe<Scalars['Float']['output']>;
   /** 关联外建，用户在哪个店铺下的单 */
   shop_shops?: Maybe<Scalars['Float']['output']>;
-  /** 关联外建，哪个用户下的单 */
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的 */
   user_users?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_pop() on columns of table "shop_userorders" */
 export type Shop_Userorders_Var_Pop_Order_By = {
+  /** 用于审计，谁操作的用户下单，线下订单必填，线上订单为空 */
+  created_by_users?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   /** 用户支付金额 */
   pay_amount?: InputMaybe<Order_By>;
   /** 关联外建，用户在哪个店铺下的单 */
   shop_shops?: InputMaybe<Order_By>;
-  /** 关联外建，哪个用户下的单 */
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的 */
   user_users?: InputMaybe<Order_By>;
 };
 
 /** aggregate var_samp on columns */
 export type Shop_Userorders_Var_Samp_Fields = {
   __typename?: 'shop_userorders_var_samp_fields';
+  /** 用于审计，谁操作的用户下单，线下订单必填，线上订单为空 */
+  created_by_users?: Maybe<Scalars['Float']['output']>;
   id?: Maybe<Scalars['Float']['output']>;
   /** 用户支付金额 */
   pay_amount?: Maybe<Scalars['Float']['output']>;
   /** 关联外建，用户在哪个店铺下的单 */
   shop_shops?: Maybe<Scalars['Float']['output']>;
-  /** 关联外建，哪个用户下的单 */
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的 */
   user_users?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by var_samp() on columns of table "shop_userorders" */
 export type Shop_Userorders_Var_Samp_Order_By = {
+  /** 用于审计，谁操作的用户下单，线下订单必填，线上订单为空 */
+  created_by_users?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   /** 用户支付金额 */
   pay_amount?: InputMaybe<Order_By>;
   /** 关联外建，用户在哪个店铺下的单 */
   shop_shops?: InputMaybe<Order_By>;
-  /** 关联外建，哪个用户下的单 */
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的 */
   user_users?: InputMaybe<Order_By>;
 };
 
 /** aggregate variance on columns */
 export type Shop_Userorders_Variance_Fields = {
   __typename?: 'shop_userorders_variance_fields';
+  /** 用于审计，谁操作的用户下单，线下订单必填，线上订单为空 */
+  created_by_users?: Maybe<Scalars['Float']['output']>;
   id?: Maybe<Scalars['Float']['output']>;
   /** 用户支付金额 */
   pay_amount?: Maybe<Scalars['Float']['output']>;
   /** 关联外建，用户在哪个店铺下的单 */
   shop_shops?: Maybe<Scalars['Float']['output']>;
-  /** 关联外建，哪个用户下的单 */
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的 */
   user_users?: Maybe<Scalars['Float']['output']>;
 };
 
 /** order by variance() on columns of table "shop_userorders" */
 export type Shop_Userorders_Variance_Order_By = {
+  /** 用于审计，谁操作的用户下单，线下订单必填，线上订单为空 */
+  created_by_users?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   /** 用户支付金额 */
   pay_amount?: InputMaybe<Order_By>;
   /** 关联外建，用户在哪个店铺下的单 */
   shop_shops?: InputMaybe<Order_By>;
-  /** 关联外建，哪个用户下的单 */
+  /** 关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的 */
   user_users?: InputMaybe<Order_By>;
 };
 
@@ -6946,10 +8311,11 @@ export type Shop_Users = {
   __typename?: 'shop_users';
   created_at: Scalars['timestamptz']['output'];
   id: Scalars['bigint']['output'];
-  /** 角色：1.admin（管理员） 2.visitor（访问用户） */
+  /** 角色：[admin（管理员） 、visitor（访问用户）] */
   role: Scalars['String']['output'];
   /** An object relationship */
   shop: Shops;
+  /** 外键，关联店铺 */
   shop_shops: Scalars['bigint']['output'];
   updated_at: Scalars['timestamptz']['output'];
   /** An object relationship */
@@ -7025,6 +8391,7 @@ export type Shop_Users_Arr_Rel_Insert_Input = {
 export type Shop_Users_Avg_Fields = {
   __typename?: 'shop_users_avg_fields';
   id?: Maybe<Scalars['Float']['output']>;
+  /** 外键，关联店铺 */
   shop_shops?: Maybe<Scalars['Float']['output']>;
   /** 关联外建，哪个用户 */
   user_users?: Maybe<Scalars['Float']['output']>;
@@ -7033,6 +8400,7 @@ export type Shop_Users_Avg_Fields = {
 /** order by avg() on columns of table "shop_users" */
 export type Shop_Users_Avg_Order_By = {
   id?: InputMaybe<Order_By>;
+  /** 外键，关联店铺 */
   shop_shops?: InputMaybe<Order_By>;
   /** 关联外建，哪个用户 */
   user_users?: InputMaybe<Order_By>;
@@ -7056,12 +8424,15 @@ export type Shop_Users_Bool_Exp = {
 /** unique or primary key constraints on table "shop_users" */
 export enum Shop_Users_Constraint {
   /** unique or primary key constraint on columns "id" */
-  ShopUsersPkey = 'shop_users_pkey'
+  ShopUsersPkey = 'shop_users_pkey',
+  /** unique or primary key constraint on columns "user_users", "shop_shops" */
+  ShopUsersShopShopsUserUsersKey = 'shop_users_shop_shops_user_users_key'
 }
 
 /** input type for incrementing numeric columns in table "shop_users" */
 export type Shop_Users_Inc_Input = {
   id?: InputMaybe<Scalars['bigint']['input']>;
+  /** 外键，关联店铺 */
   shop_shops?: InputMaybe<Scalars['bigint']['input']>;
   /** 关联外建，哪个用户 */
   user_users?: InputMaybe<Scalars['bigint']['input']>;
@@ -7071,9 +8442,10 @@ export type Shop_Users_Inc_Input = {
 export type Shop_Users_Insert_Input = {
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   id?: InputMaybe<Scalars['bigint']['input']>;
-  /** 角色：1.admin（管理员） 2.visitor（访问用户） */
+  /** 角色：[admin（管理员） 、visitor（访问用户）] */
   role?: InputMaybe<Scalars['String']['input']>;
   shop?: InputMaybe<Shops_Obj_Rel_Insert_Input>;
+  /** 外键，关联店铺 */
   shop_shops?: InputMaybe<Scalars['bigint']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   user?: InputMaybe<Users_Obj_Rel_Insert_Input>;
@@ -7086,8 +8458,9 @@ export type Shop_Users_Max_Fields = {
   __typename?: 'shop_users_max_fields';
   created_at?: Maybe<Scalars['timestamptz']['output']>;
   id?: Maybe<Scalars['bigint']['output']>;
-  /** 角色：1.admin（管理员） 2.visitor（访问用户） */
+  /** 角色：[admin（管理员） 、visitor（访问用户）] */
   role?: Maybe<Scalars['String']['output']>;
+  /** 外键，关联店铺 */
   shop_shops?: Maybe<Scalars['bigint']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
   /** 关联外建，哪个用户 */
@@ -7098,8 +8471,9 @@ export type Shop_Users_Max_Fields = {
 export type Shop_Users_Max_Order_By = {
   created_at?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-  /** 角色：1.admin（管理员） 2.visitor（访问用户） */
+  /** 角色：[admin（管理员） 、visitor（访问用户）] */
   role?: InputMaybe<Order_By>;
+  /** 外键，关联店铺 */
   shop_shops?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
   /** 关联外建，哪个用户 */
@@ -7111,8 +8485,9 @@ export type Shop_Users_Min_Fields = {
   __typename?: 'shop_users_min_fields';
   created_at?: Maybe<Scalars['timestamptz']['output']>;
   id?: Maybe<Scalars['bigint']['output']>;
-  /** 角色：1.admin（管理员） 2.visitor（访问用户） */
+  /** 角色：[admin（管理员） 、visitor（访问用户）] */
   role?: Maybe<Scalars['String']['output']>;
+  /** 外键，关联店铺 */
   shop_shops?: Maybe<Scalars['bigint']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
   /** 关联外建，哪个用户 */
@@ -7123,8 +8498,9 @@ export type Shop_Users_Min_Fields = {
 export type Shop_Users_Min_Order_By = {
   created_at?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-  /** 角色：1.admin（管理员） 2.visitor（访问用户） */
+  /** 角色：[admin（管理员） 、visitor（访问用户）] */
   role?: InputMaybe<Order_By>;
+  /** 外键，关联店铺 */
   shop_shops?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
   /** 关联外建，哪个用户 */
@@ -7184,8 +8560,9 @@ export enum Shop_Users_Select_Column {
 export type Shop_Users_Set_Input = {
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   id?: InputMaybe<Scalars['bigint']['input']>;
-  /** 角色：1.admin（管理员） 2.visitor（访问用户） */
+  /** 角色：[admin（管理员） 、visitor（访问用户）] */
   role?: InputMaybe<Scalars['String']['input']>;
+  /** 外键，关联店铺 */
   shop_shops?: InputMaybe<Scalars['bigint']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   /** 关联外建，哪个用户 */
@@ -7196,6 +8573,7 @@ export type Shop_Users_Set_Input = {
 export type Shop_Users_Stddev_Fields = {
   __typename?: 'shop_users_stddev_fields';
   id?: Maybe<Scalars['Float']['output']>;
+  /** 外键，关联店铺 */
   shop_shops?: Maybe<Scalars['Float']['output']>;
   /** 关联外建，哪个用户 */
   user_users?: Maybe<Scalars['Float']['output']>;
@@ -7204,6 +8582,7 @@ export type Shop_Users_Stddev_Fields = {
 /** order by stddev() on columns of table "shop_users" */
 export type Shop_Users_Stddev_Order_By = {
   id?: InputMaybe<Order_By>;
+  /** 外键，关联店铺 */
   shop_shops?: InputMaybe<Order_By>;
   /** 关联外建，哪个用户 */
   user_users?: InputMaybe<Order_By>;
@@ -7213,6 +8592,7 @@ export type Shop_Users_Stddev_Order_By = {
 export type Shop_Users_Stddev_Pop_Fields = {
   __typename?: 'shop_users_stddev_pop_fields';
   id?: Maybe<Scalars['Float']['output']>;
+  /** 外键，关联店铺 */
   shop_shops?: Maybe<Scalars['Float']['output']>;
   /** 关联外建，哪个用户 */
   user_users?: Maybe<Scalars['Float']['output']>;
@@ -7221,6 +8601,7 @@ export type Shop_Users_Stddev_Pop_Fields = {
 /** order by stddev_pop() on columns of table "shop_users" */
 export type Shop_Users_Stddev_Pop_Order_By = {
   id?: InputMaybe<Order_By>;
+  /** 外键，关联店铺 */
   shop_shops?: InputMaybe<Order_By>;
   /** 关联外建，哪个用户 */
   user_users?: InputMaybe<Order_By>;
@@ -7230,6 +8611,7 @@ export type Shop_Users_Stddev_Pop_Order_By = {
 export type Shop_Users_Stddev_Samp_Fields = {
   __typename?: 'shop_users_stddev_samp_fields';
   id?: Maybe<Scalars['Float']['output']>;
+  /** 外键，关联店铺 */
   shop_shops?: Maybe<Scalars['Float']['output']>;
   /** 关联外建，哪个用户 */
   user_users?: Maybe<Scalars['Float']['output']>;
@@ -7238,6 +8620,7 @@ export type Shop_Users_Stddev_Samp_Fields = {
 /** order by stddev_samp() on columns of table "shop_users" */
 export type Shop_Users_Stddev_Samp_Order_By = {
   id?: InputMaybe<Order_By>;
+  /** 外键，关联店铺 */
   shop_shops?: InputMaybe<Order_By>;
   /** 关联外建，哪个用户 */
   user_users?: InputMaybe<Order_By>;
@@ -7255,8 +8638,9 @@ export type Shop_Users_Stream_Cursor_Input = {
 export type Shop_Users_Stream_Cursor_Value_Input = {
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
   id?: InputMaybe<Scalars['bigint']['input']>;
-  /** 角色：1.admin（管理员） 2.visitor（访问用户） */
+  /** 角色：[admin（管理员） 、visitor（访问用户）] */
   role?: InputMaybe<Scalars['String']['input']>;
+  /** 外键，关联店铺 */
   shop_shops?: InputMaybe<Scalars['bigint']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   /** 关联外建，哪个用户 */
@@ -7267,6 +8651,7 @@ export type Shop_Users_Stream_Cursor_Value_Input = {
 export type Shop_Users_Sum_Fields = {
   __typename?: 'shop_users_sum_fields';
   id?: Maybe<Scalars['bigint']['output']>;
+  /** 外键，关联店铺 */
   shop_shops?: Maybe<Scalars['bigint']['output']>;
   /** 关联外建，哪个用户 */
   user_users?: Maybe<Scalars['bigint']['output']>;
@@ -7275,6 +8660,7 @@ export type Shop_Users_Sum_Fields = {
 /** order by sum() on columns of table "shop_users" */
 export type Shop_Users_Sum_Order_By = {
   id?: InputMaybe<Order_By>;
+  /** 外键，关联店铺 */
   shop_shops?: InputMaybe<Order_By>;
   /** 关联外建，哪个用户 */
   user_users?: InputMaybe<Order_By>;
@@ -7309,6 +8695,7 @@ export type Shop_Users_Updates = {
 export type Shop_Users_Var_Pop_Fields = {
   __typename?: 'shop_users_var_pop_fields';
   id?: Maybe<Scalars['Float']['output']>;
+  /** 外键，关联店铺 */
   shop_shops?: Maybe<Scalars['Float']['output']>;
   /** 关联外建，哪个用户 */
   user_users?: Maybe<Scalars['Float']['output']>;
@@ -7317,6 +8704,7 @@ export type Shop_Users_Var_Pop_Fields = {
 /** order by var_pop() on columns of table "shop_users" */
 export type Shop_Users_Var_Pop_Order_By = {
   id?: InputMaybe<Order_By>;
+  /** 外键，关联店铺 */
   shop_shops?: InputMaybe<Order_By>;
   /** 关联外建，哪个用户 */
   user_users?: InputMaybe<Order_By>;
@@ -7326,6 +8714,7 @@ export type Shop_Users_Var_Pop_Order_By = {
 export type Shop_Users_Var_Samp_Fields = {
   __typename?: 'shop_users_var_samp_fields';
   id?: Maybe<Scalars['Float']['output']>;
+  /** 外键，关联店铺 */
   shop_shops?: Maybe<Scalars['Float']['output']>;
   /** 关联外建，哪个用户 */
   user_users?: Maybe<Scalars['Float']['output']>;
@@ -7334,6 +8723,7 @@ export type Shop_Users_Var_Samp_Fields = {
 /** order by var_samp() on columns of table "shop_users" */
 export type Shop_Users_Var_Samp_Order_By = {
   id?: InputMaybe<Order_By>;
+  /** 外键，关联店铺 */
   shop_shops?: InputMaybe<Order_By>;
   /** 关联外建，哪个用户 */
   user_users?: InputMaybe<Order_By>;
@@ -7343,6 +8733,7 @@ export type Shop_Users_Var_Samp_Order_By = {
 export type Shop_Users_Variance_Fields = {
   __typename?: 'shop_users_variance_fields';
   id?: Maybe<Scalars['Float']['output']>;
+  /** 外键，关联店铺 */
   shop_shops?: Maybe<Scalars['Float']['output']>;
   /** 关联外建，哪个用户 */
   user_users?: Maybe<Scalars['Float']['output']>;
@@ -7351,6 +8742,7 @@ export type Shop_Users_Variance_Fields = {
 /** order by variance() on columns of table "shop_users" */
 export type Shop_Users_Variance_Order_By = {
   id?: InputMaybe<Order_By>;
+  /** 外键，关联店铺 */
   shop_shops?: InputMaybe<Order_By>;
   /** 关联外建，哪个用户 */
   user_users?: InputMaybe<Order_By>;
@@ -7388,6 +8780,10 @@ export type Shops = {
   /** An aggregate relationship */
   shop_users_aggregate: Shop_Users_Aggregate;
   updated_at: Scalars['timestamptz']['output'];
+  /** An array relationship */
+  users: Array<Users>;
+  /** An aggregate relationship */
+  users_aggregate: Users_Aggregate;
 };
 
 
@@ -7502,6 +8898,26 @@ export type ShopsShop_Users_AggregateArgs = {
   where?: InputMaybe<Shop_Users_Bool_Exp>;
 };
 
+
+/** 店铺表 */
+export type ShopsUsersArgs = {
+  distinct_on?: InputMaybe<Array<Users_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Users_Order_By>>;
+  where?: InputMaybe<Users_Bool_Exp>;
+};
+
+
+/** 店铺表 */
+export type ShopsUsers_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Users_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Users_Order_By>>;
+  where?: InputMaybe<Users_Bool_Exp>;
+};
+
 /** aggregated selection of "shops" */
 export type Shops_Aggregate = {
   __typename?: 'shops_aggregate';
@@ -7559,10 +8975,14 @@ export type Shops_Bool_Exp = {
   shop_users?: InputMaybe<Shop_Users_Bool_Exp>;
   shop_users_aggregate?: InputMaybe<Shop_Users_Aggregate_Bool_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  users?: InputMaybe<Users_Bool_Exp>;
+  users_aggregate?: InputMaybe<Users_Aggregate_Bool_Exp>;
 };
 
 /** unique or primary key constraints on table "shops" */
 export enum Shops_Constraint {
+  /** unique or primary key constraint on columns "name" */
+  ShopsNameKey = 'shops_name_key',
   /** unique or primary key constraint on columns "id" */
   ShopsPkey = 'shops_pkey'
 }
@@ -7588,6 +9008,7 @@ export type Shops_Insert_Input = {
   shop_userorders?: InputMaybe<Shop_Userorders_Arr_Rel_Insert_Input>;
   shop_users?: InputMaybe<Shop_Users_Arr_Rel_Insert_Input>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  users?: InputMaybe<Users_Arr_Rel_Insert_Input>;
 };
 
 /** aggregate max on columns */
@@ -7646,6 +9067,7 @@ export type Shops_Order_By = {
   shop_userorders_aggregate?: InputMaybe<Shop_Userorders_Aggregate_Order_By>;
   shop_users_aggregate?: InputMaybe<Shop_Users_Aggregate_Order_By>;
   updated_at?: InputMaybe<Order_By>;
+  users_aggregate?: InputMaybe<Users_Aggregate_Order_By>;
 };
 
 /** primary key columns input for table: shops */
@@ -7796,6 +9218,14 @@ export type Subscription_Root = {
   buildings_by_pk?: Maybe<Buildings>;
   /** fetch data from the table in a streaming manner: "buildings" */
   buildings_stream: Array<Buildings>;
+  /** An array relationship */
+  campus_users: Array<Campus_Users>;
+  /** An aggregate relationship */
+  campus_users_aggregate: Campus_Users_Aggregate;
+  /** fetch data from the table: "campus_users" using primary key columns */
+  campus_users_by_pk?: Maybe<Campus_Users>;
+  /** fetch data from the table in a streaming manner: "campus_users" */
+  campus_users_stream: Array<Campus_Users>;
   /** fetch data from the table: "campuses" */
   campuses: Array<Campuses>;
   /** fetch aggregated fields from the table: "campuses" */
@@ -7876,17 +9306,17 @@ export type Subscription_Root = {
   user_accounts_by_pk?: Maybe<User_Accounts>;
   /** fetch data from the table in a streaming manner: "user_accounts" */
   user_accounts_stream: Array<User_Accounts>;
-  /** fetch data from the table: "user_addresses" */
+  /** An array relationship */
   user_addresses: Array<User_Addresses>;
-  /** fetch aggregated fields from the table: "user_addresses" */
+  /** An aggregate relationship */
   user_addresses_aggregate: User_Addresses_Aggregate;
   /** fetch data from the table: "user_addresses" using primary key columns */
   user_addresses_by_pk?: Maybe<User_Addresses>;
   /** fetch data from the table in a streaming manner: "user_addresses" */
   user_addresses_stream: Array<User_Addresses>;
-  /** fetch data from the table: "users" */
+  /** An array relationship */
   users: Array<Users>;
-  /** fetch aggregated fields from the table: "users" */
+  /** An aggregate relationship */
   users_aggregate: Users_Aggregate;
   /** fetch data from the table: "users" using primary key columns */
   users_by_pk?: Maybe<Users>;
@@ -7982,6 +9412,36 @@ export type Subscription_RootBuildings_StreamArgs = {
   batch_size: Scalars['Int']['input'];
   cursor: Array<InputMaybe<Buildings_Stream_Cursor_Input>>;
   where?: InputMaybe<Buildings_Bool_Exp>;
+};
+
+
+export type Subscription_RootCampus_UsersArgs = {
+  distinct_on?: InputMaybe<Array<Campus_Users_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Campus_Users_Order_By>>;
+  where?: InputMaybe<Campus_Users_Bool_Exp>;
+};
+
+
+export type Subscription_RootCampus_Users_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Campus_Users_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Campus_Users_Order_By>>;
+  where?: InputMaybe<Campus_Users_Bool_Exp>;
+};
+
+
+export type Subscription_RootCampus_Users_By_PkArgs = {
+  id: Scalars['bigint']['input'];
+};
+
+
+export type Subscription_RootCampus_Users_StreamArgs = {
+  batch_size: Scalars['Int']['input'];
+  cursor: Array<InputMaybe<Campus_Users_Stream_Cursor_Input>>;
+  where?: InputMaybe<Campus_Users_Bool_Exp>;
 };
 
 
@@ -8730,10 +10190,16 @@ export type User_Accounts_Variance_Order_By = {
 /** 用户地址簿 */
 export type User_Addresses = {
   __typename?: 'user_addresses';
+  /** An object relationship */
+  building?: Maybe<Buildings>;
   /** 校内地址时，关联的搂栋 */
   building_buildings?: Maybe<Scalars['bigint']['output']>;
+  /** An object relationship */
+  building_room?: Maybe<Building_Rooms>;
   /** 校内地址时，关联的楼栋房间 */
   building_room_building_rooms?: Maybe<Scalars['bigint']['output']>;
+  /** An object relationship */
+  campus?: Maybe<Campuses>;
   /** 校内地址时，关联的学校 */
   campus_campuses?: Maybe<Scalars['bigint']['output']>;
   created_at: Scalars['timestamptz']['output'];
@@ -8752,11 +10218,35 @@ export type User_Addresses = {
   receiver_phone: Scalars['String']['output'];
   /** 可不填，收货人-省 */
   receiver_province?: Maybe<Scalars['String']['output']>;
-  /** 1.campus(校内)  2.normal(校外) */
+  /** An array relationship */
+  shop_orders: Array<Shop_Orders>;
+  /** An aggregate relationship */
+  shop_orders_aggregate: Shop_Orders_Aggregate;
+  /** 取值：[campus（校内）、normal（校外）] */
   type: Scalars['String']['output'];
   updated_at: Scalars['timestamptz']['output'];
   /** 关联外键，哪个用户的地址 */
   user_users: Scalars['bigint']['output'];
+};
+
+
+/** 用户地址簿 */
+export type User_AddressesShop_OrdersArgs = {
+  distinct_on?: InputMaybe<Array<Shop_Orders_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Shop_Orders_Order_By>>;
+  where?: InputMaybe<Shop_Orders_Bool_Exp>;
+};
+
+
+/** 用户地址簿 */
+export type User_AddressesShop_Orders_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Shop_Orders_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Shop_Orders_Order_By>>;
+  where?: InputMaybe<Shop_Orders_Bool_Exp>;
 };
 
 /** aggregated selection of "user_addresses" */
@@ -8764,6 +10254,33 @@ export type User_Addresses_Aggregate = {
   __typename?: 'user_addresses_aggregate';
   aggregate?: Maybe<User_Addresses_Aggregate_Fields>;
   nodes: Array<User_Addresses>;
+};
+
+export type User_Addresses_Aggregate_Bool_Exp = {
+  bool_and?: InputMaybe<User_Addresses_Aggregate_Bool_Exp_Bool_And>;
+  bool_or?: InputMaybe<User_Addresses_Aggregate_Bool_Exp_Bool_Or>;
+  count?: InputMaybe<User_Addresses_Aggregate_Bool_Exp_Count>;
+};
+
+export type User_Addresses_Aggregate_Bool_Exp_Bool_And = {
+  arguments: User_Addresses_Select_Column_User_Addresses_Aggregate_Bool_Exp_Bool_And_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<User_Addresses_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type User_Addresses_Aggregate_Bool_Exp_Bool_Or = {
+  arguments: User_Addresses_Select_Column_User_Addresses_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<User_Addresses_Bool_Exp>;
+  predicate: Boolean_Comparison_Exp;
+};
+
+export type User_Addresses_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<User_Addresses_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<User_Addresses_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
 };
 
 /** aggregate fields of "user_addresses" */
@@ -8789,6 +10306,28 @@ export type User_Addresses_Aggregate_FieldsCountArgs = {
   distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+/** order by aggregate values of table "user_addresses" */
+export type User_Addresses_Aggregate_Order_By = {
+  avg?: InputMaybe<User_Addresses_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<User_Addresses_Max_Order_By>;
+  min?: InputMaybe<User_Addresses_Min_Order_By>;
+  stddev?: InputMaybe<User_Addresses_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<User_Addresses_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<User_Addresses_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<User_Addresses_Sum_Order_By>;
+  var_pop?: InputMaybe<User_Addresses_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<User_Addresses_Var_Samp_Order_By>;
+  variance?: InputMaybe<User_Addresses_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "user_addresses" */
+export type User_Addresses_Arr_Rel_Insert_Input = {
+  data: Array<User_Addresses_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<User_Addresses_On_Conflict>;
+};
+
 /** aggregate avg on columns */
 export type User_Addresses_Avg_Fields = {
   __typename?: 'user_addresses_avg_fields';
@@ -8803,13 +10342,29 @@ export type User_Addresses_Avg_Fields = {
   user_users?: Maybe<Scalars['Float']['output']>;
 };
 
+/** order by avg() on columns of table "user_addresses" */
+export type User_Addresses_Avg_Order_By = {
+  /** 校内地址时，关联的搂栋 */
+  building_buildings?: InputMaybe<Order_By>;
+  /** 校内地址时，关联的楼栋房间 */
+  building_room_building_rooms?: InputMaybe<Order_By>;
+  /** 校内地址时，关联的学校 */
+  campus_campuses?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  /** 关联外键，哪个用户的地址 */
+  user_users?: InputMaybe<Order_By>;
+};
+
 /** Boolean expression to filter rows from the table "user_addresses". All fields are combined with a logical 'AND'. */
 export type User_Addresses_Bool_Exp = {
   _and?: InputMaybe<Array<User_Addresses_Bool_Exp>>;
   _not?: InputMaybe<User_Addresses_Bool_Exp>;
   _or?: InputMaybe<Array<User_Addresses_Bool_Exp>>;
+  building?: InputMaybe<Buildings_Bool_Exp>;
   building_buildings?: InputMaybe<Bigint_Comparison_Exp>;
+  building_room?: InputMaybe<Building_Rooms_Bool_Exp>;
   building_room_building_rooms?: InputMaybe<Bigint_Comparison_Exp>;
+  campus?: InputMaybe<Campuses_Bool_Exp>;
   campus_campuses?: InputMaybe<Bigint_Comparison_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   id?: InputMaybe<Bigint_Comparison_Exp>;
@@ -8820,6 +10375,8 @@ export type User_Addresses_Bool_Exp = {
   receiver_name?: InputMaybe<String_Comparison_Exp>;
   receiver_phone?: InputMaybe<String_Comparison_Exp>;
   receiver_province?: InputMaybe<String_Comparison_Exp>;
+  shop_orders?: InputMaybe<Shop_Orders_Bool_Exp>;
+  shop_orders_aggregate?: InputMaybe<Shop_Orders_Aggregate_Bool_Exp>;
   type?: InputMaybe<String_Comparison_Exp>;
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>;
   user_users?: InputMaybe<Bigint_Comparison_Exp>;
@@ -8846,10 +10403,13 @@ export type User_Addresses_Inc_Input = {
 
 /** input type for inserting data into table "user_addresses" */
 export type User_Addresses_Insert_Input = {
+  building?: InputMaybe<Buildings_Obj_Rel_Insert_Input>;
   /** 校内地址时，关联的搂栋 */
   building_buildings?: InputMaybe<Scalars['bigint']['input']>;
+  building_room?: InputMaybe<Building_Rooms_Obj_Rel_Insert_Input>;
   /** 校内地址时，关联的楼栋房间 */
   building_room_building_rooms?: InputMaybe<Scalars['bigint']['input']>;
+  campus?: InputMaybe<Campuses_Obj_Rel_Insert_Input>;
   /** 校内地址时，关联的学校 */
   campus_campuses?: InputMaybe<Scalars['bigint']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
@@ -8868,7 +10428,8 @@ export type User_Addresses_Insert_Input = {
   receiver_phone?: InputMaybe<Scalars['String']['input']>;
   /** 可不填，收货人-省 */
   receiver_province?: InputMaybe<Scalars['String']['input']>;
-  /** 1.campus(校内)  2.normal(校外) */
+  shop_orders?: InputMaybe<Shop_Orders_Arr_Rel_Insert_Input>;
+  /** 取值：[campus（校内）、normal（校外）] */
   type?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   /** 关联外键，哪个用户的地址 */
@@ -8898,11 +10459,40 @@ export type User_Addresses_Max_Fields = {
   receiver_phone?: Maybe<Scalars['String']['output']>;
   /** 可不填，收货人-省 */
   receiver_province?: Maybe<Scalars['String']['output']>;
-  /** 1.campus(校内)  2.normal(校外) */
+  /** 取值：[campus（校内）、normal（校外）] */
   type?: Maybe<Scalars['String']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
   /** 关联外键，哪个用户的地址 */
   user_users?: Maybe<Scalars['bigint']['output']>;
+};
+
+/** order by max() on columns of table "user_addresses" */
+export type User_Addresses_Max_Order_By = {
+  /** 校内地址时，关联的搂栋 */
+  building_buildings?: InputMaybe<Order_By>;
+  /** 校内地址时，关联的楼栋房间 */
+  building_room_building_rooms?: InputMaybe<Order_By>;
+  /** 校内地址时，关联的学校 */
+  campus_campuses?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  /** 收货人完整地址 */
+  receiver_address?: InputMaybe<Order_By>;
+  /** 可不填，收货人-市 */
+  receiver_city?: InputMaybe<Order_By>;
+  /** 可不填，收货人-区 */
+  receiver_district?: InputMaybe<Order_By>;
+  /** 收货人姓名 */
+  receiver_name?: InputMaybe<Order_By>;
+  /** 收获人电话 */
+  receiver_phone?: InputMaybe<Order_By>;
+  /** 可不填，收货人-省 */
+  receiver_province?: InputMaybe<Order_By>;
+  /** 取值：[campus（校内）、normal（校外）] */
+  type?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  /** 关联外键，哪个用户的地址 */
+  user_users?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
@@ -8928,11 +10518,40 @@ export type User_Addresses_Min_Fields = {
   receiver_phone?: Maybe<Scalars['String']['output']>;
   /** 可不填，收货人-省 */
   receiver_province?: Maybe<Scalars['String']['output']>;
-  /** 1.campus(校内)  2.normal(校外) */
+  /** 取值：[campus（校内）、normal（校外）] */
   type?: Maybe<Scalars['String']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
   /** 关联外键，哪个用户的地址 */
   user_users?: Maybe<Scalars['bigint']['output']>;
+};
+
+/** order by min() on columns of table "user_addresses" */
+export type User_Addresses_Min_Order_By = {
+  /** 校内地址时，关联的搂栋 */
+  building_buildings?: InputMaybe<Order_By>;
+  /** 校内地址时，关联的楼栋房间 */
+  building_room_building_rooms?: InputMaybe<Order_By>;
+  /** 校内地址时，关联的学校 */
+  campus_campuses?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  /** 收货人完整地址 */
+  receiver_address?: InputMaybe<Order_By>;
+  /** 可不填，收货人-市 */
+  receiver_city?: InputMaybe<Order_By>;
+  /** 可不填，收货人-区 */
+  receiver_district?: InputMaybe<Order_By>;
+  /** 收货人姓名 */
+  receiver_name?: InputMaybe<Order_By>;
+  /** 收获人电话 */
+  receiver_phone?: InputMaybe<Order_By>;
+  /** 可不填，收货人-省 */
+  receiver_province?: InputMaybe<Order_By>;
+  /** 取值：[campus（校内）、normal（校外）] */
+  type?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
+  /** 关联外键，哪个用户的地址 */
+  user_users?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "user_addresses" */
@@ -8944,6 +10563,13 @@ export type User_Addresses_Mutation_Response = {
   returning: Array<User_Addresses>;
 };
 
+/** input type for inserting object relation for remote table "user_addresses" */
+export type User_Addresses_Obj_Rel_Insert_Input = {
+  data: User_Addresses_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<User_Addresses_On_Conflict>;
+};
+
 /** on_conflict condition type for table "user_addresses" */
 export type User_Addresses_On_Conflict = {
   constraint: User_Addresses_Constraint;
@@ -8953,8 +10579,11 @@ export type User_Addresses_On_Conflict = {
 
 /** Ordering options when selecting data from "user_addresses". */
 export type User_Addresses_Order_By = {
+  building?: InputMaybe<Buildings_Order_By>;
   building_buildings?: InputMaybe<Order_By>;
+  building_room?: InputMaybe<Building_Rooms_Order_By>;
   building_room_building_rooms?: InputMaybe<Order_By>;
+  campus?: InputMaybe<Campuses_Order_By>;
   campus_campuses?: InputMaybe<Order_By>;
   created_at?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
@@ -8965,6 +10594,7 @@ export type User_Addresses_Order_By = {
   receiver_name?: InputMaybe<Order_By>;
   receiver_phone?: InputMaybe<Order_By>;
   receiver_province?: InputMaybe<Order_By>;
+  shop_orders_aggregate?: InputMaybe<Shop_Orders_Aggregate_Order_By>;
   type?: InputMaybe<Order_By>;
   updated_at?: InputMaybe<Order_By>;
   user_users?: InputMaybe<Order_By>;
@@ -9009,6 +10639,18 @@ export enum User_Addresses_Select_Column {
   UserUsers = 'user_users'
 }
 
+/** select "user_addresses_aggregate_bool_exp_bool_and_arguments_columns" columns of table "user_addresses" */
+export enum User_Addresses_Select_Column_User_Addresses_Aggregate_Bool_Exp_Bool_And_Arguments_Columns {
+  /** column name */
+  IsDefault = 'is_default'
+}
+
+/** select "user_addresses_aggregate_bool_exp_bool_or_arguments_columns" columns of table "user_addresses" */
+export enum User_Addresses_Select_Column_User_Addresses_Aggregate_Bool_Exp_Bool_Or_Arguments_Columns {
+  /** column name */
+  IsDefault = 'is_default'
+}
+
 /** input type for updating data in table "user_addresses" */
 export type User_Addresses_Set_Input = {
   /** 校内地址时，关联的搂栋 */
@@ -9033,7 +10675,7 @@ export type User_Addresses_Set_Input = {
   receiver_phone?: InputMaybe<Scalars['String']['input']>;
   /** 可不填，收货人-省 */
   receiver_province?: InputMaybe<Scalars['String']['input']>;
-  /** 1.campus(校内)  2.normal(校外) */
+  /** 取值：[campus（校内）、normal（校外）] */
   type?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   /** 关联外键，哪个用户的地址 */
@@ -9054,6 +10696,19 @@ export type User_Addresses_Stddev_Fields = {
   user_users?: Maybe<Scalars['Float']['output']>;
 };
 
+/** order by stddev() on columns of table "user_addresses" */
+export type User_Addresses_Stddev_Order_By = {
+  /** 校内地址时，关联的搂栋 */
+  building_buildings?: InputMaybe<Order_By>;
+  /** 校内地址时，关联的楼栋房间 */
+  building_room_building_rooms?: InputMaybe<Order_By>;
+  /** 校内地址时，关联的学校 */
+  campus_campuses?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  /** 关联外键，哪个用户的地址 */
+  user_users?: InputMaybe<Order_By>;
+};
+
 /** aggregate stddev_pop on columns */
 export type User_Addresses_Stddev_Pop_Fields = {
   __typename?: 'user_addresses_stddev_pop_fields';
@@ -9068,6 +10723,19 @@ export type User_Addresses_Stddev_Pop_Fields = {
   user_users?: Maybe<Scalars['Float']['output']>;
 };
 
+/** order by stddev_pop() on columns of table "user_addresses" */
+export type User_Addresses_Stddev_Pop_Order_By = {
+  /** 校内地址时，关联的搂栋 */
+  building_buildings?: InputMaybe<Order_By>;
+  /** 校内地址时，关联的楼栋房间 */
+  building_room_building_rooms?: InputMaybe<Order_By>;
+  /** 校内地址时，关联的学校 */
+  campus_campuses?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  /** 关联外键，哪个用户的地址 */
+  user_users?: InputMaybe<Order_By>;
+};
+
 /** aggregate stddev_samp on columns */
 export type User_Addresses_Stddev_Samp_Fields = {
   __typename?: 'user_addresses_stddev_samp_fields';
@@ -9080,6 +10748,19 @@ export type User_Addresses_Stddev_Samp_Fields = {
   id?: Maybe<Scalars['Float']['output']>;
   /** 关联外键，哪个用户的地址 */
   user_users?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by stddev_samp() on columns of table "user_addresses" */
+export type User_Addresses_Stddev_Samp_Order_By = {
+  /** 校内地址时，关联的搂栋 */
+  building_buildings?: InputMaybe<Order_By>;
+  /** 校内地址时，关联的楼栋房间 */
+  building_room_building_rooms?: InputMaybe<Order_By>;
+  /** 校内地址时，关联的学校 */
+  campus_campuses?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  /** 关联外键，哪个用户的地址 */
+  user_users?: InputMaybe<Order_By>;
 };
 
 /** Streaming cursor of the table "user_addresses" */
@@ -9114,7 +10795,7 @@ export type User_Addresses_Stream_Cursor_Value_Input = {
   receiver_phone?: InputMaybe<Scalars['String']['input']>;
   /** 可不填，收货人-省 */
   receiver_province?: InputMaybe<Scalars['String']['input']>;
-  /** 1.campus(校内)  2.normal(校外) */
+  /** 取值：[campus（校内）、normal（校外）] */
   type?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
   /** 关联外键，哪个用户的地址 */
@@ -9133,6 +10814,19 @@ export type User_Addresses_Sum_Fields = {
   id?: Maybe<Scalars['bigint']['output']>;
   /** 关联外键，哪个用户的地址 */
   user_users?: Maybe<Scalars['bigint']['output']>;
+};
+
+/** order by sum() on columns of table "user_addresses" */
+export type User_Addresses_Sum_Order_By = {
+  /** 校内地址时，关联的搂栋 */
+  building_buildings?: InputMaybe<Order_By>;
+  /** 校内地址时，关联的楼栋房间 */
+  building_room_building_rooms?: InputMaybe<Order_By>;
+  /** 校内地址时，关联的学校 */
+  campus_campuses?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  /** 关联外键，哪个用户的地址 */
+  user_users?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "user_addresses" */
@@ -9192,6 +10886,19 @@ export type User_Addresses_Var_Pop_Fields = {
   user_users?: Maybe<Scalars['Float']['output']>;
 };
 
+/** order by var_pop() on columns of table "user_addresses" */
+export type User_Addresses_Var_Pop_Order_By = {
+  /** 校内地址时，关联的搂栋 */
+  building_buildings?: InputMaybe<Order_By>;
+  /** 校内地址时，关联的楼栋房间 */
+  building_room_building_rooms?: InputMaybe<Order_By>;
+  /** 校内地址时，关联的学校 */
+  campus_campuses?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  /** 关联外键，哪个用户的地址 */
+  user_users?: InputMaybe<Order_By>;
+};
+
 /** aggregate var_samp on columns */
 export type User_Addresses_Var_Samp_Fields = {
   __typename?: 'user_addresses_var_samp_fields';
@@ -9204,6 +10911,19 @@ export type User_Addresses_Var_Samp_Fields = {
   id?: Maybe<Scalars['Float']['output']>;
   /** 关联外键，哪个用户的地址 */
   user_users?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by var_samp() on columns of table "user_addresses" */
+export type User_Addresses_Var_Samp_Order_By = {
+  /** 校内地址时，关联的搂栋 */
+  building_buildings?: InputMaybe<Order_By>;
+  /** 校内地址时，关联的楼栋房间 */
+  building_room_building_rooms?: InputMaybe<Order_By>;
+  /** 校内地址时，关联的学校 */
+  campus_campuses?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  /** 关联外键，哪个用户的地址 */
+  user_users?: InputMaybe<Order_By>;
 };
 
 /** aggregate variance on columns */
@@ -9220,6 +10940,19 @@ export type User_Addresses_Variance_Fields = {
   user_users?: Maybe<Scalars['Float']['output']>;
 };
 
+/** order by variance() on columns of table "user_addresses" */
+export type User_Addresses_Variance_Order_By = {
+  /** 校内地址时，关联的搂栋 */
+  building_buildings?: InputMaybe<Order_By>;
+  /** 校内地址时，关联的楼栋房间 */
+  building_room_building_rooms?: InputMaybe<Order_By>;
+  /** 校内地址时，关联的学校 */
+  campus_campuses?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  /** 关联外键，哪个用户的地址 */
+  user_users?: InputMaybe<Order_By>;
+};
+
 /** 用户表 */
 export type Users = {
   __typename?: 'users';
@@ -9227,7 +10960,17 @@ export type Users = {
   avatar_url?: Maybe<Scalars['String']['output']>;
   /** 用户简介，富文本 */
   bio?: Maybe<Scalars['String']['output']>;
+  /** An object relationship */
+  campus?: Maybe<Campuses>;
+  /** An array relationship */
+  campus_users: Array<Campus_Users>;
+  /** An aggregate relationship */
+  campus_users_aggregate: Campus_Users_Aggregate;
   created_at: Scalars['timestamptz']['output'];
+  /** 记录用户默认的学校id，方便下次访问时知道要进入哪个学校 */
+  default_campus_id?: Maybe<Scalars['bigint']['output']>;
+  /** 记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺 */
+  default_shop_id?: Maybe<Scalars['bigint']['output']>;
   /** 用户邮箱账号 */
   email?: Maybe<Scalars['String']['output']>;
   id: Scalars['bigint']['output'];
@@ -9237,10 +10980,22 @@ export type Users = {
   nickname?: Maybe<Scalars['String']['output']>;
   /** 密码，md5 32位小写 */
   password?: Maybe<Scalars['String']['output']>;
+  /** 角色 ：1、admin（平台管理员）2、user（普通用户） */
+  role: Scalars['String']['output'];
+  /** An object relationship */
+  shop?: Maybe<Shops>;
+  /** An array relationship */
+  shopUserordersByCreatedByUsers: Array<Shop_Userorders>;
+  /** An aggregate relationship */
+  shopUserordersByCreatedByUsers_aggregate: Shop_Userorders_Aggregate;
   /** An array relationship */
   shop_carts: Array<Shop_Carts>;
   /** An aggregate relationship */
   shop_carts_aggregate: Shop_Carts_Aggregate;
+  /** An array relationship */
+  shop_orders: Array<Shop_Orders>;
+  /** An aggregate relationship */
+  shop_orders_aggregate: Shop_Orders_Aggregate;
   /** An array relationship */
   shop_userorders: Array<Shop_Userorders>;
   /** An aggregate relationship */
@@ -9254,6 +11009,46 @@ export type Users = {
   user_accounts: Array<User_Accounts>;
   /** An aggregate relationship */
   user_accounts_aggregate: User_Accounts_Aggregate;
+};
+
+
+/** 用户表 */
+export type UsersCampus_UsersArgs = {
+  distinct_on?: InputMaybe<Array<Campus_Users_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Campus_Users_Order_By>>;
+  where?: InputMaybe<Campus_Users_Bool_Exp>;
+};
+
+
+/** 用户表 */
+export type UsersCampus_Users_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Campus_Users_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Campus_Users_Order_By>>;
+  where?: InputMaybe<Campus_Users_Bool_Exp>;
+};
+
+
+/** 用户表 */
+export type UsersShopUserordersByCreatedByUsersArgs = {
+  distinct_on?: InputMaybe<Array<Shop_Userorders_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Shop_Userorders_Order_By>>;
+  where?: InputMaybe<Shop_Userorders_Bool_Exp>;
+};
+
+
+/** 用户表 */
+export type UsersShopUserordersByCreatedByUsers_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Shop_Userorders_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Shop_Userorders_Order_By>>;
+  where?: InputMaybe<Shop_Userorders_Bool_Exp>;
 };
 
 
@@ -9274,6 +11069,26 @@ export type UsersShop_Carts_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   order_by?: InputMaybe<Array<Shop_Carts_Order_By>>;
   where?: InputMaybe<Shop_Carts_Bool_Exp>;
+};
+
+
+/** 用户表 */
+export type UsersShop_OrdersArgs = {
+  distinct_on?: InputMaybe<Array<Shop_Orders_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Shop_Orders_Order_By>>;
+  where?: InputMaybe<Shop_Orders_Bool_Exp>;
+};
+
+
+/** 用户表 */
+export type UsersShop_Orders_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Shop_Orders_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order_by?: InputMaybe<Array<Shop_Orders_Order_By>>;
+  where?: InputMaybe<Shop_Orders_Bool_Exp>;
 };
 
 
@@ -9343,6 +11158,17 @@ export type Users_Aggregate = {
   nodes: Array<Users>;
 };
 
+export type Users_Aggregate_Bool_Exp = {
+  count?: InputMaybe<Users_Aggregate_Bool_Exp_Count>;
+};
+
+export type Users_Aggregate_Bool_Exp_Count = {
+  arguments?: InputMaybe<Array<Users_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']['input']>;
+  filter?: InputMaybe<Users_Bool_Exp>;
+  predicate: Int_Comparison_Exp;
+};
+
 /** aggregate fields of "users" */
 export type Users_Aggregate_Fields = {
   __typename?: 'users_aggregate_fields';
@@ -9366,10 +11192,45 @@ export type Users_Aggregate_FieldsCountArgs = {
   distinct?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
+/** order by aggregate values of table "users" */
+export type Users_Aggregate_Order_By = {
+  avg?: InputMaybe<Users_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Users_Max_Order_By>;
+  min?: InputMaybe<Users_Min_Order_By>;
+  stddev?: InputMaybe<Users_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Users_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Users_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Users_Sum_Order_By>;
+  var_pop?: InputMaybe<Users_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Users_Var_Samp_Order_By>;
+  variance?: InputMaybe<Users_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "users" */
+export type Users_Arr_Rel_Insert_Input = {
+  data: Array<Users_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Users_On_Conflict>;
+};
+
 /** aggregate avg on columns */
 export type Users_Avg_Fields = {
   __typename?: 'users_avg_fields';
+  /** 记录用户默认的学校id，方便下次访问时知道要进入哪个学校 */
+  default_campus_id?: Maybe<Scalars['Float']['output']>;
+  /** 记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺 */
+  default_shop_id?: Maybe<Scalars['Float']['output']>;
   id?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by avg() on columns of table "users" */
+export type Users_Avg_Order_By = {
+  /** 记录用户默认的学校id，方便下次访问时知道要进入哪个学校 */
+  default_campus_id?: InputMaybe<Order_By>;
+  /** 记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺 */
+  default_shop_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "users". All fields are combined with a logical 'AND'. */
@@ -9379,14 +11240,25 @@ export type Users_Bool_Exp = {
   _or?: InputMaybe<Array<Users_Bool_Exp>>;
   avatar_url?: InputMaybe<String_Comparison_Exp>;
   bio?: InputMaybe<String_Comparison_Exp>;
+  campus?: InputMaybe<Campuses_Bool_Exp>;
+  campus_users?: InputMaybe<Campus_Users_Bool_Exp>;
+  campus_users_aggregate?: InputMaybe<Campus_Users_Aggregate_Bool_Exp>;
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  default_campus_id?: InputMaybe<Bigint_Comparison_Exp>;
+  default_shop_id?: InputMaybe<Bigint_Comparison_Exp>;
   email?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<Bigint_Comparison_Exp>;
   mobile?: InputMaybe<String_Comparison_Exp>;
   nickname?: InputMaybe<String_Comparison_Exp>;
   password?: InputMaybe<String_Comparison_Exp>;
+  role?: InputMaybe<String_Comparison_Exp>;
+  shop?: InputMaybe<Shops_Bool_Exp>;
+  shopUserordersByCreatedByUsers?: InputMaybe<Shop_Userorders_Bool_Exp>;
+  shopUserordersByCreatedByUsers_aggregate?: InputMaybe<Shop_Userorders_Aggregate_Bool_Exp>;
   shop_carts?: InputMaybe<Shop_Carts_Bool_Exp>;
   shop_carts_aggregate?: InputMaybe<Shop_Carts_Aggregate_Bool_Exp>;
+  shop_orders?: InputMaybe<Shop_Orders_Bool_Exp>;
+  shop_orders_aggregate?: InputMaybe<Shop_Orders_Aggregate_Bool_Exp>;
   shop_userorders?: InputMaybe<Shop_Userorders_Bool_Exp>;
   shop_userorders_aggregate?: InputMaybe<Shop_Userorders_Aggregate_Bool_Exp>;
   shop_users?: InputMaybe<Shop_Users_Bool_Exp>;
@@ -9406,6 +11278,10 @@ export enum Users_Constraint {
 
 /** input type for incrementing numeric columns in table "users" */
 export type Users_Inc_Input = {
+  /** 记录用户默认的学校id，方便下次访问时知道要进入哪个学校 */
+  default_campus_id?: InputMaybe<Scalars['bigint']['input']>;
+  /** 记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺 */
+  default_shop_id?: InputMaybe<Scalars['bigint']['input']>;
   id?: InputMaybe<Scalars['bigint']['input']>;
 };
 
@@ -9415,7 +11291,13 @@ export type Users_Insert_Input = {
   avatar_url?: InputMaybe<Scalars['String']['input']>;
   /** 用户简介，富文本 */
   bio?: InputMaybe<Scalars['String']['input']>;
+  campus?: InputMaybe<Campuses_Obj_Rel_Insert_Input>;
+  campus_users?: InputMaybe<Campus_Users_Arr_Rel_Insert_Input>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  /** 记录用户默认的学校id，方便下次访问时知道要进入哪个学校 */
+  default_campus_id?: InputMaybe<Scalars['bigint']['input']>;
+  /** 记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺 */
+  default_shop_id?: InputMaybe<Scalars['bigint']['input']>;
   /** 用户邮箱账号 */
   email?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['bigint']['input']>;
@@ -9425,7 +11307,12 @@ export type Users_Insert_Input = {
   nickname?: InputMaybe<Scalars['String']['input']>;
   /** 密码，md5 32位小写 */
   password?: InputMaybe<Scalars['String']['input']>;
+  /** 角色 ：1、admin（平台管理员）2、user（普通用户） */
+  role?: InputMaybe<Scalars['String']['input']>;
+  shop?: InputMaybe<Shops_Obj_Rel_Insert_Input>;
+  shopUserordersByCreatedByUsers?: InputMaybe<Shop_Userorders_Arr_Rel_Insert_Input>;
   shop_carts?: InputMaybe<Shop_Carts_Arr_Rel_Insert_Input>;
+  shop_orders?: InputMaybe<Shop_Orders_Arr_Rel_Insert_Input>;
   shop_userorders?: InputMaybe<Shop_Userorders_Arr_Rel_Insert_Input>;
   shop_users?: InputMaybe<Shop_Users_Arr_Rel_Insert_Input>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
@@ -9440,6 +11327,10 @@ export type Users_Max_Fields = {
   /** 用户简介，富文本 */
   bio?: Maybe<Scalars['String']['output']>;
   created_at?: Maybe<Scalars['timestamptz']['output']>;
+  /** 记录用户默认的学校id，方便下次访问时知道要进入哪个学校 */
+  default_campus_id?: Maybe<Scalars['bigint']['output']>;
+  /** 记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺 */
+  default_shop_id?: Maybe<Scalars['bigint']['output']>;
   /** 用户邮箱账号 */
   email?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['bigint']['output']>;
@@ -9449,7 +11340,34 @@ export type Users_Max_Fields = {
   nickname?: Maybe<Scalars['String']['output']>;
   /** 密码，md5 32位小写 */
   password?: Maybe<Scalars['String']['output']>;
+  /** 角色 ：1、admin（平台管理员）2、user（普通用户） */
+  role?: Maybe<Scalars['String']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
+};
+
+/** order by max() on columns of table "users" */
+export type Users_Max_Order_By = {
+  /** 用户头像url */
+  avatar_url?: InputMaybe<Order_By>;
+  /** 用户简介，富文本 */
+  bio?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  /** 记录用户默认的学校id，方便下次访问时知道要进入哪个学校 */
+  default_campus_id?: InputMaybe<Order_By>;
+  /** 记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺 */
+  default_shop_id?: InputMaybe<Order_By>;
+  /** 用户邮箱账号 */
+  email?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  /** 手机号 */
+  mobile?: InputMaybe<Order_By>;
+  /** 用户昵称 */
+  nickname?: InputMaybe<Order_By>;
+  /** 密码，md5 32位小写 */
+  password?: InputMaybe<Order_By>;
+  /** 角色 ：1、admin（平台管理员）2、user（普通用户） */
+  role?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
@@ -9460,6 +11378,10 @@ export type Users_Min_Fields = {
   /** 用户简介，富文本 */
   bio?: Maybe<Scalars['String']['output']>;
   created_at?: Maybe<Scalars['timestamptz']['output']>;
+  /** 记录用户默认的学校id，方便下次访问时知道要进入哪个学校 */
+  default_campus_id?: Maybe<Scalars['bigint']['output']>;
+  /** 记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺 */
+  default_shop_id?: Maybe<Scalars['bigint']['output']>;
   /** 用户邮箱账号 */
   email?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['bigint']['output']>;
@@ -9469,7 +11391,34 @@ export type Users_Min_Fields = {
   nickname?: Maybe<Scalars['String']['output']>;
   /** 密码，md5 32位小写 */
   password?: Maybe<Scalars['String']['output']>;
+  /** 角色 ：1、admin（平台管理员）2、user（普通用户） */
+  role?: Maybe<Scalars['String']['output']>;
   updated_at?: Maybe<Scalars['timestamptz']['output']>;
+};
+
+/** order by min() on columns of table "users" */
+export type Users_Min_Order_By = {
+  /** 用户头像url */
+  avatar_url?: InputMaybe<Order_By>;
+  /** 用户简介，富文本 */
+  bio?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  /** 记录用户默认的学校id，方便下次访问时知道要进入哪个学校 */
+  default_campus_id?: InputMaybe<Order_By>;
+  /** 记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺 */
+  default_shop_id?: InputMaybe<Order_By>;
+  /** 用户邮箱账号 */
+  email?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  /** 手机号 */
+  mobile?: InputMaybe<Order_By>;
+  /** 用户昵称 */
+  nickname?: InputMaybe<Order_By>;
+  /** 密码，md5 32位小写 */
+  password?: InputMaybe<Order_By>;
+  /** 角色 ：1、admin（平台管理员）2、user（普通用户） */
+  role?: InputMaybe<Order_By>;
+  updated_at?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "users" */
@@ -9499,13 +11448,21 @@ export type Users_On_Conflict = {
 export type Users_Order_By = {
   avatar_url?: InputMaybe<Order_By>;
   bio?: InputMaybe<Order_By>;
+  campus?: InputMaybe<Campuses_Order_By>;
+  campus_users_aggregate?: InputMaybe<Campus_Users_Aggregate_Order_By>;
   created_at?: InputMaybe<Order_By>;
+  default_campus_id?: InputMaybe<Order_By>;
+  default_shop_id?: InputMaybe<Order_By>;
   email?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   mobile?: InputMaybe<Order_By>;
   nickname?: InputMaybe<Order_By>;
   password?: InputMaybe<Order_By>;
+  role?: InputMaybe<Order_By>;
+  shop?: InputMaybe<Shops_Order_By>;
+  shopUserordersByCreatedByUsers_aggregate?: InputMaybe<Shop_Userorders_Aggregate_Order_By>;
   shop_carts_aggregate?: InputMaybe<Shop_Carts_Aggregate_Order_By>;
+  shop_orders_aggregate?: InputMaybe<Shop_Orders_Aggregate_Order_By>;
   shop_userorders_aggregate?: InputMaybe<Shop_Userorders_Aggregate_Order_By>;
   shop_users_aggregate?: InputMaybe<Shop_Users_Aggregate_Order_By>;
   updated_at?: InputMaybe<Order_By>;
@@ -9526,6 +11483,10 @@ export enum Users_Select_Column {
   /** column name */
   CreatedAt = 'created_at',
   /** column name */
+  DefaultCampusId = 'default_campus_id',
+  /** column name */
+  DefaultShopId = 'default_shop_id',
+  /** column name */
   Email = 'email',
   /** column name */
   Id = 'id',
@@ -9535,6 +11496,8 @@ export enum Users_Select_Column {
   Nickname = 'nickname',
   /** column name */
   Password = 'password',
+  /** column name */
+  Role = 'role',
   /** column name */
   UpdatedAt = 'updated_at'
 }
@@ -9546,6 +11509,10 @@ export type Users_Set_Input = {
   /** 用户简介，富文本 */
   bio?: InputMaybe<Scalars['String']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  /** 记录用户默认的学校id，方便下次访问时知道要进入哪个学校 */
+  default_campus_id?: InputMaybe<Scalars['bigint']['input']>;
+  /** 记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺 */
+  default_shop_id?: InputMaybe<Scalars['bigint']['input']>;
   /** 用户邮箱账号 */
   email?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['bigint']['input']>;
@@ -9555,25 +11522,66 @@ export type Users_Set_Input = {
   nickname?: InputMaybe<Scalars['String']['input']>;
   /** 密码，md5 32位小写 */
   password?: InputMaybe<Scalars['String']['input']>;
+  /** 角色 ：1、admin（平台管理员）2、user（普通用户） */
+  role?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
 /** aggregate stddev on columns */
 export type Users_Stddev_Fields = {
   __typename?: 'users_stddev_fields';
+  /** 记录用户默认的学校id，方便下次访问时知道要进入哪个学校 */
+  default_campus_id?: Maybe<Scalars['Float']['output']>;
+  /** 记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺 */
+  default_shop_id?: Maybe<Scalars['Float']['output']>;
   id?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by stddev() on columns of table "users" */
+export type Users_Stddev_Order_By = {
+  /** 记录用户默认的学校id，方便下次访问时知道要进入哪个学校 */
+  default_campus_id?: InputMaybe<Order_By>;
+  /** 记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺 */
+  default_shop_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Users_Stddev_Pop_Fields = {
   __typename?: 'users_stddev_pop_fields';
+  /** 记录用户默认的学校id，方便下次访问时知道要进入哪个学校 */
+  default_campus_id?: Maybe<Scalars['Float']['output']>;
+  /** 记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺 */
+  default_shop_id?: Maybe<Scalars['Float']['output']>;
   id?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by stddev_pop() on columns of table "users" */
+export type Users_Stddev_Pop_Order_By = {
+  /** 记录用户默认的学校id，方便下次访问时知道要进入哪个学校 */
+  default_campus_id?: InputMaybe<Order_By>;
+  /** 记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺 */
+  default_shop_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Users_Stddev_Samp_Fields = {
   __typename?: 'users_stddev_samp_fields';
+  /** 记录用户默认的学校id，方便下次访问时知道要进入哪个学校 */
+  default_campus_id?: Maybe<Scalars['Float']['output']>;
+  /** 记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺 */
+  default_shop_id?: Maybe<Scalars['Float']['output']>;
   id?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by stddev_samp() on columns of table "users" */
+export type Users_Stddev_Samp_Order_By = {
+  /** 记录用户默认的学校id，方便下次访问时知道要进入哪个学校 */
+  default_campus_id?: InputMaybe<Order_By>;
+  /** 记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺 */
+  default_shop_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
 };
 
 /** Streaming cursor of the table "users" */
@@ -9591,6 +11599,10 @@ export type Users_Stream_Cursor_Value_Input = {
   /** 用户简介，富文本 */
   bio?: InputMaybe<Scalars['String']['input']>;
   created_at?: InputMaybe<Scalars['timestamptz']['input']>;
+  /** 记录用户默认的学校id，方便下次访问时知道要进入哪个学校 */
+  default_campus_id?: InputMaybe<Scalars['bigint']['input']>;
+  /** 记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺 */
+  default_shop_id?: InputMaybe<Scalars['bigint']['input']>;
   /** 用户邮箱账号 */
   email?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['bigint']['input']>;
@@ -9600,13 +11612,28 @@ export type Users_Stream_Cursor_Value_Input = {
   nickname?: InputMaybe<Scalars['String']['input']>;
   /** 密码，md5 32位小写 */
   password?: InputMaybe<Scalars['String']['input']>;
+  /** 角色 ：1、admin（平台管理员）2、user（普通用户） */
+  role?: InputMaybe<Scalars['String']['input']>;
   updated_at?: InputMaybe<Scalars['timestamptz']['input']>;
 };
 
 /** aggregate sum on columns */
 export type Users_Sum_Fields = {
   __typename?: 'users_sum_fields';
+  /** 记录用户默认的学校id，方便下次访问时知道要进入哪个学校 */
+  default_campus_id?: Maybe<Scalars['bigint']['output']>;
+  /** 记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺 */
+  default_shop_id?: Maybe<Scalars['bigint']['output']>;
   id?: Maybe<Scalars['bigint']['output']>;
+};
+
+/** order by sum() on columns of table "users" */
+export type Users_Sum_Order_By = {
+  /** 记录用户默认的学校id，方便下次访问时知道要进入哪个学校 */
+  default_campus_id?: InputMaybe<Order_By>;
+  /** 记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺 */
+  default_shop_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "users" */
@@ -9618,6 +11645,10 @@ export enum Users_Update_Column {
   /** column name */
   CreatedAt = 'created_at',
   /** column name */
+  DefaultCampusId = 'default_campus_id',
+  /** column name */
+  DefaultShopId = 'default_shop_id',
+  /** column name */
   Email = 'email',
   /** column name */
   Id = 'id',
@@ -9627,6 +11658,8 @@ export enum Users_Update_Column {
   Nickname = 'nickname',
   /** column name */
   Password = 'password',
+  /** column name */
+  Role = 'role',
   /** column name */
   UpdatedAt = 'updated_at'
 }
@@ -9643,17 +11676,56 @@ export type Users_Updates = {
 /** aggregate var_pop on columns */
 export type Users_Var_Pop_Fields = {
   __typename?: 'users_var_pop_fields';
+  /** 记录用户默认的学校id，方便下次访问时知道要进入哪个学校 */
+  default_campus_id?: Maybe<Scalars['Float']['output']>;
+  /** 记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺 */
+  default_shop_id?: Maybe<Scalars['Float']['output']>;
   id?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by var_pop() on columns of table "users" */
+export type Users_Var_Pop_Order_By = {
+  /** 记录用户默认的学校id，方便下次访问时知道要进入哪个学校 */
+  default_campus_id?: InputMaybe<Order_By>;
+  /** 记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺 */
+  default_shop_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
 };
 
 /** aggregate var_samp on columns */
 export type Users_Var_Samp_Fields = {
   __typename?: 'users_var_samp_fields';
+  /** 记录用户默认的学校id，方便下次访问时知道要进入哪个学校 */
+  default_campus_id?: Maybe<Scalars['Float']['output']>;
+  /** 记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺 */
+  default_shop_id?: Maybe<Scalars['Float']['output']>;
   id?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by var_samp() on columns of table "users" */
+export type Users_Var_Samp_Order_By = {
+  /** 记录用户默认的学校id，方便下次访问时知道要进入哪个学校 */
+  default_campus_id?: InputMaybe<Order_By>;
+  /** 记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺 */
+  default_shop_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
 };
 
 /** aggregate variance on columns */
 export type Users_Variance_Fields = {
   __typename?: 'users_variance_fields';
+  /** 记录用户默认的学校id，方便下次访问时知道要进入哪个学校 */
+  default_campus_id?: Maybe<Scalars['Float']['output']>;
+  /** 记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺 */
+  default_shop_id?: Maybe<Scalars['Float']['output']>;
   id?: Maybe<Scalars['Float']['output']>;
+};
+
+/** order by variance() on columns of table "users" */
+export type Users_Variance_Order_By = {
+  /** 记录用户默认的学校id，方便下次访问时知道要进入哪个学校 */
+  default_campus_id?: InputMaybe<Order_By>;
+  /** 记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺 */
+  default_shop_id?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
 };

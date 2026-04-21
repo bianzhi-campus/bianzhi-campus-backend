@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { HasuraJwtToken } from "@/config-lib/hasura/HasuraJwtToken";
 
+/** 短信验证码登录（示例占位）；密码登录见同目录 `phone-password-login`。 */
+
 export async function POST(req: NextRequest) {
   try {
     const { phone, code } = await req.json();

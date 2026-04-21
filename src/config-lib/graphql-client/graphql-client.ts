@@ -10,7 +10,8 @@ function defaultFetchFn(
   url: string,
   init: RequestInit
 ): Promise<{ ok: boolean; status: number; json: () => Promise<GraphQLResponseBody> }> {
-  return fetch(url, init).then(async (res) => ({
+  /** Next.js 会缓存 RSC 内的 fetch；GraphQL 同 URL 不同 body 若被错误去重/命中缓存会导致列表「点筛选后全空」 */
+  return fetch(url, { ...init, cache: "no-store" }).then(async (res) => ({
     ok: res.ok,
     status: res.status,
     json: () => res.json() as Promise<GraphQLResponseBody>,

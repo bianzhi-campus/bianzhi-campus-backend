@@ -512,7 +512,46 @@ type building_rooms {
 
   """房间名称"""
   name: String!
+
+  """排序，越大越前"""
+  sort_order: bigint!
   updated_at: timestamptz!
+
+  """An array relationship"""
+  user_addresses(
+    """distinct select on columns"""
+    distinct_on: [user_addresses_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [user_addresses_order_by!]
+
+    """filter the rows returned"""
+    where: user_addresses_bool_exp
+  ): [user_addresses!]!
+
+  """An aggregate relationship"""
+  user_addresses_aggregate(
+    """distinct select on columns"""
+    distinct_on: [user_addresses_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [user_addresses_order_by!]
+
+    """filter the rows returned"""
+    where: user_addresses_bool_exp
+  ): user_addresses_aggregate!
 
   """标注房间在哪个区域 ，如房间名称是C502，则属于C区，可不填"""
   zone: String
@@ -589,6 +628,9 @@ type building_rooms_avg_fields {
   """标注房间在第几楼"""
   floor_number: Float
   id: Float
+
+  """排序，越大越前"""
+  sort_order: Float
 }
 
 """
@@ -601,6 +643,9 @@ input building_rooms_avg_order_by {
   """标注房间在第几楼"""
   floor_number: order_by
   id: order_by
+
+  """排序，越大越前"""
+  sort_order: order_by
 }
 
 """
@@ -616,7 +661,10 @@ input building_rooms_bool_exp {
   floor_number: Int_comparison_exp
   id: bigint_comparison_exp
   name: String_comparison_exp
+  sort_order: bigint_comparison_exp
   updated_at: timestamptz_comparison_exp
+  user_addresses: user_addresses_bool_exp
+  user_addresses_aggregate: user_addresses_aggregate_bool_exp
   zone: String_comparison_exp
 }
 
@@ -645,6 +693,9 @@ input building_rooms_inc_input {
   """标注房间在第几楼"""
   floor_number: Int
   id: bigint
+
+  """排序，越大越前"""
+  sort_order: bigint
 }
 
 """
@@ -663,7 +714,11 @@ input building_rooms_insert_input {
 
   """房间名称"""
   name: String
+
+  """排序，越大越前"""
+  sort_order: bigint
   updated_at: timestamptz
+  user_addresses: user_addresses_arr_rel_insert_input
 
   """标注房间在哪个区域 ，如房间名称是C502，则属于C区，可不填"""
   zone: String
@@ -681,6 +736,9 @@ type building_rooms_max_fields {
 
   """房间名称"""
   name: String
+
+  """排序，越大越前"""
+  sort_order: bigint
   updated_at: timestamptz
 
   """标注房间在哪个区域 ，如房间名称是C502，则属于C区，可不填"""
@@ -701,6 +759,9 @@ input building_rooms_max_order_by {
 
   """房间名称"""
   name: order_by
+
+  """排序，越大越前"""
+  sort_order: order_by
   updated_at: order_by
 
   """标注房间在哪个区域 ，如房间名称是C502，则属于C区，可不填"""
@@ -719,6 +780,9 @@ type building_rooms_min_fields {
 
   """房间名称"""
   name: String
+
+  """排序，越大越前"""
+  sort_order: bigint
   updated_at: timestamptz
 
   """标注房间在哪个区域 ，如房间名称是C502，则属于C区，可不填"""
@@ -739,6 +803,9 @@ input building_rooms_min_order_by {
 
   """房间名称"""
   name: order_by
+
+  """排序，越大越前"""
+  sort_order: order_by
   updated_at: order_by
 
   """标注房间在哪个区域 ，如房间名称是C502，则属于C区，可不填"""
@@ -754,6 +821,16 @@ type building_rooms_mutation_response {
 
   """data from the rows affected by the mutation"""
   returning: [building_rooms!]!
+}
+
+"""
+input type for inserting object relation for remote table "building_rooms"
+"""
+input building_rooms_obj_rel_insert_input {
+  data: building_rooms_insert_input!
+
+  """upsert condition"""
+  on_conflict: building_rooms_on_conflict
 }
 
 """
@@ -773,7 +850,9 @@ input building_rooms_order_by {
   floor_number: order_by
   id: order_by
   name: order_by
+  sort_order: order_by
   updated_at: order_by
+  user_addresses_aggregate: user_addresses_aggregate_order_by
   zone: order_by
 }
 
@@ -802,6 +881,9 @@ enum building_rooms_select_column {
   name
 
   """column name"""
+  sort_order
+
+  """column name"""
   updated_at
 
   """column name"""
@@ -822,6 +904,9 @@ input building_rooms_set_input {
 
   """房间名称"""
   name: String
+
+  """排序，越大越前"""
+  sort_order: bigint
   updated_at: timestamptz
 
   """标注房间在哪个区域 ，如房间名称是C502，则属于C区，可不填"""
@@ -836,6 +921,9 @@ type building_rooms_stddev_fields {
   """标注房间在第几楼"""
   floor_number: Float
   id: Float
+
+  """排序，越大越前"""
+  sort_order: Float
 }
 
 """
@@ -848,6 +936,9 @@ input building_rooms_stddev_order_by {
   """标注房间在第几楼"""
   floor_number: order_by
   id: order_by
+
+  """排序，越大越前"""
+  sort_order: order_by
 }
 
 """aggregate stddev_pop on columns"""
@@ -858,6 +949,9 @@ type building_rooms_stddev_pop_fields {
   """标注房间在第几楼"""
   floor_number: Float
   id: Float
+
+  """排序，越大越前"""
+  sort_order: Float
 }
 
 """
@@ -870,6 +964,9 @@ input building_rooms_stddev_pop_order_by {
   """标注房间在第几楼"""
   floor_number: order_by
   id: order_by
+
+  """排序，越大越前"""
+  sort_order: order_by
 }
 
 """aggregate stddev_samp on columns"""
@@ -880,6 +977,9 @@ type building_rooms_stddev_samp_fields {
   """标注房间在第几楼"""
   floor_number: Float
   id: Float
+
+  """排序，越大越前"""
+  sort_order: Float
 }
 
 """
@@ -892,6 +992,9 @@ input building_rooms_stddev_samp_order_by {
   """标注房间在第几楼"""
   floor_number: order_by
   id: order_by
+
+  """排序，越大越前"""
+  sort_order: order_by
 }
 
 """
@@ -917,6 +1020,9 @@ input building_rooms_stream_cursor_value_input {
 
   """房间名称"""
   name: String
+
+  """排序，越大越前"""
+  sort_order: bigint
   updated_at: timestamptz
 
   """标注房间在哪个区域 ，如房间名称是C502，则属于C区，可不填"""
@@ -931,6 +1037,9 @@ type building_rooms_sum_fields {
   """标注房间在第几楼"""
   floor_number: Int
   id: bigint
+
+  """排序，越大越前"""
+  sort_order: bigint
 }
 
 """
@@ -943,6 +1052,9 @@ input building_rooms_sum_order_by {
   """标注房间在第几楼"""
   floor_number: order_by
   id: order_by
+
+  """排序，越大越前"""
+  sort_order: order_by
 }
 
 """
@@ -963,6 +1075,9 @@ enum building_rooms_update_column {
 
   """column name"""
   name
+
+  """column name"""
+  sort_order
 
   """column name"""
   updated_at
@@ -990,6 +1105,9 @@ type building_rooms_var_pop_fields {
   """标注房间在第几楼"""
   floor_number: Float
   id: Float
+
+  """排序，越大越前"""
+  sort_order: Float
 }
 
 """
@@ -1002,6 +1120,9 @@ input building_rooms_var_pop_order_by {
   """标注房间在第几楼"""
   floor_number: order_by
   id: order_by
+
+  """排序，越大越前"""
+  sort_order: order_by
 }
 
 """aggregate var_samp on columns"""
@@ -1012,6 +1133,9 @@ type building_rooms_var_samp_fields {
   """标注房间在第几楼"""
   floor_number: Float
   id: Float
+
+  """排序，越大越前"""
+  sort_order: Float
 }
 
 """
@@ -1024,6 +1148,9 @@ input building_rooms_var_samp_order_by {
   """标注房间在第几楼"""
   floor_number: order_by
   id: order_by
+
+  """排序，越大越前"""
+  sort_order: order_by
 }
 
 """aggregate variance on columns"""
@@ -1034,6 +1161,9 @@ type building_rooms_variance_fields {
   """标注房间在第几楼"""
   floor_number: Float
   id: Float
+
+  """排序，越大越前"""
+  sort_order: Float
 }
 
 """
@@ -1046,6 +1176,9 @@ input building_rooms_variance_order_by {
   """标注房间在第几楼"""
   floor_number: order_by
   id: order_by
+
+  """排序，越大越前"""
+  sort_order: order_by
 }
 
 """楼栋"""
@@ -1094,9 +1227,51 @@ type buildings {
   created_at: timestamptz!
   id: bigint!
 
-  """楼栋的类型，如 1.教学楼 2.宿舍楼 3.商业楼 等"""
+  """学校名称"""
+  name: String!
+
+  """排序，越大的在越前"""
+  sort_order: bigint!
+
+  """楼栋的类型，如 [教学楼、宿舍楼 、商业楼 ]"""
   type: String
   updated_at: timestamptz!
+
+  """An array relationship"""
+  user_addresses(
+    """distinct select on columns"""
+    distinct_on: [user_addresses_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [user_addresses_order_by!]
+
+    """filter the rows returned"""
+    where: user_addresses_bool_exp
+  ): [user_addresses!]!
+
+  """An aggregate relationship"""
+  user_addresses_aggregate(
+    """distinct select on columns"""
+    distinct_on: [user_addresses_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [user_addresses_order_by!]
+
+    """filter the rows returned"""
+    where: user_addresses_bool_exp
+  ): user_addresses_aggregate!
 
   """楼栋所在区域，如：品正园，可不设置"""
   zone: String
@@ -1170,6 +1345,9 @@ type buildings_avg_fields {
   """关联外键，哪个学校的楼栋"""
   campus_campuses: Float
   id: Float
+
+  """排序，越大的在越前"""
+  sort_order: Float
 }
 
 """
@@ -1179,6 +1357,9 @@ input buildings_avg_order_by {
   """关联外键，哪个学校的楼栋"""
   campus_campuses: order_by
   id: order_by
+
+  """排序，越大的在越前"""
+  sort_order: order_by
 }
 
 """
@@ -1194,8 +1375,12 @@ input buildings_bool_exp {
   campus_campuses: bigint_comparison_exp
   created_at: timestamptz_comparison_exp
   id: bigint_comparison_exp
+  name: String_comparison_exp
+  sort_order: bigint_comparison_exp
   type: String_comparison_exp
   updated_at: timestamptz_comparison_exp
+  user_addresses: user_addresses_bool_exp
+  user_addresses_aggregate: user_addresses_aggregate_bool_exp
   zone: String_comparison_exp
 }
 
@@ -1203,6 +1388,11 @@ input buildings_bool_exp {
 unique or primary key constraints on table "buildings"
 """
 enum buildings_constraint {
+  """
+  unique or primary key constraint on columns "campus_campuses", "name"
+  """
+  buildings_campus_campuses_name_key
+
   """
   unique or primary key constraint on columns "id"
   """
@@ -1216,6 +1406,9 @@ input buildings_inc_input {
   """关联外键，哪个学校的楼栋"""
   campus_campuses: bigint
   id: bigint
+
+  """排序，越大的在越前"""
+  sort_order: bigint
 }
 
 """
@@ -1230,9 +1423,16 @@ input buildings_insert_input {
   created_at: timestamptz
   id: bigint
 
-  """楼栋的类型，如 1.教学楼 2.宿舍楼 3.商业楼 等"""
+  """学校名称"""
+  name: String
+
+  """排序，越大的在越前"""
+  sort_order: bigint
+
+  """楼栋的类型，如 [教学楼、宿舍楼 、商业楼 ]"""
   type: String
   updated_at: timestamptz
+  user_addresses: user_addresses_arr_rel_insert_input
 
   """楼栋所在区域，如：品正园，可不设置"""
   zone: String
@@ -1245,7 +1445,13 @@ type buildings_max_fields {
   created_at: timestamptz
   id: bigint
 
-  """楼栋的类型，如 1.教学楼 2.宿舍楼 3.商业楼 等"""
+  """学校名称"""
+  name: String
+
+  """排序，越大的在越前"""
+  sort_order: bigint
+
+  """楼栋的类型，如 [教学楼、宿舍楼 、商业楼 ]"""
   type: String
   updated_at: timestamptz
 
@@ -1262,7 +1468,13 @@ input buildings_max_order_by {
   created_at: order_by
   id: order_by
 
-  """楼栋的类型，如 1.教学楼 2.宿舍楼 3.商业楼 等"""
+  """学校名称"""
+  name: order_by
+
+  """排序，越大的在越前"""
+  sort_order: order_by
+
+  """楼栋的类型，如 [教学楼、宿舍楼 、商业楼 ]"""
   type: order_by
   updated_at: order_by
 
@@ -1277,7 +1489,13 @@ type buildings_min_fields {
   created_at: timestamptz
   id: bigint
 
-  """楼栋的类型，如 1.教学楼 2.宿舍楼 3.商业楼 等"""
+  """学校名称"""
+  name: String
+
+  """排序，越大的在越前"""
+  sort_order: bigint
+
+  """楼栋的类型，如 [教学楼、宿舍楼 、商业楼 ]"""
   type: String
   updated_at: timestamptz
 
@@ -1294,7 +1512,13 @@ input buildings_min_order_by {
   created_at: order_by
   id: order_by
 
-  """楼栋的类型，如 1.教学楼 2.宿舍楼 3.商业楼 等"""
+  """学校名称"""
+  name: order_by
+
+  """排序，越大的在越前"""
+  sort_order: order_by
+
+  """楼栋的类型，如 [教学楼、宿舍楼 、商业楼 ]"""
   type: order_by
   updated_at: order_by
 
@@ -1339,8 +1563,11 @@ input buildings_order_by {
   campus_campuses: order_by
   created_at: order_by
   id: order_by
+  name: order_by
+  sort_order: order_by
   type: order_by
   updated_at: order_by
+  user_addresses_aggregate: user_addresses_aggregate_order_by
   zone: order_by
 }
 
@@ -1363,6 +1590,12 @@ enum buildings_select_column {
   id
 
   """column name"""
+  name
+
+  """column name"""
+  sort_order
+
+  """column name"""
   type
 
   """column name"""
@@ -1381,7 +1614,13 @@ input buildings_set_input {
   created_at: timestamptz
   id: bigint
 
-  """楼栋的类型，如 1.教学楼 2.宿舍楼 3.商业楼 等"""
+  """学校名称"""
+  name: String
+
+  """排序，越大的在越前"""
+  sort_order: bigint
+
+  """楼栋的类型，如 [教学楼、宿舍楼 、商业楼 ]"""
   type: String
   updated_at: timestamptz
 
@@ -1394,6 +1633,9 @@ type buildings_stddev_fields {
   """关联外键，哪个学校的楼栋"""
   campus_campuses: Float
   id: Float
+
+  """排序，越大的在越前"""
+  sort_order: Float
 }
 
 """
@@ -1403,6 +1645,9 @@ input buildings_stddev_order_by {
   """关联外键，哪个学校的楼栋"""
   campus_campuses: order_by
   id: order_by
+
+  """排序，越大的在越前"""
+  sort_order: order_by
 }
 
 """aggregate stddev_pop on columns"""
@@ -1410,6 +1655,9 @@ type buildings_stddev_pop_fields {
   """关联外键，哪个学校的楼栋"""
   campus_campuses: Float
   id: Float
+
+  """排序，越大的在越前"""
+  sort_order: Float
 }
 
 """
@@ -1419,6 +1667,9 @@ input buildings_stddev_pop_order_by {
   """关联外键，哪个学校的楼栋"""
   campus_campuses: order_by
   id: order_by
+
+  """排序，越大的在越前"""
+  sort_order: order_by
 }
 
 """aggregate stddev_samp on columns"""
@@ -1426,6 +1677,9 @@ type buildings_stddev_samp_fields {
   """关联外键，哪个学校的楼栋"""
   campus_campuses: Float
   id: Float
+
+  """排序，越大的在越前"""
+  sort_order: Float
 }
 
 """
@@ -1435,6 +1689,9 @@ input buildings_stddev_samp_order_by {
   """关联外键，哪个学校的楼栋"""
   campus_campuses: order_by
   id: order_by
+
+  """排序，越大的在越前"""
+  sort_order: order_by
 }
 
 """
@@ -1455,7 +1712,13 @@ input buildings_stream_cursor_value_input {
   created_at: timestamptz
   id: bigint
 
-  """楼栋的类型，如 1.教学楼 2.宿舍楼 3.商业楼 等"""
+  """学校名称"""
+  name: String
+
+  """排序，越大的在越前"""
+  sort_order: bigint
+
+  """楼栋的类型，如 [教学楼、宿舍楼 、商业楼 ]"""
   type: String
   updated_at: timestamptz
 
@@ -1468,6 +1731,9 @@ type buildings_sum_fields {
   """关联外键，哪个学校的楼栋"""
   campus_campuses: bigint
   id: bigint
+
+  """排序，越大的在越前"""
+  sort_order: bigint
 }
 
 """
@@ -1477,6 +1743,9 @@ input buildings_sum_order_by {
   """关联外键，哪个学校的楼栋"""
   campus_campuses: order_by
   id: order_by
+
+  """排序，越大的在越前"""
+  sort_order: order_by
 }
 
 """
@@ -1491,6 +1760,12 @@ enum buildings_update_column {
 
   """column name"""
   id
+
+  """column name"""
+  name
+
+  """column name"""
+  sort_order
 
   """column name"""
   type
@@ -1518,6 +1793,9 @@ type buildings_var_pop_fields {
   """关联外键，哪个学校的楼栋"""
   campus_campuses: Float
   id: Float
+
+  """排序，越大的在越前"""
+  sort_order: Float
 }
 
 """
@@ -1527,6 +1805,9 @@ input buildings_var_pop_order_by {
   """关联外键，哪个学校的楼栋"""
   campus_campuses: order_by
   id: order_by
+
+  """排序，越大的在越前"""
+  sort_order: order_by
 }
 
 """aggregate var_samp on columns"""
@@ -1534,6 +1815,9 @@ type buildings_var_samp_fields {
   """关联外键，哪个学校的楼栋"""
   campus_campuses: Float
   id: Float
+
+  """排序，越大的在越前"""
+  sort_order: Float
 }
 
 """
@@ -1543,6 +1827,9 @@ input buildings_var_samp_order_by {
   """关联外键，哪个学校的楼栋"""
   campus_campuses: order_by
   id: order_by
+
+  """排序，越大的在越前"""
+  sort_order: order_by
 }
 
 """aggregate variance on columns"""
@@ -1550,6 +1837,9 @@ type buildings_variance_fields {
   """关联外键，哪个学校的楼栋"""
   campus_campuses: Float
   id: Float
+
+  """排序，越大的在越前"""
+  sort_order: Float
 }
 
 """
@@ -1559,6 +1849,534 @@ input buildings_variance_order_by {
   """关联外键，哪个学校的楼栋"""
   campus_campuses: order_by
   id: order_by
+
+  """排序，越大的在越前"""
+  sort_order: order_by
+}
+
+"""学校用户表"""
+type campus_users {
+  """An object relationship"""
+  campus: campuses!
+
+  """外键，关联学校"""
+  campus_campuses: bigint!
+  created_at: timestamptz!
+  id: bigint!
+
+  """角色：[admin（学校管理员，有全部权限）、visitor（学校的用户）]"""
+  role: String!
+  updated_at: timestamptz!
+
+  """An object relationship"""
+  user: users!
+
+  """外键，关联用户"""
+  user_users: bigint!
+}
+
+"""
+aggregated selection of "campus_users"
+"""
+type campus_users_aggregate {
+  aggregate: campus_users_aggregate_fields
+  nodes: [campus_users!]!
+}
+
+input campus_users_aggregate_bool_exp {
+  count: campus_users_aggregate_bool_exp_count
+}
+
+input campus_users_aggregate_bool_exp_count {
+  arguments: [campus_users_select_column!]
+  distinct: Boolean
+  filter: campus_users_bool_exp
+  predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "campus_users"
+"""
+type campus_users_aggregate_fields {
+  avg: campus_users_avg_fields
+  count(columns: [campus_users_select_column!], distinct: Boolean): Int!
+  max: campus_users_max_fields
+  min: campus_users_min_fields
+  stddev: campus_users_stddev_fields
+  stddev_pop: campus_users_stddev_pop_fields
+  stddev_samp: campus_users_stddev_samp_fields
+  sum: campus_users_sum_fields
+  var_pop: campus_users_var_pop_fields
+  var_samp: campus_users_var_samp_fields
+  variance: campus_users_variance_fields
+}
+
+"""
+order by aggregate values of table "campus_users"
+"""
+input campus_users_aggregate_order_by {
+  avg: campus_users_avg_order_by
+  count: order_by
+  max: campus_users_max_order_by
+  min: campus_users_min_order_by
+  stddev: campus_users_stddev_order_by
+  stddev_pop: campus_users_stddev_pop_order_by
+  stddev_samp: campus_users_stddev_samp_order_by
+  sum: campus_users_sum_order_by
+  var_pop: campus_users_var_pop_order_by
+  var_samp: campus_users_var_samp_order_by
+  variance: campus_users_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "campus_users"
+"""
+input campus_users_arr_rel_insert_input {
+  data: [campus_users_insert_input!]!
+
+  """upsert condition"""
+  on_conflict: campus_users_on_conflict
+}
+
+"""aggregate avg on columns"""
+type campus_users_avg_fields {
+  """外键，关联学校"""
+  campus_campuses: Float
+  id: Float
+
+  """外键，关联用户"""
+  user_users: Float
+}
+
+"""
+order by avg() on columns of table "campus_users"
+"""
+input campus_users_avg_order_by {
+  """外键，关联学校"""
+  campus_campuses: order_by
+  id: order_by
+
+  """外键，关联用户"""
+  user_users: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "campus_users". All fields are combined with a logical 'AND'.
+"""
+input campus_users_bool_exp {
+  _and: [campus_users_bool_exp!]
+  _not: campus_users_bool_exp
+  _or: [campus_users_bool_exp!]
+  campus: campuses_bool_exp
+  campus_campuses: bigint_comparison_exp
+  created_at: timestamptz_comparison_exp
+  id: bigint_comparison_exp
+  role: String_comparison_exp
+  updated_at: timestamptz_comparison_exp
+  user: users_bool_exp
+  user_users: bigint_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "campus_users"
+"""
+enum campus_users_constraint {
+  """
+  unique or primary key constraint on columns "user_users", "campus_campuses"
+  """
+  campus_users_campus_campuses_user_users_key
+
+  """
+  unique or primary key constraint on columns "id"
+  """
+  campus_users_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "campus_users"
+"""
+input campus_users_inc_input {
+  """外键，关联学校"""
+  campus_campuses: bigint
+  id: bigint
+
+  """外键，关联用户"""
+  user_users: bigint
+}
+
+"""
+input type for inserting data into table "campus_users"
+"""
+input campus_users_insert_input {
+  campus: campuses_obj_rel_insert_input
+
+  """外键，关联学校"""
+  campus_campuses: bigint
+  created_at: timestamptz
+  id: bigint
+
+  """角色：[admin（学校管理员，有全部权限）、visitor（学校的用户）]"""
+  role: String
+  updated_at: timestamptz
+  user: users_obj_rel_insert_input
+
+  """外键，关联用户"""
+  user_users: bigint
+}
+
+"""aggregate max on columns"""
+type campus_users_max_fields {
+  """外键，关联学校"""
+  campus_campuses: bigint
+  created_at: timestamptz
+  id: bigint
+
+  """角色：[admin（学校管理员，有全部权限）、visitor（学校的用户）]"""
+  role: String
+  updated_at: timestamptz
+
+  """外键，关联用户"""
+  user_users: bigint
+}
+
+"""
+order by max() on columns of table "campus_users"
+"""
+input campus_users_max_order_by {
+  """外键，关联学校"""
+  campus_campuses: order_by
+  created_at: order_by
+  id: order_by
+
+  """角色：[admin（学校管理员，有全部权限）、visitor（学校的用户）]"""
+  role: order_by
+  updated_at: order_by
+
+  """外键，关联用户"""
+  user_users: order_by
+}
+
+"""aggregate min on columns"""
+type campus_users_min_fields {
+  """外键，关联学校"""
+  campus_campuses: bigint
+  created_at: timestamptz
+  id: bigint
+
+  """角色：[admin（学校管理员，有全部权限）、visitor（学校的用户）]"""
+  role: String
+  updated_at: timestamptz
+
+  """外键，关联用户"""
+  user_users: bigint
+}
+
+"""
+order by min() on columns of table "campus_users"
+"""
+input campus_users_min_order_by {
+  """外键，关联学校"""
+  campus_campuses: order_by
+  created_at: order_by
+  id: order_by
+
+  """角色：[admin（学校管理员，有全部权限）、visitor（学校的用户）]"""
+  role: order_by
+  updated_at: order_by
+
+  """外键，关联用户"""
+  user_users: order_by
+}
+
+"""
+response of any mutation on the table "campus_users"
+"""
+type campus_users_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [campus_users!]!
+}
+
+"""
+on_conflict condition type for table "campus_users"
+"""
+input campus_users_on_conflict {
+  constraint: campus_users_constraint!
+  update_columns: [campus_users_update_column!]! = []
+  where: campus_users_bool_exp
+}
+
+"""Ordering options when selecting data from "campus_users"."""
+input campus_users_order_by {
+  campus: campuses_order_by
+  campus_campuses: order_by
+  created_at: order_by
+  id: order_by
+  role: order_by
+  updated_at: order_by
+  user: users_order_by
+  user_users: order_by
+}
+
+"""primary key columns input for table: campus_users"""
+input campus_users_pk_columns_input {
+  id: bigint!
+}
+
+"""
+select columns of table "campus_users"
+"""
+enum campus_users_select_column {
+  """column name"""
+  campus_campuses
+
+  """column name"""
+  created_at
+
+  """column name"""
+  id
+
+  """column name"""
+  role
+
+  """column name"""
+  updated_at
+
+  """column name"""
+  user_users
+}
+
+"""
+input type for updating data in table "campus_users"
+"""
+input campus_users_set_input {
+  """外键，关联学校"""
+  campus_campuses: bigint
+  created_at: timestamptz
+  id: bigint
+
+  """角色：[admin（学校管理员，有全部权限）、visitor（学校的用户）]"""
+  role: String
+  updated_at: timestamptz
+
+  """外键，关联用户"""
+  user_users: bigint
+}
+
+"""aggregate stddev on columns"""
+type campus_users_stddev_fields {
+  """外键，关联学校"""
+  campus_campuses: Float
+  id: Float
+
+  """外键，关联用户"""
+  user_users: Float
+}
+
+"""
+order by stddev() on columns of table "campus_users"
+"""
+input campus_users_stddev_order_by {
+  """外键，关联学校"""
+  campus_campuses: order_by
+  id: order_by
+
+  """外键，关联用户"""
+  user_users: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type campus_users_stddev_pop_fields {
+  """外键，关联学校"""
+  campus_campuses: Float
+  id: Float
+
+  """外键，关联用户"""
+  user_users: Float
+}
+
+"""
+order by stddev_pop() on columns of table "campus_users"
+"""
+input campus_users_stddev_pop_order_by {
+  """外键，关联学校"""
+  campus_campuses: order_by
+  id: order_by
+
+  """外键，关联用户"""
+  user_users: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type campus_users_stddev_samp_fields {
+  """外键，关联学校"""
+  campus_campuses: Float
+  id: Float
+
+  """外键，关联用户"""
+  user_users: Float
+}
+
+"""
+order by stddev_samp() on columns of table "campus_users"
+"""
+input campus_users_stddev_samp_order_by {
+  """外键，关联学校"""
+  campus_campuses: order_by
+  id: order_by
+
+  """外键，关联用户"""
+  user_users: order_by
+}
+
+"""
+Streaming cursor of the table "campus_users"
+"""
+input campus_users_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: campus_users_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input campus_users_stream_cursor_value_input {
+  """外键，关联学校"""
+  campus_campuses: bigint
+  created_at: timestamptz
+  id: bigint
+
+  """角色：[admin（学校管理员，有全部权限）、visitor（学校的用户）]"""
+  role: String
+  updated_at: timestamptz
+
+  """外键，关联用户"""
+  user_users: bigint
+}
+
+"""aggregate sum on columns"""
+type campus_users_sum_fields {
+  """外键，关联学校"""
+  campus_campuses: bigint
+  id: bigint
+
+  """外键，关联用户"""
+  user_users: bigint
+}
+
+"""
+order by sum() on columns of table "campus_users"
+"""
+input campus_users_sum_order_by {
+  """外键，关联学校"""
+  campus_campuses: order_by
+  id: order_by
+
+  """外键，关联用户"""
+  user_users: order_by
+}
+
+"""
+update columns of table "campus_users"
+"""
+enum campus_users_update_column {
+  """column name"""
+  campus_campuses
+
+  """column name"""
+  created_at
+
+  """column name"""
+  id
+
+  """column name"""
+  role
+
+  """column name"""
+  updated_at
+
+  """column name"""
+  user_users
+}
+
+input campus_users_updates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: campus_users_inc_input
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: campus_users_set_input
+
+  """filter the rows which have to be updated"""
+  where: campus_users_bool_exp!
+}
+
+"""aggregate var_pop on columns"""
+type campus_users_var_pop_fields {
+  """外键，关联学校"""
+  campus_campuses: Float
+  id: Float
+
+  """外键，关联用户"""
+  user_users: Float
+}
+
+"""
+order by var_pop() on columns of table "campus_users"
+"""
+input campus_users_var_pop_order_by {
+  """外键，关联学校"""
+  campus_campuses: order_by
+  id: order_by
+
+  """外键，关联用户"""
+  user_users: order_by
+}
+
+"""aggregate var_samp on columns"""
+type campus_users_var_samp_fields {
+  """外键，关联学校"""
+  campus_campuses: Float
+  id: Float
+
+  """外键，关联用户"""
+  user_users: Float
+}
+
+"""
+order by var_samp() on columns of table "campus_users"
+"""
+input campus_users_var_samp_order_by {
+  """外键，关联学校"""
+  campus_campuses: order_by
+  id: order_by
+
+  """外键，关联用户"""
+  user_users: order_by
+}
+
+"""aggregate variance on columns"""
+type campus_users_variance_fields {
+  """外键，关联学校"""
+  campus_campuses: Float
+  id: Float
+
+  """外键，关联用户"""
+  user_users: Float
+}
+
+"""
+order by variance() on columns of table "campus_users"
+"""
+input campus_users_variance_order_by {
+  """外键，关联学校"""
+  campus_campuses: order_by
+  id: order_by
+
+  """外键，关联用户"""
+  user_users: order_by
 }
 
 """校园表"""
@@ -1598,6 +2416,42 @@ type campuses {
     """filter the rows returned"""
     where: buildings_bool_exp
   ): buildings_aggregate!
+
+  """An array relationship"""
+  campus_users(
+    """distinct select on columns"""
+    distinct_on: [campus_users_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [campus_users_order_by!]
+
+    """filter the rows returned"""
+    where: campus_users_bool_exp
+  ): [campus_users!]!
+
+  """An aggregate relationship"""
+  campus_users_aggregate(
+    """distinct select on columns"""
+    distinct_on: [campus_users_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [campus_users_order_by!]
+
+    """filter the rows returned"""
+    where: campus_users_bool_exp
+  ): campus_users_aggregate!
   city: String
   created_at: timestamptz!
   district: String
@@ -1607,6 +2461,78 @@ type campuses {
   name: String!
   province: String
   updated_at: timestamptz!
+
+  """An array relationship"""
+  user_addresses(
+    """distinct select on columns"""
+    distinct_on: [user_addresses_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [user_addresses_order_by!]
+
+    """filter the rows returned"""
+    where: user_addresses_bool_exp
+  ): [user_addresses!]!
+
+  """An aggregate relationship"""
+  user_addresses_aggregate(
+    """distinct select on columns"""
+    distinct_on: [user_addresses_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [user_addresses_order_by!]
+
+    """filter the rows returned"""
+    where: user_addresses_bool_exp
+  ): user_addresses_aggregate!
+
+  """An array relationship"""
+  users(
+    """distinct select on columns"""
+    distinct_on: [users_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [users_order_by!]
+
+    """filter the rows returned"""
+    where: users_bool_exp
+  ): [users!]!
+
+  """An aggregate relationship"""
+  users_aggregate(
+    """distinct select on columns"""
+    distinct_on: [users_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [users_order_by!]
+
+    """filter the rows returned"""
+    where: users_bool_exp
+  ): users_aggregate!
 }
 
 """
@@ -1648,6 +2574,8 @@ input campuses_bool_exp {
   _or: [campuses_bool_exp!]
   buildings: buildings_bool_exp
   buildings_aggregate: buildings_aggregate_bool_exp
+  campus_users: campus_users_bool_exp
+  campus_users_aggregate: campus_users_aggregate_bool_exp
   city: String_comparison_exp
   created_at: timestamptz_comparison_exp
   district: String_comparison_exp
@@ -1655,6 +2583,10 @@ input campuses_bool_exp {
   name: String_comparison_exp
   province: String_comparison_exp
   updated_at: timestamptz_comparison_exp
+  user_addresses: user_addresses_bool_exp
+  user_addresses_aggregate: user_addresses_aggregate_bool_exp
+  users: users_bool_exp
+  users_aggregate: users_aggregate_bool_exp
 }
 
 """
@@ -1684,6 +2616,7 @@ input type for inserting data into table "campuses"
 """
 input campuses_insert_input {
   buildings: buildings_arr_rel_insert_input
+  campus_users: campus_users_arr_rel_insert_input
   city: String
   created_at: timestamptz
   district: String
@@ -1693,6 +2626,8 @@ input campuses_insert_input {
   name: String
   province: String
   updated_at: timestamptz
+  user_addresses: user_addresses_arr_rel_insert_input
+  users: users_arr_rel_insert_input
 }
 
 """aggregate max on columns"""
@@ -1754,6 +2689,7 @@ input campuses_on_conflict {
 """Ordering options when selecting data from "campuses"."""
 input campuses_order_by {
   buildings_aggregate: buildings_aggregate_order_by
+  campus_users_aggregate: campus_users_aggregate_order_by
   city: order_by
   created_at: order_by
   district: order_by
@@ -1761,6 +2697,8 @@ input campuses_order_by {
   name: order_by
   province: order_by
   updated_at: order_by
+  user_addresses_aggregate: user_addresses_aggregate_order_by
+  users_aggregate: users_aggregate_order_by
 }
 
 """primary key columns input for table: campuses"""
@@ -1971,6 +2909,19 @@ type mutation_root {
   delete single row from the table: "buildings"
   """
   delete_buildings_by_pk(id: bigint!): buildings
+
+  """
+  delete data from the table: "campus_users"
+  """
+  delete_campus_users(
+    """filter the rows which have to be deleted"""
+    where: campus_users_bool_exp!
+  ): campus_users_mutation_response
+
+  """
+  delete single row from the table: "campus_users"
+  """
+  delete_campus_users_by_pk(id: bigint!): campus_users
 
   """
   delete data from the table: "campuses"
@@ -2193,6 +3144,28 @@ type mutation_root {
     """upsert condition"""
     on_conflict: buildings_on_conflict
   ): buildings
+
+  """
+  insert data into the table: "campus_users"
+  """
+  insert_campus_users(
+    """the rows to be inserted"""
+    objects: [campus_users_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: campus_users_on_conflict
+  ): campus_users_mutation_response
+
+  """
+  insert a single row into the table: "campus_users"
+  """
+  insert_campus_users_one(
+    """the row to be inserted"""
+    object: campus_users_insert_input!
+
+    """upsert condition"""
+    on_conflict: campus_users_on_conflict
+  ): campus_users
 
   """
   insert data into the table: "campuses"
@@ -2559,6 +3532,40 @@ type mutation_root {
     """updates to execute, in order"""
     updates: [buildings_updates!]!
   ): [buildings_mutation_response]
+
+  """
+  update data of the table: "campus_users"
+  """
+  update_campus_users(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: campus_users_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: campus_users_set_input
+
+    """filter the rows which have to be updated"""
+    where: campus_users_bool_exp!
+  ): campus_users_mutation_response
+
+  """
+  update single row of the table: "campus_users"
+  """
+  update_campus_users_by_pk(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: campus_users_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: campus_users_set_input
+    pk_columns: campus_users_pk_columns_input!
+  ): campus_users
+
+  """
+  update multiples rows of table: "campus_users"
+  """
+  update_campus_users_many(
+    """updates to execute, in order"""
+    updates: [campus_users_updates!]!
+  ): [campus_users_mutation_response]
 
   """
   update data of the table: "campuses"
@@ -3024,6 +4031,9 @@ type product_skus {
   """价格，单位元"""
   price: numeric!
 
+  """单位 ，如 个 份 斤 箱"""
+  price_unit: String
+
   """An object relationship"""
   product: products!
 
@@ -3202,6 +4212,7 @@ input product_skus_bool_exp {
   is_shelved: Boolean_comparison_exp
   name: String_comparison_exp
   price: numeric_comparison_exp
+  price_unit: String_comparison_exp
   product: products_bool_exp
   product_products: bigint_comparison_exp
   shop_order_items: shop_order_items_bool_exp
@@ -3258,6 +4269,9 @@ input product_skus_insert_input {
 
   """价格，单位元"""
   price: numeric
+
+  """单位 ，如 个 份 斤 箱"""
+  price_unit: String
   product: products_obj_rel_insert_input
 
   """关联外建，哪个产品"""
@@ -3286,6 +4300,9 @@ type product_skus_max_fields {
   """价格，单位元"""
   price: numeric
 
+  """单位 ，如 个 份 斤 箱"""
+  price_unit: String
+
   """关联外建，哪个产品"""
   product_products: bigint
 
@@ -3313,6 +4330,9 @@ input product_skus_max_order_by {
   """价格，单位元"""
   price: order_by
 
+  """单位 ，如 个 份 斤 箱"""
+  price_unit: order_by
+
   """关联外建，哪个产品"""
   product_products: order_by
 
@@ -3337,6 +4357,9 @@ type product_skus_min_fields {
 
   """价格，单位元"""
   price: numeric
+
+  """单位 ，如 个 份 斤 箱"""
+  price_unit: String
 
   """关联外建，哪个产品"""
   product_products: bigint
@@ -3364,6 +4387,9 @@ input product_skus_min_order_by {
 
   """价格，单位元"""
   price: order_by
+
+  """单位 ，如 个 份 斤 箱"""
+  price_unit: order_by
 
   """关联外建，哪个产品"""
   product_products: order_by
@@ -3414,6 +4440,7 @@ input product_skus_order_by {
   is_shelved: order_by
   name: order_by
   price: order_by
+  price_unit: order_by
   product: products_order_by
   product_products: order_by
   shop_order_items_aggregate: shop_order_items_aggregate_order_by
@@ -3448,6 +4475,9 @@ enum product_skus_select_column {
 
   """column name"""
   price
+
+  """column name"""
+  price_unit
 
   """column name"""
   product_products
@@ -3496,6 +4526,9 @@ input product_skus_set_input {
 
   """价格，单位元"""
   price: numeric
+
+  """单位 ，如 个 份 斤 箱"""
+  price_unit: String
 
   """关联外建，哪个产品"""
   product_products: bigint
@@ -3644,6 +4677,9 @@ input product_skus_stream_cursor_value_input {
   """价格，单位元"""
   price: numeric
 
+  """单位 ，如 个 份 斤 箱"""
+  price_unit: String
+
   """关联外建，哪个产品"""
   product_products: bigint
 
@@ -3712,6 +4748,9 @@ enum product_skus_update_column {
 
   """column name"""
   price
+
+  """column name"""
+  price_unit
 
   """column name"""
   product_products
@@ -4691,6 +5730,45 @@ type query_root {
   """fetch data from the table: "buildings" using primary key columns"""
   buildings_by_pk(id: bigint!): buildings
 
+  """An array relationship"""
+  campus_users(
+    """distinct select on columns"""
+    distinct_on: [campus_users_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [campus_users_order_by!]
+
+    """filter the rows returned"""
+    where: campus_users_bool_exp
+  ): [campus_users!]!
+
+  """An aggregate relationship"""
+  campus_users_aggregate(
+    """distinct select on columns"""
+    distinct_on: [campus_users_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [campus_users_order_by!]
+
+    """filter the rows returned"""
+    where: campus_users_bool_exp
+  ): campus_users_aggregate!
+
+  """fetch data from the table: "campus_users" using primary key columns"""
+  campus_users_by_pk(id: bigint!): campus_users
+
   """
   fetch data from the table: "campuses"
   """
@@ -5091,9 +6169,7 @@ type query_root {
   """fetch data from the table: "user_accounts" using primary key columns"""
   user_accounts_by_pk(id: bigint!): user_accounts
 
-  """
-  fetch data from the table: "user_addresses"
-  """
+  """An array relationship"""
   user_addresses(
     """distinct select on columns"""
     distinct_on: [user_addresses_select_column!]
@@ -5111,9 +6187,7 @@ type query_root {
     where: user_addresses_bool_exp
   ): [user_addresses!]!
 
-  """
-  fetch aggregated fields from the table: "user_addresses"
-  """
+  """An aggregate relationship"""
   user_addresses_aggregate(
     """distinct select on columns"""
     distinct_on: [user_addresses_select_column!]
@@ -5134,9 +6208,7 @@ type query_root {
   """fetch data from the table: "user_addresses" using primary key columns"""
   user_addresses_by_pk(id: bigint!): user_addresses
 
-  """
-  fetch data from the table: "users"
-  """
+  """An array relationship"""
   users(
     """distinct select on columns"""
     distinct_on: [users_select_column!]
@@ -5154,9 +6226,7 @@ type query_root {
     where: users_bool_exp
   ): [users!]!
 
-  """
-  fetch aggregated fields from the table: "users"
-  """
+  """An aggregate relationship"""
   users_aggregate(
     """distinct select on columns"""
     distinct_on: [users_select_column!]
@@ -5194,13 +6264,16 @@ type shop_carts {
 
   """关联店铺"""
   shop_shops: bigint!
+
+  """取值：[online（线上）、offline（线下，主要用于店铺收银）]"""
+  type: String!
   updated_at: timestamptz!
 
   """An object relationship"""
-  user: users!
+  user: users
 
   """关联用户"""
-  user_users: bigint!
+  user_users: bigint
 }
 
 """
@@ -5315,6 +6388,7 @@ input shop_carts_bool_exp {
   quantity: bigint_comparison_exp
   shop: shops_bool_exp
   shop_shops: bigint_comparison_exp
+  type: String_comparison_exp
   updated_at: timestamptz_comparison_exp
   user: users_bool_exp
   user_users: bigint_comparison_exp
@@ -5330,9 +6404,9 @@ enum shop_carts_constraint {
   shop_carts_pkey
 
   """
-  unique or primary key constraint on columns "user_users", "shop_shops", "product_sku_product_skus"
+  unique or primary key constraint on columns "user_users", "type", "shop_shops", "product_sku_product_skus"
   """
-  shop_carts_shop_shops_user_users_product_sku_product_skus_key
+  shop_carts_product_sku_product_skus_shop_shops_user_users_type_
 }
 
 """
@@ -5370,6 +6444,9 @@ input shop_carts_insert_input {
 
   """关联店铺"""
   shop_shops: bigint
+
+  """取值：[online（线上）、offline（线下，主要用于店铺收银）]"""
+  type: String
   updated_at: timestamptz
   user: users_obj_rel_insert_input
 
@@ -5390,6 +6467,9 @@ type shop_carts_max_fields {
 
   """关联店铺"""
   shop_shops: bigint
+
+  """取值：[online（线上）、offline（线下，主要用于店铺收银）]"""
+  type: String
   updated_at: timestamptz
 
   """关联用户"""
@@ -5411,6 +6491,9 @@ input shop_carts_max_order_by {
 
   """关联店铺"""
   shop_shops: order_by
+
+  """取值：[online（线上）、offline（线下，主要用于店铺收银）]"""
+  type: order_by
   updated_at: order_by
 
   """关联用户"""
@@ -5430,6 +6513,9 @@ type shop_carts_min_fields {
 
   """关联店铺"""
   shop_shops: bigint
+
+  """取值：[online（线上）、offline（线下，主要用于店铺收银）]"""
+  type: String
   updated_at: timestamptz
 
   """关联用户"""
@@ -5451,6 +6537,9 @@ input shop_carts_min_order_by {
 
   """关联店铺"""
   shop_shops: order_by
+
+  """取值：[online（线上）、offline（线下，主要用于店铺收银）]"""
+  type: order_by
   updated_at: order_by
 
   """关联用户"""
@@ -5485,6 +6574,7 @@ input shop_carts_order_by {
   quantity: order_by
   shop: shops_order_by
   shop_shops: order_by
+  type: order_by
   updated_at: order_by
   user: users_order_by
   user_users: order_by
@@ -5515,6 +6605,9 @@ enum shop_carts_select_column {
   shop_shops
 
   """column name"""
+  type
+
+  """column name"""
   updated_at
 
   """column name"""
@@ -5536,6 +6629,9 @@ input shop_carts_set_input {
 
   """关联店铺"""
   shop_shops: bigint
+
+  """取值：[online（线上）、offline（线下，主要用于店铺收银）]"""
+  type: String
   updated_at: timestamptz
 
   """关联用户"""
@@ -5674,6 +6770,9 @@ input shop_carts_stream_cursor_value_input {
 
   """关联店铺"""
   shop_shops: bigint
+
+  """取值：[online（线上）、offline（线下，主要用于店铺收银）]"""
+  type: String
   updated_at: timestamptz
 
   """关联用户"""
@@ -5734,6 +6833,9 @@ enum shop_carts_update_column {
 
   """column name"""
   shop_shops
+
+  """column name"""
+  type
 
   """column name"""
   updated_at
@@ -6669,6 +7771,18 @@ input shop_order_items_variance_order_by {
 
 """店铺订单表"""
 type shop_orders {
+  """快照，如果选择的校内地址，记录楼栋id，方便统计"""
+  building_buildings: bigint
+
+  """快照，如果选择的校内地址，记录房间id，方便统计"""
+  building_room_building_rooms: bigint
+
+  """-- 买家订单备注"""
+  buyer_remark: String
+
+  """快照，如果选择的校内地址，记录学校id，方便统计"""
+  campus_campuses: bigint
+
   """取消时间(超时未付或商家拒单)"""
   cancelled_at: timestamptz
 
@@ -6685,8 +7799,13 @@ type shop_orders {
   """配送费"""
   delivery_fee: numeric!
 
-  """优惠/折扣"""
+  """店铺 优惠/折扣"""
   discount_amount: numeric!
+
+  """
+  配送方式/履约方式：campus_delivery=校园配（要求用户地址必须是校内地址）；store_express=快递；store_pickup=门店自提；store_direct =门店直接购买；store_delivery=门店自配/第三方（非校园网）。
+  """
+  fulfillment_type: String!
   id: bigint!
 
   """
@@ -6708,12 +7827,33 @@ type shop_orders {
   """用户确认收货时间（用户点击确认）"""
   received_at: timestamptz
 
+  """快照，收货人详细地址"""
+  receiver_address: String
+
+  """快照，收货城市"""
+  receiver_city: String
+
+  """快照，收货街道"""
+  receiver_district: String
+
+  """快照，收货人姓名"""
+  receiver_name: String
+
+  """快照，收货人电话"""
+  receiver_phone: String
+
+  """快照，收货省份"""
+  receiver_province: String
+
   """
   | 状态值         | 含义  | 触发条件     | | ----------- | --- | -------- | | `NULL`      | 无售后 | 正常订单     | | `refunding` | 退款中 | 用户申请退款   | | `refunded`  | 已退款 | 退款完成     | | `rejected`  | 已拒绝 | 商家拒绝退款申请 |
   """
   refund_status: String
 
-  """店铺结算金额=商品总金额+配送费-优惠/折扣"""
+  """-- 卖家/商家备注（内部使用）"""
+  seller_remark: String
+
+  """店铺结算金额=商品总金额+配送费- 店铺优惠/折扣"""
   settle_amount: numeric!
 
   """给店铺结算的时间"""
@@ -6775,6 +7915,23 @@ type shop_orders {
   """关联外建，由哪个用户订单产生的店铺订单"""
   shop_userorder_shop_userorders: bigint!
   updated_at: timestamptz!
+
+  """An object relationship"""
+  user: users
+
+  """An object relationship"""
+  user_address: user_addresses
+
+  """快照 用户地址类型取值：[campus（校内）、normal（校外）]  为空表示下单时无需收货地址（如部分线下单、自提等，以业务规则为准）"""
+  user_address_type: String
+
+  """外键，用户地址id，仅用于记录"""
+  user_address_user_addresses: bigint
+
+  """
+  关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计
+  """
+  user_users: bigint
 }
 
 """
@@ -6842,17 +7999,26 @@ input shop_orders_arr_rel_insert_input {
 
 """aggregate avg on columns"""
 type shop_orders_avg_fields {
+  """快照，如果选择的校内地址，记录楼栋id，方便统计"""
+  building_buildings: Float
+
+  """快照，如果选择的校内地址，记录房间id，方便统计"""
+  building_room_building_rooms: Float
+
+  """快照，如果选择的校内地址，记录学校id，方便统计"""
+  campus_campuses: Float
+
   """配送费"""
   delivery_fee: Float
 
-  """优惠/折扣"""
+  """店铺 优惠/折扣"""
   discount_amount: Float
   id: Float
 
   """商品总金额=所有的产品 价格*数量 之和"""
   product_amount: Float
 
-  """店铺结算金额=商品总金额+配送费-优惠/折扣"""
+  """店铺结算金额=商品总金额+配送费- 店铺优惠/折扣"""
   settle_amount: Float
 
   """关联外键，哪个店铺的订单"""
@@ -6860,23 +8026,40 @@ type shop_orders_avg_fields {
 
   """关联外建，由哪个用户订单产生的店铺订单"""
   shop_userorder_shop_userorders: Float
+
+  """外键，用户地址id，仅用于记录"""
+  user_address_user_addresses: Float
+
+  """
+  关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计
+  """
+  user_users: Float
 }
 
 """
 order by avg() on columns of table "shop_orders"
 """
 input shop_orders_avg_order_by {
+  """快照，如果选择的校内地址，记录楼栋id，方便统计"""
+  building_buildings: order_by
+
+  """快照，如果选择的校内地址，记录房间id，方便统计"""
+  building_room_building_rooms: order_by
+
+  """快照，如果选择的校内地址，记录学校id，方便统计"""
+  campus_campuses: order_by
+
   """配送费"""
   delivery_fee: order_by
 
-  """优惠/折扣"""
+  """店铺 优惠/折扣"""
   discount_amount: order_by
   id: order_by
 
   """商品总金额=所有的产品 价格*数量 之和"""
   product_amount: order_by
 
-  """店铺结算金额=商品总金额+配送费-优惠/折扣"""
+  """店铺结算金额=商品总金额+配送费- 店铺优惠/折扣"""
   settle_amount: order_by
 
   """关联外键，哪个店铺的订单"""
@@ -6884,6 +8067,14 @@ input shop_orders_avg_order_by {
 
   """关联外建，由哪个用户订单产生的店铺订单"""
   shop_userorder_shop_userorders: order_by
+
+  """外键，用户地址id，仅用于记录"""
+  user_address_user_addresses: order_by
+
+  """
+  关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计
+  """
+  user_users: order_by
 }
 
 """
@@ -6893,6 +8084,10 @@ input shop_orders_bool_exp {
   _and: [shop_orders_bool_exp!]
   _not: shop_orders_bool_exp
   _or: [shop_orders_bool_exp!]
+  building_buildings: bigint_comparison_exp
+  building_room_building_rooms: bigint_comparison_exp
+  buyer_remark: String_comparison_exp
+  campus_campuses: bigint_comparison_exp
   cancelled_at: timestamptz_comparison_exp
   completed_at: timestamptz_comparison_exp
   confirmed_at: timestamptz_comparison_exp
@@ -6900,13 +8095,21 @@ input shop_orders_bool_exp {
   delivered_at: timestamptz_comparison_exp
   delivery_fee: numeric_comparison_exp
   discount_amount: numeric_comparison_exp
+  fulfillment_type: String_comparison_exp
   id: bigint_comparison_exp
   order_status: String_comparison_exp
   paid_at: timestamptz_comparison_exp
   pay_status: String_comparison_exp
   product_amount: numeric_comparison_exp
   received_at: timestamptz_comparison_exp
+  receiver_address: String_comparison_exp
+  receiver_city: String_comparison_exp
+  receiver_district: String_comparison_exp
+  receiver_name: String_comparison_exp
+  receiver_phone: String_comparison_exp
+  receiver_province: String_comparison_exp
   refund_status: String_comparison_exp
+  seller_remark: String_comparison_exp
   settle_amount: numeric_comparison_exp
   settled_at: timestamptz_comparison_exp
   ship_status: String_comparison_exp
@@ -6918,6 +8121,11 @@ input shop_orders_bool_exp {
   shop_userorder: shop_userorders_bool_exp
   shop_userorder_shop_userorders: bigint_comparison_exp
   updated_at: timestamptz_comparison_exp
+  user: users_bool_exp
+  user_address: user_addresses_bool_exp
+  user_address_type: String_comparison_exp
+  user_address_user_addresses: bigint_comparison_exp
+  user_users: bigint_comparison_exp
 }
 
 """
@@ -6934,17 +8142,26 @@ enum shop_orders_constraint {
 input type for incrementing numeric columns in table "shop_orders"
 """
 input shop_orders_inc_input {
+  """快照，如果选择的校内地址，记录楼栋id，方便统计"""
+  building_buildings: bigint
+
+  """快照，如果选择的校内地址，记录房间id，方便统计"""
+  building_room_building_rooms: bigint
+
+  """快照，如果选择的校内地址，记录学校id，方便统计"""
+  campus_campuses: bigint
+
   """配送费"""
   delivery_fee: numeric
 
-  """优惠/折扣"""
+  """店铺 优惠/折扣"""
   discount_amount: numeric
   id: bigint
 
   """商品总金额=所有的产品 价格*数量 之和"""
   product_amount: numeric
 
-  """店铺结算金额=商品总金额+配送费-优惠/折扣"""
+  """店铺结算金额=商品总金额+配送费- 店铺优惠/折扣"""
   settle_amount: numeric
 
   """关联外键，哪个店铺的订单"""
@@ -6952,12 +8169,32 @@ input shop_orders_inc_input {
 
   """关联外建，由哪个用户订单产生的店铺订单"""
   shop_userorder_shop_userorders: bigint
+
+  """外键，用户地址id，仅用于记录"""
+  user_address_user_addresses: bigint
+
+  """
+  关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计
+  """
+  user_users: bigint
 }
 
 """
 input type for inserting data into table "shop_orders"
 """
 input shop_orders_insert_input {
+  """快照，如果选择的校内地址，记录楼栋id，方便统计"""
+  building_buildings: bigint
+
+  """快照，如果选择的校内地址，记录房间id，方便统计"""
+  building_room_building_rooms: bigint
+
+  """-- 买家订单备注"""
+  buyer_remark: String
+
+  """快照，如果选择的校内地址，记录学校id，方便统计"""
+  campus_campuses: bigint
+
   """取消时间(超时未付或商家拒单)"""
   cancelled_at: timestamptz
 
@@ -6974,8 +8211,13 @@ input shop_orders_insert_input {
   """配送费"""
   delivery_fee: numeric
 
-  """优惠/折扣"""
+  """店铺 优惠/折扣"""
   discount_amount: numeric
+
+  """
+  配送方式/履约方式：campus_delivery=校园配（要求用户地址必须是校内地址）；store_express=快递；store_pickup=门店自提；store_direct =门店直接购买；store_delivery=门店自配/第三方（非校园网）。
+  """
+  fulfillment_type: String
   id: bigint
 
   """
@@ -6997,12 +8239,33 @@ input shop_orders_insert_input {
   """用户确认收货时间（用户点击确认）"""
   received_at: timestamptz
 
+  """快照，收货人详细地址"""
+  receiver_address: String
+
+  """快照，收货城市"""
+  receiver_city: String
+
+  """快照，收货街道"""
+  receiver_district: String
+
+  """快照，收货人姓名"""
+  receiver_name: String
+
+  """快照，收货人电话"""
+  receiver_phone: String
+
+  """快照，收货省份"""
+  receiver_province: String
+
   """
   | 状态值         | 含义  | 触发条件     | | ----------- | --- | -------- | | `NULL`      | 无售后 | 正常订单     | | `refunding` | 退款中 | 用户申请退款   | | `refunded`  | 已退款 | 退款完成     | | `rejected`  | 已拒绝 | 商家拒绝退款申请 |
   """
   refund_status: String
 
-  """店铺结算金额=商品总金额+配送费-优惠/折扣"""
+  """-- 卖家/商家备注（内部使用）"""
+  seller_remark: String
+
+  """店铺结算金额=商品总金额+配送费- 店铺优惠/折扣"""
   settle_amount: numeric
 
   """给店铺结算的时间"""
@@ -7025,10 +8288,35 @@ input shop_orders_insert_input {
   """关联外建，由哪个用户订单产生的店铺订单"""
   shop_userorder_shop_userorders: bigint
   updated_at: timestamptz
+  user: users_obj_rel_insert_input
+  user_address: user_addresses_obj_rel_insert_input
+
+  """快照 用户地址类型取值：[campus（校内）、normal（校外）]  为空表示下单时无需收货地址（如部分线下单、自提等，以业务规则为准）"""
+  user_address_type: String
+
+  """外键，用户地址id，仅用于记录"""
+  user_address_user_addresses: bigint
+
+  """
+  关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计
+  """
+  user_users: bigint
 }
 
 """aggregate max on columns"""
 type shop_orders_max_fields {
+  """快照，如果选择的校内地址，记录楼栋id，方便统计"""
+  building_buildings: bigint
+
+  """快照，如果选择的校内地址，记录房间id，方便统计"""
+  building_room_building_rooms: bigint
+
+  """-- 买家订单备注"""
+  buyer_remark: String
+
+  """快照，如果选择的校内地址，记录学校id，方便统计"""
+  campus_campuses: bigint
+
   """取消时间(超时未付或商家拒单)"""
   cancelled_at: timestamptz
 
@@ -7045,8 +8333,13 @@ type shop_orders_max_fields {
   """配送费"""
   delivery_fee: numeric
 
-  """优惠/折扣"""
+  """店铺 优惠/折扣"""
   discount_amount: numeric
+
+  """
+  配送方式/履约方式：campus_delivery=校园配（要求用户地址必须是校内地址）；store_express=快递；store_pickup=门店自提；store_direct =门店直接购买；store_delivery=门店自配/第三方（非校园网）。
+  """
+  fulfillment_type: String
   id: bigint
 
   """
@@ -7068,12 +8361,33 @@ type shop_orders_max_fields {
   """用户确认收货时间（用户点击确认）"""
   received_at: timestamptz
 
+  """快照，收货人详细地址"""
+  receiver_address: String
+
+  """快照，收货城市"""
+  receiver_city: String
+
+  """快照，收货街道"""
+  receiver_district: String
+
+  """快照，收货人姓名"""
+  receiver_name: String
+
+  """快照，收货人电话"""
+  receiver_phone: String
+
+  """快照，收货省份"""
+  receiver_province: String
+
   """
   | 状态值         | 含义  | 触发条件     | | ----------- | --- | -------- | | `NULL`      | 无售后 | 正常订单     | | `refunding` | 退款中 | 用户申请退款   | | `refunded`  | 已退款 | 退款完成     | | `rejected`  | 已拒绝 | 商家拒绝退款申请 |
   """
   refund_status: String
 
-  """店铺结算金额=商品总金额+配送费-优惠/折扣"""
+  """-- 卖家/商家备注（内部使用）"""
+  seller_remark: String
+
+  """店铺结算金额=商品总金额+配送费- 店铺优惠/折扣"""
   settle_amount: numeric
 
   """给店铺结算的时间"""
@@ -7093,12 +8407,35 @@ type shop_orders_max_fields {
   """关联外建，由哪个用户订单产生的店铺订单"""
   shop_userorder_shop_userorders: bigint
   updated_at: timestamptz
+
+  """快照 用户地址类型取值：[campus（校内）、normal（校外）]  为空表示下单时无需收货地址（如部分线下单、自提等，以业务规则为准）"""
+  user_address_type: String
+
+  """外键，用户地址id，仅用于记录"""
+  user_address_user_addresses: bigint
+
+  """
+  关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计
+  """
+  user_users: bigint
 }
 
 """
 order by max() on columns of table "shop_orders"
 """
 input shop_orders_max_order_by {
+  """快照，如果选择的校内地址，记录楼栋id，方便统计"""
+  building_buildings: order_by
+
+  """快照，如果选择的校内地址，记录房间id，方便统计"""
+  building_room_building_rooms: order_by
+
+  """-- 买家订单备注"""
+  buyer_remark: order_by
+
+  """快照，如果选择的校内地址，记录学校id，方便统计"""
+  campus_campuses: order_by
+
   """取消时间(超时未付或商家拒单)"""
   cancelled_at: order_by
 
@@ -7115,8 +8452,13 @@ input shop_orders_max_order_by {
   """配送费"""
   delivery_fee: order_by
 
-  """优惠/折扣"""
+  """店铺 优惠/折扣"""
   discount_amount: order_by
+
+  """
+  配送方式/履约方式：campus_delivery=校园配（要求用户地址必须是校内地址）；store_express=快递；store_pickup=门店自提；store_direct =门店直接购买；store_delivery=门店自配/第三方（非校园网）。
+  """
+  fulfillment_type: order_by
   id: order_by
 
   """
@@ -7138,12 +8480,33 @@ input shop_orders_max_order_by {
   """用户确认收货时间（用户点击确认）"""
   received_at: order_by
 
+  """快照，收货人详细地址"""
+  receiver_address: order_by
+
+  """快照，收货城市"""
+  receiver_city: order_by
+
+  """快照，收货街道"""
+  receiver_district: order_by
+
+  """快照，收货人姓名"""
+  receiver_name: order_by
+
+  """快照，收货人电话"""
+  receiver_phone: order_by
+
+  """快照，收货省份"""
+  receiver_province: order_by
+
   """
   | 状态值         | 含义  | 触发条件     | | ----------- | --- | -------- | | `NULL`      | 无售后 | 正常订单     | | `refunding` | 退款中 | 用户申请退款   | | `refunded`  | 已退款 | 退款完成     | | `rejected`  | 已拒绝 | 商家拒绝退款申请 |
   """
   refund_status: order_by
 
-  """店铺结算金额=商品总金额+配送费-优惠/折扣"""
+  """-- 卖家/商家备注（内部使用）"""
+  seller_remark: order_by
+
+  """店铺结算金额=商品总金额+配送费- 店铺优惠/折扣"""
   settle_amount: order_by
 
   """给店铺结算的时间"""
@@ -7163,10 +8526,33 @@ input shop_orders_max_order_by {
   """关联外建，由哪个用户订单产生的店铺订单"""
   shop_userorder_shop_userorders: order_by
   updated_at: order_by
+
+  """快照 用户地址类型取值：[campus（校内）、normal（校外）]  为空表示下单时无需收货地址（如部分线下单、自提等，以业务规则为准）"""
+  user_address_type: order_by
+
+  """外键，用户地址id，仅用于记录"""
+  user_address_user_addresses: order_by
+
+  """
+  关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计
+  """
+  user_users: order_by
 }
 
 """aggregate min on columns"""
 type shop_orders_min_fields {
+  """快照，如果选择的校内地址，记录楼栋id，方便统计"""
+  building_buildings: bigint
+
+  """快照，如果选择的校内地址，记录房间id，方便统计"""
+  building_room_building_rooms: bigint
+
+  """-- 买家订单备注"""
+  buyer_remark: String
+
+  """快照，如果选择的校内地址，记录学校id，方便统计"""
+  campus_campuses: bigint
+
   """取消时间(超时未付或商家拒单)"""
   cancelled_at: timestamptz
 
@@ -7183,8 +8569,13 @@ type shop_orders_min_fields {
   """配送费"""
   delivery_fee: numeric
 
-  """优惠/折扣"""
+  """店铺 优惠/折扣"""
   discount_amount: numeric
+
+  """
+  配送方式/履约方式：campus_delivery=校园配（要求用户地址必须是校内地址）；store_express=快递；store_pickup=门店自提；store_direct =门店直接购买；store_delivery=门店自配/第三方（非校园网）。
+  """
+  fulfillment_type: String
   id: bigint
 
   """
@@ -7206,12 +8597,33 @@ type shop_orders_min_fields {
   """用户确认收货时间（用户点击确认）"""
   received_at: timestamptz
 
+  """快照，收货人详细地址"""
+  receiver_address: String
+
+  """快照，收货城市"""
+  receiver_city: String
+
+  """快照，收货街道"""
+  receiver_district: String
+
+  """快照，收货人姓名"""
+  receiver_name: String
+
+  """快照，收货人电话"""
+  receiver_phone: String
+
+  """快照，收货省份"""
+  receiver_province: String
+
   """
   | 状态值         | 含义  | 触发条件     | | ----------- | --- | -------- | | `NULL`      | 无售后 | 正常订单     | | `refunding` | 退款中 | 用户申请退款   | | `refunded`  | 已退款 | 退款完成     | | `rejected`  | 已拒绝 | 商家拒绝退款申请 |
   """
   refund_status: String
 
-  """店铺结算金额=商品总金额+配送费-优惠/折扣"""
+  """-- 卖家/商家备注（内部使用）"""
+  seller_remark: String
+
+  """店铺结算金额=商品总金额+配送费- 店铺优惠/折扣"""
   settle_amount: numeric
 
   """给店铺结算的时间"""
@@ -7231,12 +8643,35 @@ type shop_orders_min_fields {
   """关联外建，由哪个用户订单产生的店铺订单"""
   shop_userorder_shop_userorders: bigint
   updated_at: timestamptz
+
+  """快照 用户地址类型取值：[campus（校内）、normal（校外）]  为空表示下单时无需收货地址（如部分线下单、自提等，以业务规则为准）"""
+  user_address_type: String
+
+  """外键，用户地址id，仅用于记录"""
+  user_address_user_addresses: bigint
+
+  """
+  关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计
+  """
+  user_users: bigint
 }
 
 """
 order by min() on columns of table "shop_orders"
 """
 input shop_orders_min_order_by {
+  """快照，如果选择的校内地址，记录楼栋id，方便统计"""
+  building_buildings: order_by
+
+  """快照，如果选择的校内地址，记录房间id，方便统计"""
+  building_room_building_rooms: order_by
+
+  """-- 买家订单备注"""
+  buyer_remark: order_by
+
+  """快照，如果选择的校内地址，记录学校id，方便统计"""
+  campus_campuses: order_by
+
   """取消时间(超时未付或商家拒单)"""
   cancelled_at: order_by
 
@@ -7253,8 +8688,13 @@ input shop_orders_min_order_by {
   """配送费"""
   delivery_fee: order_by
 
-  """优惠/折扣"""
+  """店铺 优惠/折扣"""
   discount_amount: order_by
+
+  """
+  配送方式/履约方式：campus_delivery=校园配（要求用户地址必须是校内地址）；store_express=快递；store_pickup=门店自提；store_direct =门店直接购买；store_delivery=门店自配/第三方（非校园网）。
+  """
+  fulfillment_type: order_by
   id: order_by
 
   """
@@ -7276,12 +8716,33 @@ input shop_orders_min_order_by {
   """用户确认收货时间（用户点击确认）"""
   received_at: order_by
 
+  """快照，收货人详细地址"""
+  receiver_address: order_by
+
+  """快照，收货城市"""
+  receiver_city: order_by
+
+  """快照，收货街道"""
+  receiver_district: order_by
+
+  """快照，收货人姓名"""
+  receiver_name: order_by
+
+  """快照，收货人电话"""
+  receiver_phone: order_by
+
+  """快照，收货省份"""
+  receiver_province: order_by
+
   """
   | 状态值         | 含义  | 触发条件     | | ----------- | --- | -------- | | `NULL`      | 无售后 | 正常订单     | | `refunding` | 退款中 | 用户申请退款   | | `refunded`  | 已退款 | 退款完成     | | `rejected`  | 已拒绝 | 商家拒绝退款申请 |
   """
   refund_status: order_by
 
-  """店铺结算金额=商品总金额+配送费-优惠/折扣"""
+  """-- 卖家/商家备注（内部使用）"""
+  seller_remark: order_by
+
+  """店铺结算金额=商品总金额+配送费- 店铺优惠/折扣"""
   settle_amount: order_by
 
   """给店铺结算的时间"""
@@ -7301,6 +8762,17 @@ input shop_orders_min_order_by {
   """关联外建，由哪个用户订单产生的店铺订单"""
   shop_userorder_shop_userorders: order_by
   updated_at: order_by
+
+  """快照 用户地址类型取值：[campus（校内）、normal（校外）]  为空表示下单时无需收货地址（如部分线下单、自提等，以业务规则为准）"""
+  user_address_type: order_by
+
+  """外键，用户地址id，仅用于记录"""
+  user_address_user_addresses: order_by
+
+  """
+  关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计
+  """
+  user_users: order_by
 }
 
 """
@@ -7335,6 +8807,10 @@ input shop_orders_on_conflict {
 
 """Ordering options when selecting data from "shop_orders"."""
 input shop_orders_order_by {
+  building_buildings: order_by
+  building_room_building_rooms: order_by
+  buyer_remark: order_by
+  campus_campuses: order_by
   cancelled_at: order_by
   completed_at: order_by
   confirmed_at: order_by
@@ -7342,13 +8818,21 @@ input shop_orders_order_by {
   delivered_at: order_by
   delivery_fee: order_by
   discount_amount: order_by
+  fulfillment_type: order_by
   id: order_by
   order_status: order_by
   paid_at: order_by
   pay_status: order_by
   product_amount: order_by
   received_at: order_by
+  receiver_address: order_by
+  receiver_city: order_by
+  receiver_district: order_by
+  receiver_name: order_by
+  receiver_phone: order_by
+  receiver_province: order_by
   refund_status: order_by
+  seller_remark: order_by
   settle_amount: order_by
   settled_at: order_by
   ship_status: order_by
@@ -7359,6 +8843,11 @@ input shop_orders_order_by {
   shop_userorder: shop_userorders_order_by
   shop_userorder_shop_userorders: order_by
   updated_at: order_by
+  user: users_order_by
+  user_address: user_addresses_order_by
+  user_address_type: order_by
+  user_address_user_addresses: order_by
+  user_users: order_by
 }
 
 """primary key columns input for table: shop_orders"""
@@ -7370,6 +8859,18 @@ input shop_orders_pk_columns_input {
 select columns of table "shop_orders"
 """
 enum shop_orders_select_column {
+  """column name"""
+  building_buildings
+
+  """column name"""
+  building_room_building_rooms
+
+  """column name"""
+  buyer_remark
+
+  """column name"""
+  campus_campuses
+
   """column name"""
   cancelled_at
 
@@ -7392,6 +8893,9 @@ enum shop_orders_select_column {
   discount_amount
 
   """column name"""
+  fulfillment_type
+
+  """column name"""
   id
 
   """column name"""
@@ -7410,7 +8914,28 @@ enum shop_orders_select_column {
   received_at
 
   """column name"""
+  receiver_address
+
+  """column name"""
+  receiver_city
+
+  """column name"""
+  receiver_district
+
+  """column name"""
+  receiver_name
+
+  """column name"""
+  receiver_phone
+
+  """column name"""
+  receiver_province
+
+  """column name"""
   refund_status
+
+  """column name"""
+  seller_remark
 
   """column name"""
   settle_amount
@@ -7432,12 +8957,33 @@ enum shop_orders_select_column {
 
   """column name"""
   updated_at
+
+  """column name"""
+  user_address_type
+
+  """column name"""
+  user_address_user_addresses
+
+  """column name"""
+  user_users
 }
 
 """
 input type for updating data in table "shop_orders"
 """
 input shop_orders_set_input {
+  """快照，如果选择的校内地址，记录楼栋id，方便统计"""
+  building_buildings: bigint
+
+  """快照，如果选择的校内地址，记录房间id，方便统计"""
+  building_room_building_rooms: bigint
+
+  """-- 买家订单备注"""
+  buyer_remark: String
+
+  """快照，如果选择的校内地址，记录学校id，方便统计"""
+  campus_campuses: bigint
+
   """取消时间(超时未付或商家拒单)"""
   cancelled_at: timestamptz
 
@@ -7454,8 +9000,13 @@ input shop_orders_set_input {
   """配送费"""
   delivery_fee: numeric
 
-  """优惠/折扣"""
+  """店铺 优惠/折扣"""
   discount_amount: numeric
+
+  """
+  配送方式/履约方式：campus_delivery=校园配（要求用户地址必须是校内地址）；store_express=快递；store_pickup=门店自提；store_direct =门店直接购买；store_delivery=门店自配/第三方（非校园网）。
+  """
+  fulfillment_type: String
   id: bigint
 
   """
@@ -7477,12 +9028,33 @@ input shop_orders_set_input {
   """用户确认收货时间（用户点击确认）"""
   received_at: timestamptz
 
+  """快照，收货人详细地址"""
+  receiver_address: String
+
+  """快照，收货城市"""
+  receiver_city: String
+
+  """快照，收货街道"""
+  receiver_district: String
+
+  """快照，收货人姓名"""
+  receiver_name: String
+
+  """快照，收货人电话"""
+  receiver_phone: String
+
+  """快照，收货省份"""
+  receiver_province: String
+
   """
   | 状态值         | 含义  | 触发条件     | | ----------- | --- | -------- | | `NULL`      | 无售后 | 正常订单     | | `refunding` | 退款中 | 用户申请退款   | | `refunded`  | 已退款 | 退款完成     | | `rejected`  | 已拒绝 | 商家拒绝退款申请 |
   """
   refund_status: String
 
-  """店铺结算金额=商品总金额+配送费-优惠/折扣"""
+  """-- 卖家/商家备注（内部使用）"""
+  seller_remark: String
+
+  """店铺结算金额=商品总金额+配送费- 店铺优惠/折扣"""
   settle_amount: numeric
 
   """给店铺结算的时间"""
@@ -7502,21 +9074,41 @@ input shop_orders_set_input {
   """关联外建，由哪个用户订单产生的店铺订单"""
   shop_userorder_shop_userorders: bigint
   updated_at: timestamptz
+
+  """快照 用户地址类型取值：[campus（校内）、normal（校外）]  为空表示下单时无需收货地址（如部分线下单、自提等，以业务规则为准）"""
+  user_address_type: String
+
+  """外键，用户地址id，仅用于记录"""
+  user_address_user_addresses: bigint
+
+  """
+  关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计
+  """
+  user_users: bigint
 }
 
 """aggregate stddev on columns"""
 type shop_orders_stddev_fields {
+  """快照，如果选择的校内地址，记录楼栋id，方便统计"""
+  building_buildings: Float
+
+  """快照，如果选择的校内地址，记录房间id，方便统计"""
+  building_room_building_rooms: Float
+
+  """快照，如果选择的校内地址，记录学校id，方便统计"""
+  campus_campuses: Float
+
   """配送费"""
   delivery_fee: Float
 
-  """优惠/折扣"""
+  """店铺 优惠/折扣"""
   discount_amount: Float
   id: Float
 
   """商品总金额=所有的产品 价格*数量 之和"""
   product_amount: Float
 
-  """店铺结算金额=商品总金额+配送费-优惠/折扣"""
+  """店铺结算金额=商品总金额+配送费- 店铺优惠/折扣"""
   settle_amount: Float
 
   """关联外键，哪个店铺的订单"""
@@ -7524,23 +9116,40 @@ type shop_orders_stddev_fields {
 
   """关联外建，由哪个用户订单产生的店铺订单"""
   shop_userorder_shop_userorders: Float
+
+  """外键，用户地址id，仅用于记录"""
+  user_address_user_addresses: Float
+
+  """
+  关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计
+  """
+  user_users: Float
 }
 
 """
 order by stddev() on columns of table "shop_orders"
 """
 input shop_orders_stddev_order_by {
+  """快照，如果选择的校内地址，记录楼栋id，方便统计"""
+  building_buildings: order_by
+
+  """快照，如果选择的校内地址，记录房间id，方便统计"""
+  building_room_building_rooms: order_by
+
+  """快照，如果选择的校内地址，记录学校id，方便统计"""
+  campus_campuses: order_by
+
   """配送费"""
   delivery_fee: order_by
 
-  """优惠/折扣"""
+  """店铺 优惠/折扣"""
   discount_amount: order_by
   id: order_by
 
   """商品总金额=所有的产品 价格*数量 之和"""
   product_amount: order_by
 
-  """店铺结算金额=商品总金额+配送费-优惠/折扣"""
+  """店铺结算金额=商品总金额+配送费- 店铺优惠/折扣"""
   settle_amount: order_by
 
   """关联外键，哪个店铺的订单"""
@@ -7548,21 +9157,38 @@ input shop_orders_stddev_order_by {
 
   """关联外建，由哪个用户订单产生的店铺订单"""
   shop_userorder_shop_userorders: order_by
+
+  """外键，用户地址id，仅用于记录"""
+  user_address_user_addresses: order_by
+
+  """
+  关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计
+  """
+  user_users: order_by
 }
 
 """aggregate stddev_pop on columns"""
 type shop_orders_stddev_pop_fields {
+  """快照，如果选择的校内地址，记录楼栋id，方便统计"""
+  building_buildings: Float
+
+  """快照，如果选择的校内地址，记录房间id，方便统计"""
+  building_room_building_rooms: Float
+
+  """快照，如果选择的校内地址，记录学校id，方便统计"""
+  campus_campuses: Float
+
   """配送费"""
   delivery_fee: Float
 
-  """优惠/折扣"""
+  """店铺 优惠/折扣"""
   discount_amount: Float
   id: Float
 
   """商品总金额=所有的产品 价格*数量 之和"""
   product_amount: Float
 
-  """店铺结算金额=商品总金额+配送费-优惠/折扣"""
+  """店铺结算金额=商品总金额+配送费- 店铺优惠/折扣"""
   settle_amount: Float
 
   """关联外键，哪个店铺的订单"""
@@ -7570,23 +9196,40 @@ type shop_orders_stddev_pop_fields {
 
   """关联外建，由哪个用户订单产生的店铺订单"""
   shop_userorder_shop_userorders: Float
+
+  """外键，用户地址id，仅用于记录"""
+  user_address_user_addresses: Float
+
+  """
+  关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计
+  """
+  user_users: Float
 }
 
 """
 order by stddev_pop() on columns of table "shop_orders"
 """
 input shop_orders_stddev_pop_order_by {
+  """快照，如果选择的校内地址，记录楼栋id，方便统计"""
+  building_buildings: order_by
+
+  """快照，如果选择的校内地址，记录房间id，方便统计"""
+  building_room_building_rooms: order_by
+
+  """快照，如果选择的校内地址，记录学校id，方便统计"""
+  campus_campuses: order_by
+
   """配送费"""
   delivery_fee: order_by
 
-  """优惠/折扣"""
+  """店铺 优惠/折扣"""
   discount_amount: order_by
   id: order_by
 
   """商品总金额=所有的产品 价格*数量 之和"""
   product_amount: order_by
 
-  """店铺结算金额=商品总金额+配送费-优惠/折扣"""
+  """店铺结算金额=商品总金额+配送费- 店铺优惠/折扣"""
   settle_amount: order_by
 
   """关联外键，哪个店铺的订单"""
@@ -7594,21 +9237,38 @@ input shop_orders_stddev_pop_order_by {
 
   """关联外建，由哪个用户订单产生的店铺订单"""
   shop_userorder_shop_userorders: order_by
+
+  """外键，用户地址id，仅用于记录"""
+  user_address_user_addresses: order_by
+
+  """
+  关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计
+  """
+  user_users: order_by
 }
 
 """aggregate stddev_samp on columns"""
 type shop_orders_stddev_samp_fields {
+  """快照，如果选择的校内地址，记录楼栋id，方便统计"""
+  building_buildings: Float
+
+  """快照，如果选择的校内地址，记录房间id，方便统计"""
+  building_room_building_rooms: Float
+
+  """快照，如果选择的校内地址，记录学校id，方便统计"""
+  campus_campuses: Float
+
   """配送费"""
   delivery_fee: Float
 
-  """优惠/折扣"""
+  """店铺 优惠/折扣"""
   discount_amount: Float
   id: Float
 
   """商品总金额=所有的产品 价格*数量 之和"""
   product_amount: Float
 
-  """店铺结算金额=商品总金额+配送费-优惠/折扣"""
+  """店铺结算金额=商品总金额+配送费- 店铺优惠/折扣"""
   settle_amount: Float
 
   """关联外键，哪个店铺的订单"""
@@ -7616,23 +9276,40 @@ type shop_orders_stddev_samp_fields {
 
   """关联外建，由哪个用户订单产生的店铺订单"""
   shop_userorder_shop_userorders: Float
+
+  """外键，用户地址id，仅用于记录"""
+  user_address_user_addresses: Float
+
+  """
+  关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计
+  """
+  user_users: Float
 }
 
 """
 order by stddev_samp() on columns of table "shop_orders"
 """
 input shop_orders_stddev_samp_order_by {
+  """快照，如果选择的校内地址，记录楼栋id，方便统计"""
+  building_buildings: order_by
+
+  """快照，如果选择的校内地址，记录房间id，方便统计"""
+  building_room_building_rooms: order_by
+
+  """快照，如果选择的校内地址，记录学校id，方便统计"""
+  campus_campuses: order_by
+
   """配送费"""
   delivery_fee: order_by
 
-  """优惠/折扣"""
+  """店铺 优惠/折扣"""
   discount_amount: order_by
   id: order_by
 
   """商品总金额=所有的产品 价格*数量 之和"""
   product_amount: order_by
 
-  """店铺结算金额=商品总金额+配送费-优惠/折扣"""
+  """店铺结算金额=商品总金额+配送费- 店铺优惠/折扣"""
   settle_amount: order_by
 
   """关联外键，哪个店铺的订单"""
@@ -7640,6 +9317,14 @@ input shop_orders_stddev_samp_order_by {
 
   """关联外建，由哪个用户订单产生的店铺订单"""
   shop_userorder_shop_userorders: order_by
+
+  """外键，用户地址id，仅用于记录"""
+  user_address_user_addresses: order_by
+
+  """
+  关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计
+  """
+  user_users: order_by
 }
 
 """
@@ -7655,6 +9340,18 @@ input shop_orders_stream_cursor_input {
 
 """Initial value of the column from where the streaming should start"""
 input shop_orders_stream_cursor_value_input {
+  """快照，如果选择的校内地址，记录楼栋id，方便统计"""
+  building_buildings: bigint
+
+  """快照，如果选择的校内地址，记录房间id，方便统计"""
+  building_room_building_rooms: bigint
+
+  """-- 买家订单备注"""
+  buyer_remark: String
+
+  """快照，如果选择的校内地址，记录学校id，方便统计"""
+  campus_campuses: bigint
+
   """取消时间(超时未付或商家拒单)"""
   cancelled_at: timestamptz
 
@@ -7671,8 +9368,13 @@ input shop_orders_stream_cursor_value_input {
   """配送费"""
   delivery_fee: numeric
 
-  """优惠/折扣"""
+  """店铺 优惠/折扣"""
   discount_amount: numeric
+
+  """
+  配送方式/履约方式：campus_delivery=校园配（要求用户地址必须是校内地址）；store_express=快递；store_pickup=门店自提；store_direct =门店直接购买；store_delivery=门店自配/第三方（非校园网）。
+  """
+  fulfillment_type: String
   id: bigint
 
   """
@@ -7694,12 +9396,33 @@ input shop_orders_stream_cursor_value_input {
   """用户确认收货时间（用户点击确认）"""
   received_at: timestamptz
 
+  """快照，收货人详细地址"""
+  receiver_address: String
+
+  """快照，收货城市"""
+  receiver_city: String
+
+  """快照，收货街道"""
+  receiver_district: String
+
+  """快照，收货人姓名"""
+  receiver_name: String
+
+  """快照，收货人电话"""
+  receiver_phone: String
+
+  """快照，收货省份"""
+  receiver_province: String
+
   """
   | 状态值         | 含义  | 触发条件     | | ----------- | --- | -------- | | `NULL`      | 无售后 | 正常订单     | | `refunding` | 退款中 | 用户申请退款   | | `refunded`  | 已退款 | 退款完成     | | `rejected`  | 已拒绝 | 商家拒绝退款申请 |
   """
   refund_status: String
 
-  """店铺结算金额=商品总金额+配送费-优惠/折扣"""
+  """-- 卖家/商家备注（内部使用）"""
+  seller_remark: String
+
+  """店铺结算金额=商品总金额+配送费- 店铺优惠/折扣"""
   settle_amount: numeric
 
   """给店铺结算的时间"""
@@ -7719,21 +9442,41 @@ input shop_orders_stream_cursor_value_input {
   """关联外建，由哪个用户订单产生的店铺订单"""
   shop_userorder_shop_userorders: bigint
   updated_at: timestamptz
+
+  """快照 用户地址类型取值：[campus（校内）、normal（校外）]  为空表示下单时无需收货地址（如部分线下单、自提等，以业务规则为准）"""
+  user_address_type: String
+
+  """外键，用户地址id，仅用于记录"""
+  user_address_user_addresses: bigint
+
+  """
+  关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计
+  """
+  user_users: bigint
 }
 
 """aggregate sum on columns"""
 type shop_orders_sum_fields {
+  """快照，如果选择的校内地址，记录楼栋id，方便统计"""
+  building_buildings: bigint
+
+  """快照，如果选择的校内地址，记录房间id，方便统计"""
+  building_room_building_rooms: bigint
+
+  """快照，如果选择的校内地址，记录学校id，方便统计"""
+  campus_campuses: bigint
+
   """配送费"""
   delivery_fee: numeric
 
-  """优惠/折扣"""
+  """店铺 优惠/折扣"""
   discount_amount: numeric
   id: bigint
 
   """商品总金额=所有的产品 价格*数量 之和"""
   product_amount: numeric
 
-  """店铺结算金额=商品总金额+配送费-优惠/折扣"""
+  """店铺结算金额=商品总金额+配送费- 店铺优惠/折扣"""
   settle_amount: numeric
 
   """关联外键，哪个店铺的订单"""
@@ -7741,23 +9484,40 @@ type shop_orders_sum_fields {
 
   """关联外建，由哪个用户订单产生的店铺订单"""
   shop_userorder_shop_userorders: bigint
+
+  """外键，用户地址id，仅用于记录"""
+  user_address_user_addresses: bigint
+
+  """
+  关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计
+  """
+  user_users: bigint
 }
 
 """
 order by sum() on columns of table "shop_orders"
 """
 input shop_orders_sum_order_by {
+  """快照，如果选择的校内地址，记录楼栋id，方便统计"""
+  building_buildings: order_by
+
+  """快照，如果选择的校内地址，记录房间id，方便统计"""
+  building_room_building_rooms: order_by
+
+  """快照，如果选择的校内地址，记录学校id，方便统计"""
+  campus_campuses: order_by
+
   """配送费"""
   delivery_fee: order_by
 
-  """优惠/折扣"""
+  """店铺 优惠/折扣"""
   discount_amount: order_by
   id: order_by
 
   """商品总金额=所有的产品 价格*数量 之和"""
   product_amount: order_by
 
-  """店铺结算金额=商品总金额+配送费-优惠/折扣"""
+  """店铺结算金额=商品总金额+配送费- 店铺优惠/折扣"""
   settle_amount: order_by
 
   """关联外键，哪个店铺的订单"""
@@ -7765,12 +9525,32 @@ input shop_orders_sum_order_by {
 
   """关联外建，由哪个用户订单产生的店铺订单"""
   shop_userorder_shop_userorders: order_by
+
+  """外键，用户地址id，仅用于记录"""
+  user_address_user_addresses: order_by
+
+  """
+  关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计
+  """
+  user_users: order_by
 }
 
 """
 update columns of table "shop_orders"
 """
 enum shop_orders_update_column {
+  """column name"""
+  building_buildings
+
+  """column name"""
+  building_room_building_rooms
+
+  """column name"""
+  buyer_remark
+
+  """column name"""
+  campus_campuses
+
   """column name"""
   cancelled_at
 
@@ -7793,6 +9573,9 @@ enum shop_orders_update_column {
   discount_amount
 
   """column name"""
+  fulfillment_type
+
+  """column name"""
   id
 
   """column name"""
@@ -7811,7 +9594,28 @@ enum shop_orders_update_column {
   received_at
 
   """column name"""
+  receiver_address
+
+  """column name"""
+  receiver_city
+
+  """column name"""
+  receiver_district
+
+  """column name"""
+  receiver_name
+
+  """column name"""
+  receiver_phone
+
+  """column name"""
+  receiver_province
+
+  """column name"""
   refund_status
+
+  """column name"""
+  seller_remark
 
   """column name"""
   settle_amount
@@ -7833,6 +9637,15 @@ enum shop_orders_update_column {
 
   """column name"""
   updated_at
+
+  """column name"""
+  user_address_type
+
+  """column name"""
+  user_address_user_addresses
+
+  """column name"""
+  user_users
 }
 
 input shop_orders_updates {
@@ -7848,17 +9661,26 @@ input shop_orders_updates {
 
 """aggregate var_pop on columns"""
 type shop_orders_var_pop_fields {
+  """快照，如果选择的校内地址，记录楼栋id，方便统计"""
+  building_buildings: Float
+
+  """快照，如果选择的校内地址，记录房间id，方便统计"""
+  building_room_building_rooms: Float
+
+  """快照，如果选择的校内地址，记录学校id，方便统计"""
+  campus_campuses: Float
+
   """配送费"""
   delivery_fee: Float
 
-  """优惠/折扣"""
+  """店铺 优惠/折扣"""
   discount_amount: Float
   id: Float
 
   """商品总金额=所有的产品 价格*数量 之和"""
   product_amount: Float
 
-  """店铺结算金额=商品总金额+配送费-优惠/折扣"""
+  """店铺结算金额=商品总金额+配送费- 店铺优惠/折扣"""
   settle_amount: Float
 
   """关联外键，哪个店铺的订单"""
@@ -7866,23 +9688,40 @@ type shop_orders_var_pop_fields {
 
   """关联外建，由哪个用户订单产生的店铺订单"""
   shop_userorder_shop_userorders: Float
+
+  """外键，用户地址id，仅用于记录"""
+  user_address_user_addresses: Float
+
+  """
+  关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计
+  """
+  user_users: Float
 }
 
 """
 order by var_pop() on columns of table "shop_orders"
 """
 input shop_orders_var_pop_order_by {
+  """快照，如果选择的校内地址，记录楼栋id，方便统计"""
+  building_buildings: order_by
+
+  """快照，如果选择的校内地址，记录房间id，方便统计"""
+  building_room_building_rooms: order_by
+
+  """快照，如果选择的校内地址，记录学校id，方便统计"""
+  campus_campuses: order_by
+
   """配送费"""
   delivery_fee: order_by
 
-  """优惠/折扣"""
+  """店铺 优惠/折扣"""
   discount_amount: order_by
   id: order_by
 
   """商品总金额=所有的产品 价格*数量 之和"""
   product_amount: order_by
 
-  """店铺结算金额=商品总金额+配送费-优惠/折扣"""
+  """店铺结算金额=商品总金额+配送费- 店铺优惠/折扣"""
   settle_amount: order_by
 
   """关联外键，哪个店铺的订单"""
@@ -7890,21 +9729,38 @@ input shop_orders_var_pop_order_by {
 
   """关联外建，由哪个用户订单产生的店铺订单"""
   shop_userorder_shop_userorders: order_by
+
+  """外键，用户地址id，仅用于记录"""
+  user_address_user_addresses: order_by
+
+  """
+  关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计
+  """
+  user_users: order_by
 }
 
 """aggregate var_samp on columns"""
 type shop_orders_var_samp_fields {
+  """快照，如果选择的校内地址，记录楼栋id，方便统计"""
+  building_buildings: Float
+
+  """快照，如果选择的校内地址，记录房间id，方便统计"""
+  building_room_building_rooms: Float
+
+  """快照，如果选择的校内地址，记录学校id，方便统计"""
+  campus_campuses: Float
+
   """配送费"""
   delivery_fee: Float
 
-  """优惠/折扣"""
+  """店铺 优惠/折扣"""
   discount_amount: Float
   id: Float
 
   """商品总金额=所有的产品 价格*数量 之和"""
   product_amount: Float
 
-  """店铺结算金额=商品总金额+配送费-优惠/折扣"""
+  """店铺结算金额=商品总金额+配送费- 店铺优惠/折扣"""
   settle_amount: Float
 
   """关联外键，哪个店铺的订单"""
@@ -7912,23 +9768,40 @@ type shop_orders_var_samp_fields {
 
   """关联外建，由哪个用户订单产生的店铺订单"""
   shop_userorder_shop_userorders: Float
+
+  """外键，用户地址id，仅用于记录"""
+  user_address_user_addresses: Float
+
+  """
+  关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计
+  """
+  user_users: Float
 }
 
 """
 order by var_samp() on columns of table "shop_orders"
 """
 input shop_orders_var_samp_order_by {
+  """快照，如果选择的校内地址，记录楼栋id，方便统计"""
+  building_buildings: order_by
+
+  """快照，如果选择的校内地址，记录房间id，方便统计"""
+  building_room_building_rooms: order_by
+
+  """快照，如果选择的校内地址，记录学校id，方便统计"""
+  campus_campuses: order_by
+
   """配送费"""
   delivery_fee: order_by
 
-  """优惠/折扣"""
+  """店铺 优惠/折扣"""
   discount_amount: order_by
   id: order_by
 
   """商品总金额=所有的产品 价格*数量 之和"""
   product_amount: order_by
 
-  """店铺结算金额=商品总金额+配送费-优惠/折扣"""
+  """店铺结算金额=商品总金额+配送费- 店铺优惠/折扣"""
   settle_amount: order_by
 
   """关联外键，哪个店铺的订单"""
@@ -7936,21 +9809,38 @@ input shop_orders_var_samp_order_by {
 
   """关联外建，由哪个用户订单产生的店铺订单"""
   shop_userorder_shop_userorders: order_by
+
+  """外键，用户地址id，仅用于记录"""
+  user_address_user_addresses: order_by
+
+  """
+  关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计
+  """
+  user_users: order_by
 }
 
 """aggregate variance on columns"""
 type shop_orders_variance_fields {
+  """快照，如果选择的校内地址，记录楼栋id，方便统计"""
+  building_buildings: Float
+
+  """快照，如果选择的校内地址，记录房间id，方便统计"""
+  building_room_building_rooms: Float
+
+  """快照，如果选择的校内地址，记录学校id，方便统计"""
+  campus_campuses: Float
+
   """配送费"""
   delivery_fee: Float
 
-  """优惠/折扣"""
+  """店铺 优惠/折扣"""
   discount_amount: Float
   id: Float
 
   """商品总金额=所有的产品 价格*数量 之和"""
   product_amount: Float
 
-  """店铺结算金额=商品总金额+配送费-优惠/折扣"""
+  """店铺结算金额=商品总金额+配送费- 店铺优惠/折扣"""
   settle_amount: Float
 
   """关联外键，哪个店铺的订单"""
@@ -7958,23 +9848,40 @@ type shop_orders_variance_fields {
 
   """关联外建，由哪个用户订单产生的店铺订单"""
   shop_userorder_shop_userorders: Float
+
+  """外键，用户地址id，仅用于记录"""
+  user_address_user_addresses: Float
+
+  """
+  关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计
+  """
+  user_users: Float
 }
 
 """
 order by variance() on columns of table "shop_orders"
 """
 input shop_orders_variance_order_by {
+  """快照，如果选择的校内地址，记录楼栋id，方便统计"""
+  building_buildings: order_by
+
+  """快照，如果选择的校内地址，记录房间id，方便统计"""
+  building_room_building_rooms: order_by
+
+  """快照，如果选择的校内地址，记录学校id，方便统计"""
+  campus_campuses: order_by
+
   """配送费"""
   delivery_fee: order_by
 
-  """优惠/折扣"""
+  """店铺 优惠/折扣"""
   discount_amount: order_by
   id: order_by
 
   """商品总金额=所有的产品 价格*数量 之和"""
   product_amount: order_by
 
-  """店铺结算金额=商品总金额+配送费-优惠/折扣"""
+  """店铺结算金额=商品总金额+配送费- 店铺优惠/折扣"""
   settle_amount: order_by
 
   """关联外键，哪个店铺的订单"""
@@ -7982,27 +9889,26 @@ input shop_orders_variance_order_by {
 
   """关联外建，由哪个用户订单产生的店铺订单"""
   shop_userorder_shop_userorders: order_by
+
+  """外键，用户地址id，仅用于记录"""
+  user_address_user_addresses: order_by
+
+  """
+  关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的  和shop_userorders.user_users是一样的，这里增加的目的是方便统计
+  """
+  user_users: order_by
 }
 
 """店铺的用户订单，用户侧看到的"""
 type shop_userorders {
   created_at: timestamptz!
+
+  """用于审计，谁操作的用户下单，线下订单必填，线上订单为空"""
+  created_by_users: bigint
   id: bigint!
 
   """用户支付金额"""
   pay_amount: numeric!
-
-  """详细地址"""
-  receiver_address: String
-
-  """收货人姓名"""
-  receiver_name: String
-
-  """收货人电话"""
-  receiver_phone: String
-
-  """用户订单备注"""
-  remark: String
 
   """An object relationship"""
   shop: shops!
@@ -8045,13 +9951,21 @@ type shop_userorders {
 
   """关联外建，用户在哪个店铺下的单"""
   shop_shops: bigint!
+
+  """
+  订单类型：[online（线上订单）、offline（线下订单，线下订单下的所有店铺订单的所属店铺一定是当前下单店铺，就是说线下下单时只能下自己店铺的商品，不包含扩展店铺，只会有一个店铺订单）]
+  """
+  type: String!
   updated_at: timestamptz!
 
   """An object relationship"""
-  user: users!
+  user: users
 
-  """关联外建，哪个用户下的单"""
-  user_users: bigint!
+  """An object relationship"""
+  userByCreatedByUsers: users
+
+  """关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的"""
+  user_users: bigint
 }
 
 """
@@ -8119,6 +10033,8 @@ input shop_userorders_arr_rel_insert_input {
 
 """aggregate avg on columns"""
 type shop_userorders_avg_fields {
+  """用于审计，谁操作的用户下单，线下订单必填，线上订单为空"""
+  created_by_users: Float
   id: Float
 
   """用户支付金额"""
@@ -8127,7 +10043,7 @@ type shop_userorders_avg_fields {
   """关联外建，用户在哪个店铺下的单"""
   shop_shops: Float
 
-  """关联外建，哪个用户下的单"""
+  """关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的"""
   user_users: Float
 }
 
@@ -8135,6 +10051,8 @@ type shop_userorders_avg_fields {
 order by avg() on columns of table "shop_userorders"
 """
 input shop_userorders_avg_order_by {
+  """用于审计，谁操作的用户下单，线下订单必填，线上订单为空"""
+  created_by_users: order_by
   id: order_by
 
   """用户支付金额"""
@@ -8143,7 +10061,7 @@ input shop_userorders_avg_order_by {
   """关联外建，用户在哪个店铺下的单"""
   shop_shops: order_by
 
-  """关联外建，哪个用户下的单"""
+  """关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的"""
   user_users: order_by
 }
 
@@ -8155,18 +10073,17 @@ input shop_userorders_bool_exp {
   _not: shop_userorders_bool_exp
   _or: [shop_userorders_bool_exp!]
   created_at: timestamptz_comparison_exp
+  created_by_users: bigint_comparison_exp
   id: bigint_comparison_exp
   pay_amount: numeric_comparison_exp
-  receiver_address: String_comparison_exp
-  receiver_name: String_comparison_exp
-  receiver_phone: String_comparison_exp
-  remark: String_comparison_exp
   shop: shops_bool_exp
   shop_orders: shop_orders_bool_exp
   shop_orders_aggregate: shop_orders_aggregate_bool_exp
   shop_shops: bigint_comparison_exp
+  type: String_comparison_exp
   updated_at: timestamptz_comparison_exp
   user: users_bool_exp
+  userByCreatedByUsers: users_bool_exp
   user_users: bigint_comparison_exp
 }
 
@@ -8184,6 +10101,8 @@ enum shop_userorders_constraint {
 input type for incrementing numeric columns in table "shop_userorders"
 """
 input shop_userorders_inc_input {
+  """用于审计，谁操作的用户下单，线下订单必填，线上订单为空"""
+  created_by_users: bigint
   id: bigint
 
   """用户支付金额"""
@@ -8192,7 +10111,7 @@ input shop_userorders_inc_input {
   """关联外建，用户在哪个店铺下的单"""
   shop_shops: bigint
 
-  """关联外建，哪个用户下的单"""
+  """关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的"""
   user_users: bigint
 }
 
@@ -8201,59 +10120,52 @@ input type for inserting data into table "shop_userorders"
 """
 input shop_userorders_insert_input {
   created_at: timestamptz
+
+  """用于审计，谁操作的用户下单，线下订单必填，线上订单为空"""
+  created_by_users: bigint
   id: bigint
 
   """用户支付金额"""
   pay_amount: numeric
-
-  """详细地址"""
-  receiver_address: String
-
-  """收货人姓名"""
-  receiver_name: String
-
-  """收货人电话"""
-  receiver_phone: String
-
-  """用户订单备注"""
-  remark: String
   shop: shops_obj_rel_insert_input
   shop_orders: shop_orders_arr_rel_insert_input
 
   """关联外建，用户在哪个店铺下的单"""
   shop_shops: bigint
+
+  """
+  订单类型：[online（线上订单）、offline（线下订单，线下订单下的所有店铺订单的所属店铺一定是当前下单店铺，就是说线下下单时只能下自己店铺的商品，不包含扩展店铺，只会有一个店铺订单）]
+  """
+  type: String
   updated_at: timestamptz
   user: users_obj_rel_insert_input
+  userByCreatedByUsers: users_obj_rel_insert_input
 
-  """关联外建，哪个用户下的单"""
+  """关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的"""
   user_users: bigint
 }
 
 """aggregate max on columns"""
 type shop_userorders_max_fields {
   created_at: timestamptz
+
+  """用于审计，谁操作的用户下单，线下订单必填，线上订单为空"""
+  created_by_users: bigint
   id: bigint
 
   """用户支付金额"""
   pay_amount: numeric
 
-  """详细地址"""
-  receiver_address: String
-
-  """收货人姓名"""
-  receiver_name: String
-
-  """收货人电话"""
-  receiver_phone: String
-
-  """用户订单备注"""
-  remark: String
-
   """关联外建，用户在哪个店铺下的单"""
   shop_shops: bigint
+
+  """
+  订单类型：[online（线上订单）、offline（线下订单，线下订单下的所有店铺订单的所属店铺一定是当前下单店铺，就是说线下下单时只能下自己店铺的商品，不包含扩展店铺，只会有一个店铺订单）]
+  """
+  type: String
   updated_at: timestamptz
 
-  """关联外建，哪个用户下的单"""
+  """关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的"""
   user_users: bigint
 }
 
@@ -8262,56 +10174,48 @@ order by max() on columns of table "shop_userorders"
 """
 input shop_userorders_max_order_by {
   created_at: order_by
+
+  """用于审计，谁操作的用户下单，线下订单必填，线上订单为空"""
+  created_by_users: order_by
   id: order_by
 
   """用户支付金额"""
   pay_amount: order_by
 
-  """详细地址"""
-  receiver_address: order_by
-
-  """收货人姓名"""
-  receiver_name: order_by
-
-  """收货人电话"""
-  receiver_phone: order_by
-
-  """用户订单备注"""
-  remark: order_by
-
   """关联外建，用户在哪个店铺下的单"""
   shop_shops: order_by
+
+  """
+  订单类型：[online（线上订单）、offline（线下订单，线下订单下的所有店铺订单的所属店铺一定是当前下单店铺，就是说线下下单时只能下自己店铺的商品，不包含扩展店铺，只会有一个店铺订单）]
+  """
+  type: order_by
   updated_at: order_by
 
-  """关联外建，哪个用户下的单"""
+  """关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的"""
   user_users: order_by
 }
 
 """aggregate min on columns"""
 type shop_userorders_min_fields {
   created_at: timestamptz
+
+  """用于审计，谁操作的用户下单，线下订单必填，线上订单为空"""
+  created_by_users: bigint
   id: bigint
 
   """用户支付金额"""
   pay_amount: numeric
 
-  """详细地址"""
-  receiver_address: String
-
-  """收货人姓名"""
-  receiver_name: String
-
-  """收货人电话"""
-  receiver_phone: String
-
-  """用户订单备注"""
-  remark: String
-
   """关联外建，用户在哪个店铺下的单"""
   shop_shops: bigint
+
+  """
+  订单类型：[online（线上订单）、offline（线下订单，线下订单下的所有店铺订单的所属店铺一定是当前下单店铺，就是说线下下单时只能下自己店铺的商品，不包含扩展店铺，只会有一个店铺订单）]
+  """
+  type: String
   updated_at: timestamptz
 
-  """关联外建，哪个用户下的单"""
+  """关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的"""
   user_users: bigint
 }
 
@@ -8320,28 +10224,24 @@ order by min() on columns of table "shop_userorders"
 """
 input shop_userorders_min_order_by {
   created_at: order_by
+
+  """用于审计，谁操作的用户下单，线下订单必填，线上订单为空"""
+  created_by_users: order_by
   id: order_by
 
   """用户支付金额"""
   pay_amount: order_by
 
-  """详细地址"""
-  receiver_address: order_by
-
-  """收货人姓名"""
-  receiver_name: order_by
-
-  """收货人电话"""
-  receiver_phone: order_by
-
-  """用户订单备注"""
-  remark: order_by
-
   """关联外建，用户在哪个店铺下的单"""
   shop_shops: order_by
+
+  """
+  订单类型：[online（线上订单）、offline（线下订单，线下订单下的所有店铺订单的所属店铺一定是当前下单店铺，就是说线下下单时只能下自己店铺的商品，不包含扩展店铺，只会有一个店铺订单）]
+  """
+  type: order_by
   updated_at: order_by
 
-  """关联外建，哪个用户下的单"""
+  """关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的"""
   user_users: order_by
 }
 
@@ -8378,17 +10278,16 @@ input shop_userorders_on_conflict {
 """Ordering options when selecting data from "shop_userorders"."""
 input shop_userorders_order_by {
   created_at: order_by
+  created_by_users: order_by
   id: order_by
   pay_amount: order_by
-  receiver_address: order_by
-  receiver_name: order_by
-  receiver_phone: order_by
-  remark: order_by
   shop: shops_order_by
   shop_orders_aggregate: shop_orders_aggregate_order_by
   shop_shops: order_by
+  type: order_by
   updated_at: order_by
   user: users_order_by
+  userByCreatedByUsers: users_order_by
   user_users: order_by
 }
 
@@ -8405,25 +10304,19 @@ enum shop_userorders_select_column {
   created_at
 
   """column name"""
+  created_by_users
+
+  """column name"""
   id
 
   """column name"""
   pay_amount
 
   """column name"""
-  receiver_address
-
-  """column name"""
-  receiver_name
-
-  """column name"""
-  receiver_phone
-
-  """column name"""
-  remark
-
-  """column name"""
   shop_shops
+
+  """column name"""
+  type
 
   """column name"""
   updated_at
@@ -8437,33 +10330,31 @@ input type for updating data in table "shop_userorders"
 """
 input shop_userorders_set_input {
   created_at: timestamptz
+
+  """用于审计，谁操作的用户下单，线下订单必填，线上订单为空"""
+  created_by_users: bigint
   id: bigint
 
   """用户支付金额"""
   pay_amount: numeric
 
-  """详细地址"""
-  receiver_address: String
-
-  """收货人姓名"""
-  receiver_name: String
-
-  """收货人电话"""
-  receiver_phone: String
-
-  """用户订单备注"""
-  remark: String
-
   """关联外建，用户在哪个店铺下的单"""
   shop_shops: bigint
+
+  """
+  订单类型：[online（线上订单）、offline（线下订单，线下订单下的所有店铺订单的所属店铺一定是当前下单店铺，就是说线下下单时只能下自己店铺的商品，不包含扩展店铺，只会有一个店铺订单）]
+  """
+  type: String
   updated_at: timestamptz
 
-  """关联外建，哪个用户下的单"""
+  """关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的"""
   user_users: bigint
 }
 
 """aggregate stddev on columns"""
 type shop_userorders_stddev_fields {
+  """用于审计，谁操作的用户下单，线下订单必填，线上订单为空"""
+  created_by_users: Float
   id: Float
 
   """用户支付金额"""
@@ -8472,7 +10363,7 @@ type shop_userorders_stddev_fields {
   """关联外建，用户在哪个店铺下的单"""
   shop_shops: Float
 
-  """关联外建，哪个用户下的单"""
+  """关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的"""
   user_users: Float
 }
 
@@ -8480,6 +10371,8 @@ type shop_userorders_stddev_fields {
 order by stddev() on columns of table "shop_userorders"
 """
 input shop_userorders_stddev_order_by {
+  """用于审计，谁操作的用户下单，线下订单必填，线上订单为空"""
+  created_by_users: order_by
   id: order_by
 
   """用户支付金额"""
@@ -8488,12 +10381,14 @@ input shop_userorders_stddev_order_by {
   """关联外建，用户在哪个店铺下的单"""
   shop_shops: order_by
 
-  """关联外建，哪个用户下的单"""
+  """关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的"""
   user_users: order_by
 }
 
 """aggregate stddev_pop on columns"""
 type shop_userorders_stddev_pop_fields {
+  """用于审计，谁操作的用户下单，线下订单必填，线上订单为空"""
+  created_by_users: Float
   id: Float
 
   """用户支付金额"""
@@ -8502,7 +10397,7 @@ type shop_userorders_stddev_pop_fields {
   """关联外建，用户在哪个店铺下的单"""
   shop_shops: Float
 
-  """关联外建，哪个用户下的单"""
+  """关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的"""
   user_users: Float
 }
 
@@ -8510,6 +10405,8 @@ type shop_userorders_stddev_pop_fields {
 order by stddev_pop() on columns of table "shop_userorders"
 """
 input shop_userorders_stddev_pop_order_by {
+  """用于审计，谁操作的用户下单，线下订单必填，线上订单为空"""
+  created_by_users: order_by
   id: order_by
 
   """用户支付金额"""
@@ -8518,12 +10415,14 @@ input shop_userorders_stddev_pop_order_by {
   """关联外建，用户在哪个店铺下的单"""
   shop_shops: order_by
 
-  """关联外建，哪个用户下的单"""
+  """关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的"""
   user_users: order_by
 }
 
 """aggregate stddev_samp on columns"""
 type shop_userorders_stddev_samp_fields {
+  """用于审计，谁操作的用户下单，线下订单必填，线上订单为空"""
+  created_by_users: Float
   id: Float
 
   """用户支付金额"""
@@ -8532,7 +10431,7 @@ type shop_userorders_stddev_samp_fields {
   """关联外建，用户在哪个店铺下的单"""
   shop_shops: Float
 
-  """关联外建，哪个用户下的单"""
+  """关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的"""
   user_users: Float
 }
 
@@ -8540,6 +10439,8 @@ type shop_userorders_stddev_samp_fields {
 order by stddev_samp() on columns of table "shop_userorders"
 """
 input shop_userorders_stddev_samp_order_by {
+  """用于审计，谁操作的用户下单，线下订单必填，线上订单为空"""
+  created_by_users: order_by
   id: order_by
 
   """用户支付金额"""
@@ -8548,7 +10449,7 @@ input shop_userorders_stddev_samp_order_by {
   """关联外建，用户在哪个店铺下的单"""
   shop_shops: order_by
 
-  """关联外建，哪个用户下的单"""
+  """关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的"""
   user_users: order_by
 }
 
@@ -8566,33 +10467,31 @@ input shop_userorders_stream_cursor_input {
 """Initial value of the column from where the streaming should start"""
 input shop_userorders_stream_cursor_value_input {
   created_at: timestamptz
+
+  """用于审计，谁操作的用户下单，线下订单必填，线上订单为空"""
+  created_by_users: bigint
   id: bigint
 
   """用户支付金额"""
   pay_amount: numeric
 
-  """详细地址"""
-  receiver_address: String
-
-  """收货人姓名"""
-  receiver_name: String
-
-  """收货人电话"""
-  receiver_phone: String
-
-  """用户订单备注"""
-  remark: String
-
   """关联外建，用户在哪个店铺下的单"""
   shop_shops: bigint
+
+  """
+  订单类型：[online（线上订单）、offline（线下订单，线下订单下的所有店铺订单的所属店铺一定是当前下单店铺，就是说线下下单时只能下自己店铺的商品，不包含扩展店铺，只会有一个店铺订单）]
+  """
+  type: String
   updated_at: timestamptz
 
-  """关联外建，哪个用户下的单"""
+  """关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的"""
   user_users: bigint
 }
 
 """aggregate sum on columns"""
 type shop_userorders_sum_fields {
+  """用于审计，谁操作的用户下单，线下订单必填，线上订单为空"""
+  created_by_users: bigint
   id: bigint
 
   """用户支付金额"""
@@ -8601,7 +10500,7 @@ type shop_userorders_sum_fields {
   """关联外建，用户在哪个店铺下的单"""
   shop_shops: bigint
 
-  """关联外建，哪个用户下的单"""
+  """关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的"""
   user_users: bigint
 }
 
@@ -8609,6 +10508,8 @@ type shop_userorders_sum_fields {
 order by sum() on columns of table "shop_userorders"
 """
 input shop_userorders_sum_order_by {
+  """用于审计，谁操作的用户下单，线下订单必填，线上订单为空"""
+  created_by_users: order_by
   id: order_by
 
   """用户支付金额"""
@@ -8617,7 +10518,7 @@ input shop_userorders_sum_order_by {
   """关联外建，用户在哪个店铺下的单"""
   shop_shops: order_by
 
-  """关联外建，哪个用户下的单"""
+  """关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的"""
   user_users: order_by
 }
 
@@ -8629,25 +10530,19 @@ enum shop_userorders_update_column {
   created_at
 
   """column name"""
+  created_by_users
+
+  """column name"""
   id
 
   """column name"""
   pay_amount
 
   """column name"""
-  receiver_address
-
-  """column name"""
-  receiver_name
-
-  """column name"""
-  receiver_phone
-
-  """column name"""
-  remark
-
-  """column name"""
   shop_shops
+
+  """column name"""
+  type
 
   """column name"""
   updated_at
@@ -8669,6 +10564,8 @@ input shop_userorders_updates {
 
 """aggregate var_pop on columns"""
 type shop_userorders_var_pop_fields {
+  """用于审计，谁操作的用户下单，线下订单必填，线上订单为空"""
+  created_by_users: Float
   id: Float
 
   """用户支付金额"""
@@ -8677,7 +10574,7 @@ type shop_userorders_var_pop_fields {
   """关联外建，用户在哪个店铺下的单"""
   shop_shops: Float
 
-  """关联外建，哪个用户下的单"""
+  """关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的"""
   user_users: Float
 }
 
@@ -8685,6 +10582,8 @@ type shop_userorders_var_pop_fields {
 order by var_pop() on columns of table "shop_userorders"
 """
 input shop_userorders_var_pop_order_by {
+  """用于审计，谁操作的用户下单，线下订单必填，线上订单为空"""
+  created_by_users: order_by
   id: order_by
 
   """用户支付金额"""
@@ -8693,12 +10592,14 @@ input shop_userorders_var_pop_order_by {
   """关联外建，用户在哪个店铺下的单"""
   shop_shops: order_by
 
-  """关联外建，哪个用户下的单"""
+  """关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的"""
   user_users: order_by
 }
 
 """aggregate var_samp on columns"""
 type shop_userorders_var_samp_fields {
+  """用于审计，谁操作的用户下单，线下订单必填，线上订单为空"""
+  created_by_users: Float
   id: Float
 
   """用户支付金额"""
@@ -8707,7 +10608,7 @@ type shop_userorders_var_samp_fields {
   """关联外建，用户在哪个店铺下的单"""
   shop_shops: Float
 
-  """关联外建，哪个用户下的单"""
+  """关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的"""
   user_users: Float
 }
 
@@ -8715,6 +10616,8 @@ type shop_userorders_var_samp_fields {
 order by var_samp() on columns of table "shop_userorders"
 """
 input shop_userorders_var_samp_order_by {
+  """用于审计，谁操作的用户下单，线下订单必填，线上订单为空"""
+  created_by_users: order_by
   id: order_by
 
   """用户支付金额"""
@@ -8723,12 +10626,14 @@ input shop_userorders_var_samp_order_by {
   """关联外建，用户在哪个店铺下的单"""
   shop_shops: order_by
 
-  """关联外建，哪个用户下的单"""
+  """关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的"""
   user_users: order_by
 }
 
 """aggregate variance on columns"""
 type shop_userorders_variance_fields {
+  """用于审计，谁操作的用户下单，线下订单必填，线上订单为空"""
+  created_by_users: Float
   id: Float
 
   """用户支付金额"""
@@ -8737,7 +10642,7 @@ type shop_userorders_variance_fields {
   """关联外建，用户在哪个店铺下的单"""
   shop_shops: Float
 
-  """关联外建，哪个用户下的单"""
+  """关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的"""
   user_users: Float
 }
 
@@ -8745,6 +10650,8 @@ type shop_userorders_variance_fields {
 order by variance() on columns of table "shop_userorders"
 """
 input shop_userorders_variance_order_by {
+  """用于审计，谁操作的用户下单，线下订单必填，线上订单为空"""
+  created_by_users: order_by
   id: order_by
 
   """用户支付金额"""
@@ -8753,7 +10660,7 @@ input shop_userorders_variance_order_by {
   """关联外建，用户在哪个店铺下的单"""
   shop_shops: order_by
 
-  """关联外建，哪个用户下的单"""
+  """关联外键，下单的用户是谁 可以为空的原因是一些门店自己的订单如果没有让用户会员登录的话可能是匿名的"""
   user_users: order_by
 }
 
@@ -8762,11 +10669,13 @@ type shop_users {
   created_at: timestamptz!
   id: bigint!
 
-  """角色：1.admin（管理员） 2.visitor（访问用户）"""
+  """角色：[admin（管理员） 、visitor（访问用户）]"""
   role: String!
 
   """An object relationship"""
   shop: shops!
+
+  """外键，关联店铺"""
   shop_shops: bigint!
   updated_at: timestamptz!
 
@@ -8843,6 +10752,8 @@ input shop_users_arr_rel_insert_input {
 """aggregate avg on columns"""
 type shop_users_avg_fields {
   id: Float
+
+  """外键，关联店铺"""
   shop_shops: Float
 
   """关联外建，哪个用户"""
@@ -8854,6 +10765,8 @@ order by avg() on columns of table "shop_users"
 """
 input shop_users_avg_order_by {
   id: order_by
+
+  """外键，关联店铺"""
   shop_shops: order_by
 
   """关联外建，哪个用户"""
@@ -8885,6 +10798,11 @@ enum shop_users_constraint {
   unique or primary key constraint on columns "id"
   """
   shop_users_pkey
+
+  """
+  unique or primary key constraint on columns "user_users", "shop_shops"
+  """
+  shop_users_shop_shops_user_users_key
 }
 
 """
@@ -8892,6 +10810,8 @@ input type for incrementing numeric columns in table "shop_users"
 """
 input shop_users_inc_input {
   id: bigint
+
+  """外键，关联店铺"""
   shop_shops: bigint
 
   """关联外建，哪个用户"""
@@ -8905,9 +10825,11 @@ input shop_users_insert_input {
   created_at: timestamptz
   id: bigint
 
-  """角色：1.admin（管理员） 2.visitor（访问用户）"""
+  """角色：[admin（管理员） 、visitor（访问用户）]"""
   role: String
   shop: shops_obj_rel_insert_input
+
+  """外键，关联店铺"""
   shop_shops: bigint
   updated_at: timestamptz
   user: users_obj_rel_insert_input
@@ -8921,8 +10843,10 @@ type shop_users_max_fields {
   created_at: timestamptz
   id: bigint
 
-  """角色：1.admin（管理员） 2.visitor（访问用户）"""
+  """角色：[admin（管理员） 、visitor（访问用户）]"""
   role: String
+
+  """外键，关联店铺"""
   shop_shops: bigint
   updated_at: timestamptz
 
@@ -8937,8 +10861,10 @@ input shop_users_max_order_by {
   created_at: order_by
   id: order_by
 
-  """角色：1.admin（管理员） 2.visitor（访问用户）"""
+  """角色：[admin（管理员） 、visitor（访问用户）]"""
   role: order_by
+
+  """外键，关联店铺"""
   shop_shops: order_by
   updated_at: order_by
 
@@ -8951,8 +10877,10 @@ type shop_users_min_fields {
   created_at: timestamptz
   id: bigint
 
-  """角色：1.admin（管理员） 2.visitor（访问用户）"""
+  """角色：[admin（管理员） 、visitor（访问用户）]"""
   role: String
+
+  """外键，关联店铺"""
   shop_shops: bigint
   updated_at: timestamptz
 
@@ -8967,8 +10895,10 @@ input shop_users_min_order_by {
   created_at: order_by
   id: order_by
 
-  """角色：1.admin（管理员） 2.visitor（访问用户）"""
+  """角色：[admin（管理员） 、visitor（访问用户）]"""
   role: order_by
+
+  """外键，关联店铺"""
   shop_shops: order_by
   updated_at: order_by
 
@@ -9043,8 +10973,10 @@ input shop_users_set_input {
   created_at: timestamptz
   id: bigint
 
-  """角色：1.admin（管理员） 2.visitor（访问用户）"""
+  """角色：[admin（管理员） 、visitor（访问用户）]"""
   role: String
+
+  """外键，关联店铺"""
   shop_shops: bigint
   updated_at: timestamptz
 
@@ -9055,6 +10987,8 @@ input shop_users_set_input {
 """aggregate stddev on columns"""
 type shop_users_stddev_fields {
   id: Float
+
+  """外键，关联店铺"""
   shop_shops: Float
 
   """关联外建，哪个用户"""
@@ -9066,6 +11000,8 @@ order by stddev() on columns of table "shop_users"
 """
 input shop_users_stddev_order_by {
   id: order_by
+
+  """外键，关联店铺"""
   shop_shops: order_by
 
   """关联外建，哪个用户"""
@@ -9075,6 +11011,8 @@ input shop_users_stddev_order_by {
 """aggregate stddev_pop on columns"""
 type shop_users_stddev_pop_fields {
   id: Float
+
+  """外键，关联店铺"""
   shop_shops: Float
 
   """关联外建，哪个用户"""
@@ -9086,6 +11024,8 @@ order by stddev_pop() on columns of table "shop_users"
 """
 input shop_users_stddev_pop_order_by {
   id: order_by
+
+  """外键，关联店铺"""
   shop_shops: order_by
 
   """关联外建，哪个用户"""
@@ -9095,6 +11035,8 @@ input shop_users_stddev_pop_order_by {
 """aggregate stddev_samp on columns"""
 type shop_users_stddev_samp_fields {
   id: Float
+
+  """外键，关联店铺"""
   shop_shops: Float
 
   """关联外建，哪个用户"""
@@ -9106,6 +11048,8 @@ order by stddev_samp() on columns of table "shop_users"
 """
 input shop_users_stddev_samp_order_by {
   id: order_by
+
+  """外键，关联店铺"""
   shop_shops: order_by
 
   """关联外建，哪个用户"""
@@ -9128,8 +11072,10 @@ input shop_users_stream_cursor_value_input {
   created_at: timestamptz
   id: bigint
 
-  """角色：1.admin（管理员） 2.visitor（访问用户）"""
+  """角色：[admin（管理员） 、visitor（访问用户）]"""
   role: String
+
+  """外键，关联店铺"""
   shop_shops: bigint
   updated_at: timestamptz
 
@@ -9140,6 +11086,8 @@ input shop_users_stream_cursor_value_input {
 """aggregate sum on columns"""
 type shop_users_sum_fields {
   id: bigint
+
+  """外键，关联店铺"""
   shop_shops: bigint
 
   """关联外建，哪个用户"""
@@ -9151,6 +11099,8 @@ order by sum() on columns of table "shop_users"
 """
 input shop_users_sum_order_by {
   id: order_by
+
+  """外键，关联店铺"""
   shop_shops: order_by
 
   """关联外建，哪个用户"""
@@ -9194,6 +11144,8 @@ input shop_users_updates {
 """aggregate var_pop on columns"""
 type shop_users_var_pop_fields {
   id: Float
+
+  """外键，关联店铺"""
   shop_shops: Float
 
   """关联外建，哪个用户"""
@@ -9205,6 +11157,8 @@ order by var_pop() on columns of table "shop_users"
 """
 input shop_users_var_pop_order_by {
   id: order_by
+
+  """外键，关联店铺"""
   shop_shops: order_by
 
   """关联外建，哪个用户"""
@@ -9214,6 +11168,8 @@ input shop_users_var_pop_order_by {
 """aggregate var_samp on columns"""
 type shop_users_var_samp_fields {
   id: Float
+
+  """外键，关联店铺"""
   shop_shops: Float
 
   """关联外建，哪个用户"""
@@ -9225,6 +11181,8 @@ order by var_samp() on columns of table "shop_users"
 """
 input shop_users_var_samp_order_by {
   id: order_by
+
+  """外键，关联店铺"""
   shop_shops: order_by
 
   """关联外建，哪个用户"""
@@ -9234,6 +11192,8 @@ input shop_users_var_samp_order_by {
 """aggregate variance on columns"""
 type shop_users_variance_fields {
   id: Float
+
+  """外键，关联店铺"""
   shop_shops: Float
 
   """关联外建，哪个用户"""
@@ -9245,6 +11205,8 @@ order by variance() on columns of table "shop_users"
 """
 input shop_users_variance_order_by {
   id: order_by
+
+  """外键，关联店铺"""
   shop_shops: order_by
 
   """关联外建，哪个用户"""
@@ -9451,6 +11413,42 @@ type shops {
     where: shop_users_bool_exp
   ): shop_users_aggregate!
   updated_at: timestamptz!
+
+  """An array relationship"""
+  users(
+    """distinct select on columns"""
+    distinct_on: [users_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [users_order_by!]
+
+    """filter the rows returned"""
+    where: users_bool_exp
+  ): [users!]!
+
+  """An aggregate relationship"""
+  users_aggregate(
+    """distinct select on columns"""
+    distinct_on: [users_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [users_order_by!]
+
+    """filter the rows returned"""
+    where: users_bool_exp
+  ): users_aggregate!
 }
 
 """
@@ -9506,12 +11504,19 @@ input shops_bool_exp {
   shop_users: shop_users_bool_exp
   shop_users_aggregate: shop_users_aggregate_bool_exp
   updated_at: timestamptz_comparison_exp
+  users: users_bool_exp
+  users_aggregate: users_aggregate_bool_exp
 }
 
 """
 unique or primary key constraints on table "shops"
 """
 enum shops_constraint {
+  """
+  unique or primary key constraint on columns "name"
+  """
+  shops_name_key
+
   """
   unique or primary key constraint on columns "id"
   """
@@ -9546,6 +11551,7 @@ input shops_insert_input {
   shop_userorders: shop_userorders_arr_rel_insert_input
   shop_users: shop_users_arr_rel_insert_input
   updated_at: timestamptz
+  users: users_arr_rel_insert_input
 }
 
 """aggregate max on columns"""
@@ -9611,6 +11617,7 @@ input shops_order_by {
   shop_userorders_aggregate: shop_userorders_aggregate_order_by
   shop_users_aggregate: shop_users_aggregate_order_by
   updated_at: order_by
+  users_aggregate: users_aggregate_order_by
 }
 
 """primary key columns input for table: shops"""
@@ -9918,6 +11925,59 @@ type subscription_root {
     """filter the rows returned"""
     where: buildings_bool_exp
   ): [buildings!]!
+
+  """An array relationship"""
+  campus_users(
+    """distinct select on columns"""
+    distinct_on: [campus_users_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [campus_users_order_by!]
+
+    """filter the rows returned"""
+    where: campus_users_bool_exp
+  ): [campus_users!]!
+
+  """An aggregate relationship"""
+  campus_users_aggregate(
+    """distinct select on columns"""
+    distinct_on: [campus_users_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [campus_users_order_by!]
+
+    """filter the rows returned"""
+    where: campus_users_bool_exp
+  ): campus_users_aggregate!
+
+  """fetch data from the table: "campus_users" using primary key columns"""
+  campus_users_by_pk(id: bigint!): campus_users
+
+  """
+  fetch data from the table in a streaming manner: "campus_users"
+  """
+  campus_users_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [campus_users_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: campus_users_bool_exp
+  ): [campus_users!]!
 
   """
   fetch data from the table: "campuses"
@@ -10459,9 +12519,7 @@ type subscription_root {
     where: user_accounts_bool_exp
   ): [user_accounts!]!
 
-  """
-  fetch data from the table: "user_addresses"
-  """
+  """An array relationship"""
   user_addresses(
     """distinct select on columns"""
     distinct_on: [user_addresses_select_column!]
@@ -10479,9 +12537,7 @@ type subscription_root {
     where: user_addresses_bool_exp
   ): [user_addresses!]!
 
-  """
-  fetch aggregated fields from the table: "user_addresses"
-  """
+  """An aggregate relationship"""
   user_addresses_aggregate(
     """distinct select on columns"""
     distinct_on: [user_addresses_select_column!]
@@ -10516,9 +12572,7 @@ type subscription_root {
     where: user_addresses_bool_exp
   ): [user_addresses!]!
 
-  """
-  fetch data from the table: "users"
-  """
+  """An array relationship"""
   users(
     """distinct select on columns"""
     distinct_on: [users_select_column!]
@@ -10536,9 +12590,7 @@ type subscription_root {
     where: users_bool_exp
   ): [users!]!
 
-  """
-  fetch aggregated fields from the table: "users"
-  """
+  """An aggregate relationship"""
   users_aggregate(
     """distinct select on columns"""
     distinct_on: [users_select_column!]
@@ -11009,11 +13061,20 @@ input user_accounts_variance_order_by {
 
 """用户地址簿"""
 type user_addresses {
+  """An object relationship"""
+  building: buildings
+
   """校内地址时，关联的搂栋"""
   building_buildings: bigint
 
+  """An object relationship"""
+  building_room: building_rooms
+
   """校内地址时，关联的楼栋房间"""
   building_room_building_rooms: bigint
+
+  """An object relationship"""
+  campus: campuses
 
   """校内地址时，关联的学校"""
   campus_campuses: bigint
@@ -11041,7 +13102,43 @@ type user_addresses {
   """可不填，收货人-省"""
   receiver_province: String
 
-  """1.campus(校内)  2.normal(校外)"""
+  """An array relationship"""
+  shop_orders(
+    """distinct select on columns"""
+    distinct_on: [shop_orders_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [shop_orders_order_by!]
+
+    """filter the rows returned"""
+    where: shop_orders_bool_exp
+  ): [shop_orders!]!
+
+  """An aggregate relationship"""
+  shop_orders_aggregate(
+    """distinct select on columns"""
+    distinct_on: [shop_orders_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [shop_orders_order_by!]
+
+    """filter the rows returned"""
+    where: shop_orders_bool_exp
+  ): shop_orders_aggregate!
+
+  """取值：[campus（校内）、normal（校外）]"""
   type: String!
   updated_at: timestamptz!
 
@@ -11055,6 +13152,33 @@ aggregated selection of "user_addresses"
 type user_addresses_aggregate {
   aggregate: user_addresses_aggregate_fields
   nodes: [user_addresses!]!
+}
+
+input user_addresses_aggregate_bool_exp {
+  bool_and: user_addresses_aggregate_bool_exp_bool_and
+  bool_or: user_addresses_aggregate_bool_exp_bool_or
+  count: user_addresses_aggregate_bool_exp_count
+}
+
+input user_addresses_aggregate_bool_exp_bool_and {
+  arguments: user_addresses_select_column_user_addresses_aggregate_bool_exp_bool_and_arguments_columns!
+  distinct: Boolean
+  filter: user_addresses_bool_exp
+  predicate: Boolean_comparison_exp!
+}
+
+input user_addresses_aggregate_bool_exp_bool_or {
+  arguments: user_addresses_select_column_user_addresses_aggregate_bool_exp_bool_or_arguments_columns!
+  distinct: Boolean
+  filter: user_addresses_bool_exp
+  predicate: Boolean_comparison_exp!
+}
+
+input user_addresses_aggregate_bool_exp_count {
+  arguments: [user_addresses_select_column!]
+  distinct: Boolean
+  filter: user_addresses_bool_exp
+  predicate: Int_comparison_exp!
 }
 
 """
@@ -11074,6 +13198,33 @@ type user_addresses_aggregate_fields {
   variance: user_addresses_variance_fields
 }
 
+"""
+order by aggregate values of table "user_addresses"
+"""
+input user_addresses_aggregate_order_by {
+  avg: user_addresses_avg_order_by
+  count: order_by
+  max: user_addresses_max_order_by
+  min: user_addresses_min_order_by
+  stddev: user_addresses_stddev_order_by
+  stddev_pop: user_addresses_stddev_pop_order_by
+  stddev_samp: user_addresses_stddev_samp_order_by
+  sum: user_addresses_sum_order_by
+  var_pop: user_addresses_var_pop_order_by
+  var_samp: user_addresses_var_samp_order_by
+  variance: user_addresses_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "user_addresses"
+"""
+input user_addresses_arr_rel_insert_input {
+  data: [user_addresses_insert_input!]!
+
+  """upsert condition"""
+  on_conflict: user_addresses_on_conflict
+}
+
 """aggregate avg on columns"""
 type user_addresses_avg_fields {
   """校内地址时，关联的搂栋"""
@@ -11091,14 +13242,35 @@ type user_addresses_avg_fields {
 }
 
 """
+order by avg() on columns of table "user_addresses"
+"""
+input user_addresses_avg_order_by {
+  """校内地址时，关联的搂栋"""
+  building_buildings: order_by
+
+  """校内地址时，关联的楼栋房间"""
+  building_room_building_rooms: order_by
+
+  """校内地址时，关联的学校"""
+  campus_campuses: order_by
+  id: order_by
+
+  """关联外键，哪个用户的地址"""
+  user_users: order_by
+}
+
+"""
 Boolean expression to filter rows from the table "user_addresses". All fields are combined with a logical 'AND'.
 """
 input user_addresses_bool_exp {
   _and: [user_addresses_bool_exp!]
   _not: user_addresses_bool_exp
   _or: [user_addresses_bool_exp!]
+  building: buildings_bool_exp
   building_buildings: bigint_comparison_exp
+  building_room: building_rooms_bool_exp
   building_room_building_rooms: bigint_comparison_exp
+  campus: campuses_bool_exp
   campus_campuses: bigint_comparison_exp
   created_at: timestamptz_comparison_exp
   id: bigint_comparison_exp
@@ -11109,6 +13281,8 @@ input user_addresses_bool_exp {
   receiver_name: String_comparison_exp
   receiver_phone: String_comparison_exp
   receiver_province: String_comparison_exp
+  shop_orders: shop_orders_bool_exp
+  shop_orders_aggregate: shop_orders_aggregate_bool_exp
   type: String_comparison_exp
   updated_at: timestamptz_comparison_exp
   user_users: bigint_comparison_exp
@@ -11146,11 +13320,15 @@ input user_addresses_inc_input {
 input type for inserting data into table "user_addresses"
 """
 input user_addresses_insert_input {
+  building: buildings_obj_rel_insert_input
+
   """校内地址时，关联的搂栋"""
   building_buildings: bigint
+  building_room: building_rooms_obj_rel_insert_input
 
   """校内地址时，关联的楼栋房间"""
   building_room_building_rooms: bigint
+  campus: campuses_obj_rel_insert_input
 
   """校内地址时，关联的学校"""
   campus_campuses: bigint
@@ -11177,8 +13355,9 @@ input user_addresses_insert_input {
 
   """可不填，收货人-省"""
   receiver_province: String
+  shop_orders: shop_orders_arr_rel_insert_input
 
-  """1.campus(校内)  2.normal(校外)"""
+  """取值：[campus（校内）、normal（校外）]"""
   type: String
   updated_at: timestamptz
 
@@ -11217,12 +13396,53 @@ type user_addresses_max_fields {
   """可不填，收货人-省"""
   receiver_province: String
 
-  """1.campus(校内)  2.normal(校外)"""
+  """取值：[campus（校内）、normal（校外）]"""
   type: String
   updated_at: timestamptz
 
   """关联外键，哪个用户的地址"""
   user_users: bigint
+}
+
+"""
+order by max() on columns of table "user_addresses"
+"""
+input user_addresses_max_order_by {
+  """校内地址时，关联的搂栋"""
+  building_buildings: order_by
+
+  """校内地址时，关联的楼栋房间"""
+  building_room_building_rooms: order_by
+
+  """校内地址时，关联的学校"""
+  campus_campuses: order_by
+  created_at: order_by
+  id: order_by
+
+  """收货人完整地址"""
+  receiver_address: order_by
+
+  """可不填，收货人-市"""
+  receiver_city: order_by
+
+  """可不填，收货人-区"""
+  receiver_district: order_by
+
+  """收货人姓名"""
+  receiver_name: order_by
+
+  """收获人电话"""
+  receiver_phone: order_by
+
+  """可不填，收货人-省"""
+  receiver_province: order_by
+
+  """取值：[campus（校内）、normal（校外）]"""
+  type: order_by
+  updated_at: order_by
+
+  """关联外键，哪个用户的地址"""
+  user_users: order_by
 }
 
 """aggregate min on columns"""
@@ -11256,12 +13476,53 @@ type user_addresses_min_fields {
   """可不填，收货人-省"""
   receiver_province: String
 
-  """1.campus(校内)  2.normal(校外)"""
+  """取值：[campus（校内）、normal（校外）]"""
   type: String
   updated_at: timestamptz
 
   """关联外键，哪个用户的地址"""
   user_users: bigint
+}
+
+"""
+order by min() on columns of table "user_addresses"
+"""
+input user_addresses_min_order_by {
+  """校内地址时，关联的搂栋"""
+  building_buildings: order_by
+
+  """校内地址时，关联的楼栋房间"""
+  building_room_building_rooms: order_by
+
+  """校内地址时，关联的学校"""
+  campus_campuses: order_by
+  created_at: order_by
+  id: order_by
+
+  """收货人完整地址"""
+  receiver_address: order_by
+
+  """可不填，收货人-市"""
+  receiver_city: order_by
+
+  """可不填，收货人-区"""
+  receiver_district: order_by
+
+  """收货人姓名"""
+  receiver_name: order_by
+
+  """收获人电话"""
+  receiver_phone: order_by
+
+  """可不填，收货人-省"""
+  receiver_province: order_by
+
+  """取值：[campus（校内）、normal（校外）]"""
+  type: order_by
+  updated_at: order_by
+
+  """关联外键，哪个用户的地址"""
+  user_users: order_by
 }
 
 """
@@ -11276,6 +13537,16 @@ type user_addresses_mutation_response {
 }
 
 """
+input type for inserting object relation for remote table "user_addresses"
+"""
+input user_addresses_obj_rel_insert_input {
+  data: user_addresses_insert_input!
+
+  """upsert condition"""
+  on_conflict: user_addresses_on_conflict
+}
+
+"""
 on_conflict condition type for table "user_addresses"
 """
 input user_addresses_on_conflict {
@@ -11286,8 +13557,11 @@ input user_addresses_on_conflict {
 
 """Ordering options when selecting data from "user_addresses"."""
 input user_addresses_order_by {
+  building: buildings_order_by
   building_buildings: order_by
+  building_room: building_rooms_order_by
   building_room_building_rooms: order_by
+  campus: campuses_order_by
   campus_campuses: order_by
   created_at: order_by
   id: order_by
@@ -11298,6 +13572,7 @@ input user_addresses_order_by {
   receiver_name: order_by
   receiver_phone: order_by
   receiver_province: order_by
+  shop_orders_aggregate: shop_orders_aggregate_order_by
   type: order_by
   updated_at: order_by
   user_users: order_by
@@ -11359,6 +13634,22 @@ enum user_addresses_select_column {
 }
 
 """
+select "user_addresses_aggregate_bool_exp_bool_and_arguments_columns" columns of table "user_addresses"
+"""
+enum user_addresses_select_column_user_addresses_aggregate_bool_exp_bool_and_arguments_columns {
+  """column name"""
+  is_default
+}
+
+"""
+select "user_addresses_aggregate_bool_exp_bool_or_arguments_columns" columns of table "user_addresses"
+"""
+enum user_addresses_select_column_user_addresses_aggregate_bool_exp_bool_or_arguments_columns {
+  """column name"""
+  is_default
+}
+
+"""
 input type for updating data in table "user_addresses"
 """
 input user_addresses_set_input {
@@ -11394,7 +13685,7 @@ input user_addresses_set_input {
   """可不填，收货人-省"""
   receiver_province: String
 
-  """1.campus(校内)  2.normal(校外)"""
+  """取值：[campus（校内）、normal（校外）]"""
   type: String
   updated_at: timestamptz
 
@@ -11418,6 +13709,24 @@ type user_addresses_stddev_fields {
   user_users: Float
 }
 
+"""
+order by stddev() on columns of table "user_addresses"
+"""
+input user_addresses_stddev_order_by {
+  """校内地址时，关联的搂栋"""
+  building_buildings: order_by
+
+  """校内地址时，关联的楼栋房间"""
+  building_room_building_rooms: order_by
+
+  """校内地址时，关联的学校"""
+  campus_campuses: order_by
+  id: order_by
+
+  """关联外键，哪个用户的地址"""
+  user_users: order_by
+}
+
 """aggregate stddev_pop on columns"""
 type user_addresses_stddev_pop_fields {
   """校内地址时，关联的搂栋"""
@@ -11434,6 +13743,24 @@ type user_addresses_stddev_pop_fields {
   user_users: Float
 }
 
+"""
+order by stddev_pop() on columns of table "user_addresses"
+"""
+input user_addresses_stddev_pop_order_by {
+  """校内地址时，关联的搂栋"""
+  building_buildings: order_by
+
+  """校内地址时，关联的楼栋房间"""
+  building_room_building_rooms: order_by
+
+  """校内地址时，关联的学校"""
+  campus_campuses: order_by
+  id: order_by
+
+  """关联外键，哪个用户的地址"""
+  user_users: order_by
+}
+
 """aggregate stddev_samp on columns"""
 type user_addresses_stddev_samp_fields {
   """校内地址时，关联的搂栋"""
@@ -11448,6 +13775,24 @@ type user_addresses_stddev_samp_fields {
 
   """关联外键，哪个用户的地址"""
   user_users: Float
+}
+
+"""
+order by stddev_samp() on columns of table "user_addresses"
+"""
+input user_addresses_stddev_samp_order_by {
+  """校内地址时，关联的搂栋"""
+  building_buildings: order_by
+
+  """校内地址时，关联的楼栋房间"""
+  building_room_building_rooms: order_by
+
+  """校内地址时，关联的学校"""
+  campus_campuses: order_by
+  id: order_by
+
+  """关联外键，哪个用户的地址"""
+  user_users: order_by
 }
 
 """
@@ -11495,7 +13840,7 @@ input user_addresses_stream_cursor_value_input {
   """可不填，收货人-省"""
   receiver_province: String
 
-  """1.campus(校内)  2.normal(校外)"""
+  """取值：[campus（校内）、normal（校外）]"""
   type: String
   updated_at: timestamptz
 
@@ -11517,6 +13862,24 @@ type user_addresses_sum_fields {
 
   """关联外键，哪个用户的地址"""
   user_users: bigint
+}
+
+"""
+order by sum() on columns of table "user_addresses"
+"""
+input user_addresses_sum_order_by {
+  """校内地址时，关联的搂栋"""
+  building_buildings: order_by
+
+  """校内地址时，关联的楼栋房间"""
+  building_room_building_rooms: order_by
+
+  """校内地址时，关联的学校"""
+  campus_campuses: order_by
+  id: order_by
+
+  """关联外键，哪个用户的地址"""
+  user_users: order_by
 }
 
 """
@@ -11596,6 +13959,24 @@ type user_addresses_var_pop_fields {
   user_users: Float
 }
 
+"""
+order by var_pop() on columns of table "user_addresses"
+"""
+input user_addresses_var_pop_order_by {
+  """校内地址时，关联的搂栋"""
+  building_buildings: order_by
+
+  """校内地址时，关联的楼栋房间"""
+  building_room_building_rooms: order_by
+
+  """校内地址时，关联的学校"""
+  campus_campuses: order_by
+  id: order_by
+
+  """关联外键，哪个用户的地址"""
+  user_users: order_by
+}
+
 """aggregate var_samp on columns"""
 type user_addresses_var_samp_fields {
   """校内地址时，关联的搂栋"""
@@ -11610,6 +13991,24 @@ type user_addresses_var_samp_fields {
 
   """关联外键，哪个用户的地址"""
   user_users: Float
+}
+
+"""
+order by var_samp() on columns of table "user_addresses"
+"""
+input user_addresses_var_samp_order_by {
+  """校内地址时，关联的搂栋"""
+  building_buildings: order_by
+
+  """校内地址时，关联的楼栋房间"""
+  building_room_building_rooms: order_by
+
+  """校内地址时，关联的学校"""
+  campus_campuses: order_by
+  id: order_by
+
+  """关联外键，哪个用户的地址"""
+  user_users: order_by
 }
 
 """aggregate variance on columns"""
@@ -11628,6 +14027,24 @@ type user_addresses_variance_fields {
   user_users: Float
 }
 
+"""
+order by variance() on columns of table "user_addresses"
+"""
+input user_addresses_variance_order_by {
+  """校内地址时，关联的搂栋"""
+  building_buildings: order_by
+
+  """校内地址时，关联的楼栋房间"""
+  building_room_building_rooms: order_by
+
+  """校内地址时，关联的学校"""
+  campus_campuses: order_by
+  id: order_by
+
+  """关联外键，哪个用户的地址"""
+  user_users: order_by
+}
+
 """用户表"""
 type users {
   """用户头像url"""
@@ -11635,7 +14052,52 @@ type users {
 
   """用户简介，富文本"""
   bio: String
+
+  """An object relationship"""
+  campus: campuses
+
+  """An array relationship"""
+  campus_users(
+    """distinct select on columns"""
+    distinct_on: [campus_users_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [campus_users_order_by!]
+
+    """filter the rows returned"""
+    where: campus_users_bool_exp
+  ): [campus_users!]!
+
+  """An aggregate relationship"""
+  campus_users_aggregate(
+    """distinct select on columns"""
+    distinct_on: [campus_users_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [campus_users_order_by!]
+
+    """filter the rows returned"""
+    where: campus_users_bool_exp
+  ): campus_users_aggregate!
   created_at: timestamptz!
+
+  """记录用户默认的学校id，方便下次访问时知道要进入哪个学校"""
+  default_campus_id: bigint
+
+  """记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺"""
+  default_shop_id: bigint
 
   """用户邮箱账号"""
   email: String
@@ -11649,6 +14111,48 @@ type users {
 
   """密码，md5 32位小写"""
   password: String
+
+  """角色 ：1、admin（平台管理员）2、user（普通用户）"""
+  role: String!
+
+  """An object relationship"""
+  shop: shops
+
+  """An array relationship"""
+  shopUserordersByCreatedByUsers(
+    """distinct select on columns"""
+    distinct_on: [shop_userorders_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [shop_userorders_order_by!]
+
+    """filter the rows returned"""
+    where: shop_userorders_bool_exp
+  ): [shop_userorders!]!
+
+  """An aggregate relationship"""
+  shopUserordersByCreatedByUsers_aggregate(
+    """distinct select on columns"""
+    distinct_on: [shop_userorders_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [shop_userorders_order_by!]
+
+    """filter the rows returned"""
+    where: shop_userorders_bool_exp
+  ): shop_userorders_aggregate!
 
   """An array relationship"""
   shop_carts(
@@ -11685,6 +14189,42 @@ type users {
     """filter the rows returned"""
     where: shop_carts_bool_exp
   ): shop_carts_aggregate!
+
+  """An array relationship"""
+  shop_orders(
+    """distinct select on columns"""
+    distinct_on: [shop_orders_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [shop_orders_order_by!]
+
+    """filter the rows returned"""
+    where: shop_orders_bool_exp
+  ): [shop_orders!]!
+
+  """An aggregate relationship"""
+  shop_orders_aggregate(
+    """distinct select on columns"""
+    distinct_on: [shop_orders_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [shop_orders_order_by!]
+
+    """filter the rows returned"""
+    where: shop_orders_bool_exp
+  ): shop_orders_aggregate!
 
   """An array relationship"""
   shop_userorders(
@@ -11804,6 +14344,17 @@ type users_aggregate {
   nodes: [users!]!
 }
 
+input users_aggregate_bool_exp {
+  count: users_aggregate_bool_exp_count
+}
+
+input users_aggregate_bool_exp_count {
+  arguments: [users_select_column!]
+  distinct: Boolean
+  filter: users_bool_exp
+  predicate: Int_comparison_exp!
+}
+
 """
 aggregate fields of "users"
 """
@@ -11821,9 +14372,53 @@ type users_aggregate_fields {
   variance: users_variance_fields
 }
 
+"""
+order by aggregate values of table "users"
+"""
+input users_aggregate_order_by {
+  avg: users_avg_order_by
+  count: order_by
+  max: users_max_order_by
+  min: users_min_order_by
+  stddev: users_stddev_order_by
+  stddev_pop: users_stddev_pop_order_by
+  stddev_samp: users_stddev_samp_order_by
+  sum: users_sum_order_by
+  var_pop: users_var_pop_order_by
+  var_samp: users_var_samp_order_by
+  variance: users_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "users"
+"""
+input users_arr_rel_insert_input {
+  data: [users_insert_input!]!
+
+  """upsert condition"""
+  on_conflict: users_on_conflict
+}
+
 """aggregate avg on columns"""
 type users_avg_fields {
+  """记录用户默认的学校id，方便下次访问时知道要进入哪个学校"""
+  default_campus_id: Float
+
+  """记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺"""
+  default_shop_id: Float
   id: Float
+}
+
+"""
+order by avg() on columns of table "users"
+"""
+input users_avg_order_by {
+  """记录用户默认的学校id，方便下次访问时知道要进入哪个学校"""
+  default_campus_id: order_by
+
+  """记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺"""
+  default_shop_id: order_by
+  id: order_by
 }
 
 """
@@ -11835,14 +14430,25 @@ input users_bool_exp {
   _or: [users_bool_exp!]
   avatar_url: String_comparison_exp
   bio: String_comparison_exp
+  campus: campuses_bool_exp
+  campus_users: campus_users_bool_exp
+  campus_users_aggregate: campus_users_aggregate_bool_exp
   created_at: timestamptz_comparison_exp
+  default_campus_id: bigint_comparison_exp
+  default_shop_id: bigint_comparison_exp
   email: String_comparison_exp
   id: bigint_comparison_exp
   mobile: String_comparison_exp
   nickname: String_comparison_exp
   password: String_comparison_exp
+  role: String_comparison_exp
+  shop: shops_bool_exp
+  shopUserordersByCreatedByUsers: shop_userorders_bool_exp
+  shopUserordersByCreatedByUsers_aggregate: shop_userorders_aggregate_bool_exp
   shop_carts: shop_carts_bool_exp
   shop_carts_aggregate: shop_carts_aggregate_bool_exp
+  shop_orders: shop_orders_bool_exp
+  shop_orders_aggregate: shop_orders_aggregate_bool_exp
   shop_userorders: shop_userorders_bool_exp
   shop_userorders_aggregate: shop_userorders_aggregate_bool_exp
   shop_users: shop_users_bool_exp
@@ -11871,6 +14477,11 @@ enum users_constraint {
 input type for incrementing numeric columns in table "users"
 """
 input users_inc_input {
+  """记录用户默认的学校id，方便下次访问时知道要进入哪个学校"""
+  default_campus_id: bigint
+
+  """记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺"""
+  default_shop_id: bigint
   id: bigint
 }
 
@@ -11883,7 +14494,15 @@ input users_insert_input {
 
   """用户简介，富文本"""
   bio: String
+  campus: campuses_obj_rel_insert_input
+  campus_users: campus_users_arr_rel_insert_input
   created_at: timestamptz
+
+  """记录用户默认的学校id，方便下次访问时知道要进入哪个学校"""
+  default_campus_id: bigint
+
+  """记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺"""
+  default_shop_id: bigint
 
   """用户邮箱账号"""
   email: String
@@ -11897,7 +14516,13 @@ input users_insert_input {
 
   """密码，md5 32位小写"""
   password: String
+
+  """角色 ：1、admin（平台管理员）2、user（普通用户）"""
+  role: String
+  shop: shops_obj_rel_insert_input
+  shopUserordersByCreatedByUsers: shop_userorders_arr_rel_insert_input
   shop_carts: shop_carts_arr_rel_insert_input
+  shop_orders: shop_orders_arr_rel_insert_input
   shop_userorders: shop_userorders_arr_rel_insert_input
   shop_users: shop_users_arr_rel_insert_input
   updated_at: timestamptz
@@ -11913,6 +14538,12 @@ type users_max_fields {
   bio: String
   created_at: timestamptz
 
+  """记录用户默认的学校id，方便下次访问时知道要进入哪个学校"""
+  default_campus_id: bigint
+
+  """记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺"""
+  default_shop_id: bigint
+
   """用户邮箱账号"""
   email: String
   id: bigint
@@ -11925,7 +14556,45 @@ type users_max_fields {
 
   """密码，md5 32位小写"""
   password: String
+
+  """角色 ：1、admin（平台管理员）2、user（普通用户）"""
+  role: String
   updated_at: timestamptz
+}
+
+"""
+order by max() on columns of table "users"
+"""
+input users_max_order_by {
+  """用户头像url"""
+  avatar_url: order_by
+
+  """用户简介，富文本"""
+  bio: order_by
+  created_at: order_by
+
+  """记录用户默认的学校id，方便下次访问时知道要进入哪个学校"""
+  default_campus_id: order_by
+
+  """记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺"""
+  default_shop_id: order_by
+
+  """用户邮箱账号"""
+  email: order_by
+  id: order_by
+
+  """手机号"""
+  mobile: order_by
+
+  """用户昵称"""
+  nickname: order_by
+
+  """密码，md5 32位小写"""
+  password: order_by
+
+  """角色 ：1、admin（平台管理员）2、user（普通用户）"""
+  role: order_by
+  updated_at: order_by
 }
 
 """aggregate min on columns"""
@@ -11937,6 +14606,12 @@ type users_min_fields {
   bio: String
   created_at: timestamptz
 
+  """记录用户默认的学校id，方便下次访问时知道要进入哪个学校"""
+  default_campus_id: bigint
+
+  """记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺"""
+  default_shop_id: bigint
+
   """用户邮箱账号"""
   email: String
   id: bigint
@@ -11949,7 +14624,45 @@ type users_min_fields {
 
   """密码，md5 32位小写"""
   password: String
+
+  """角色 ：1、admin（平台管理员）2、user（普通用户）"""
+  role: String
   updated_at: timestamptz
+}
+
+"""
+order by min() on columns of table "users"
+"""
+input users_min_order_by {
+  """用户头像url"""
+  avatar_url: order_by
+
+  """用户简介，富文本"""
+  bio: order_by
+  created_at: order_by
+
+  """记录用户默认的学校id，方便下次访问时知道要进入哪个学校"""
+  default_campus_id: order_by
+
+  """记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺"""
+  default_shop_id: order_by
+
+  """用户邮箱账号"""
+  email: order_by
+  id: order_by
+
+  """手机号"""
+  mobile: order_by
+
+  """用户昵称"""
+  nickname: order_by
+
+  """密码，md5 32位小写"""
+  password: order_by
+
+  """角色 ：1、admin（平台管理员）2、user（普通用户）"""
+  role: order_by
+  updated_at: order_by
 }
 
 """
@@ -11986,13 +14699,21 @@ input users_on_conflict {
 input users_order_by {
   avatar_url: order_by
   bio: order_by
+  campus: campuses_order_by
+  campus_users_aggregate: campus_users_aggregate_order_by
   created_at: order_by
+  default_campus_id: order_by
+  default_shop_id: order_by
   email: order_by
   id: order_by
   mobile: order_by
   nickname: order_by
   password: order_by
+  role: order_by
+  shop: shops_order_by
+  shopUserordersByCreatedByUsers_aggregate: shop_userorders_aggregate_order_by
   shop_carts_aggregate: shop_carts_aggregate_order_by
+  shop_orders_aggregate: shop_orders_aggregate_order_by
   shop_userorders_aggregate: shop_userorders_aggregate_order_by
   shop_users_aggregate: shop_users_aggregate_order_by
   updated_at: order_by
@@ -12018,6 +14739,12 @@ enum users_select_column {
   created_at
 
   """column name"""
+  default_campus_id
+
+  """column name"""
+  default_shop_id
+
+  """column name"""
   email
 
   """column name"""
@@ -12031,6 +14758,9 @@ enum users_select_column {
 
   """column name"""
   password
+
+  """column name"""
+  role
 
   """column name"""
   updated_at
@@ -12047,6 +14777,12 @@ input users_set_input {
   bio: String
   created_at: timestamptz
 
+  """记录用户默认的学校id，方便下次访问时知道要进入哪个学校"""
+  default_campus_id: bigint
+
+  """记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺"""
+  default_shop_id: bigint
+
   """用户邮箱账号"""
   email: String
   id: bigint
@@ -12059,22 +14795,76 @@ input users_set_input {
 
   """密码，md5 32位小写"""
   password: String
+
+  """角色 ：1、admin（平台管理员）2、user（普通用户）"""
+  role: String
   updated_at: timestamptz
 }
 
 """aggregate stddev on columns"""
 type users_stddev_fields {
+  """记录用户默认的学校id，方便下次访问时知道要进入哪个学校"""
+  default_campus_id: Float
+
+  """记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺"""
+  default_shop_id: Float
   id: Float
+}
+
+"""
+order by stddev() on columns of table "users"
+"""
+input users_stddev_order_by {
+  """记录用户默认的学校id，方便下次访问时知道要进入哪个学校"""
+  default_campus_id: order_by
+
+  """记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺"""
+  default_shop_id: order_by
+  id: order_by
 }
 
 """aggregate stddev_pop on columns"""
 type users_stddev_pop_fields {
+  """记录用户默认的学校id，方便下次访问时知道要进入哪个学校"""
+  default_campus_id: Float
+
+  """记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺"""
+  default_shop_id: Float
   id: Float
+}
+
+"""
+order by stddev_pop() on columns of table "users"
+"""
+input users_stddev_pop_order_by {
+  """记录用户默认的学校id，方便下次访问时知道要进入哪个学校"""
+  default_campus_id: order_by
+
+  """记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺"""
+  default_shop_id: order_by
+  id: order_by
 }
 
 """aggregate stddev_samp on columns"""
 type users_stddev_samp_fields {
+  """记录用户默认的学校id，方便下次访问时知道要进入哪个学校"""
+  default_campus_id: Float
+
+  """记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺"""
+  default_shop_id: Float
   id: Float
+}
+
+"""
+order by stddev_samp() on columns of table "users"
+"""
+input users_stddev_samp_order_by {
+  """记录用户默认的学校id，方便下次访问时知道要进入哪个学校"""
+  default_campus_id: order_by
+
+  """记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺"""
+  default_shop_id: order_by
+  id: order_by
 }
 
 """
@@ -12097,6 +14887,12 @@ input users_stream_cursor_value_input {
   bio: String
   created_at: timestamptz
 
+  """记录用户默认的学校id，方便下次访问时知道要进入哪个学校"""
+  default_campus_id: bigint
+
+  """记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺"""
+  default_shop_id: bigint
+
   """用户邮箱账号"""
   email: String
   id: bigint
@@ -12109,12 +14905,32 @@ input users_stream_cursor_value_input {
 
   """密码，md5 32位小写"""
   password: String
+
+  """角色 ：1、admin（平台管理员）2、user（普通用户）"""
+  role: String
   updated_at: timestamptz
 }
 
 """aggregate sum on columns"""
 type users_sum_fields {
+  """记录用户默认的学校id，方便下次访问时知道要进入哪个学校"""
+  default_campus_id: bigint
+
+  """记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺"""
+  default_shop_id: bigint
   id: bigint
+}
+
+"""
+order by sum() on columns of table "users"
+"""
+input users_sum_order_by {
+  """记录用户默认的学校id，方便下次访问时知道要进入哪个学校"""
+  default_campus_id: order_by
+
+  """记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺"""
+  default_shop_id: order_by
+  id: order_by
 }
 
 """
@@ -12131,6 +14947,12 @@ enum users_update_column {
   created_at
 
   """column name"""
+  default_campus_id
+
+  """column name"""
+  default_shop_id
+
+  """column name"""
   email
 
   """column name"""
@@ -12144,6 +14966,9 @@ enum users_update_column {
 
   """column name"""
   password
+
+  """column name"""
+  role
 
   """column name"""
   updated_at
@@ -12162,15 +14987,66 @@ input users_updates {
 
 """aggregate var_pop on columns"""
 type users_var_pop_fields {
+  """记录用户默认的学校id，方便下次访问时知道要进入哪个学校"""
+  default_campus_id: Float
+
+  """记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺"""
+  default_shop_id: Float
   id: Float
+}
+
+"""
+order by var_pop() on columns of table "users"
+"""
+input users_var_pop_order_by {
+  """记录用户默认的学校id，方便下次访问时知道要进入哪个学校"""
+  default_campus_id: order_by
+
+  """记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺"""
+  default_shop_id: order_by
+  id: order_by
 }
 
 """aggregate var_samp on columns"""
 type users_var_samp_fields {
+  """记录用户默认的学校id，方便下次访问时知道要进入哪个学校"""
+  default_campus_id: Float
+
+  """记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺"""
+  default_shop_id: Float
   id: Float
+}
+
+"""
+order by var_samp() on columns of table "users"
+"""
+input users_var_samp_order_by {
+  """记录用户默认的学校id，方便下次访问时知道要进入哪个学校"""
+  default_campus_id: order_by
+
+  """记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺"""
+  default_shop_id: order_by
+  id: order_by
 }
 
 """aggregate variance on columns"""
 type users_variance_fields {
+  """记录用户默认的学校id，方便下次访问时知道要进入哪个学校"""
+  default_campus_id: Float
+
+  """记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺"""
+  default_shop_id: Float
   id: Float
+}
+
+"""
+order by variance() on columns of table "users"
+"""
+input users_variance_order_by {
+  """记录用户默认的学校id，方便下次访问时知道要进入哪个学校"""
+  default_campus_id: order_by
+
+  """记录用户默认的店铺id，方便下次访问时知道要进入哪个店铺"""
+  default_shop_id: order_by
+  id: order_by
 }

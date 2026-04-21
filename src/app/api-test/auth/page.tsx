@@ -14,9 +14,11 @@ interface AuthResult {
 
 export default function AuthTestPage() {
   const [phoneLoginResult, setPhoneLoginResult] = useState<AuthResult | null>(null);
+  const [phonePasswordResult, setPhonePasswordResult] = useState<AuthResult | null>(null);
   const [wxLoginResult, setWxLoginResult] = useState<AuthResult | null>(null);
   const [loading, setLoading] = useState({
     phone: false,
+    pwd: false,
     wx: false,
   });
 
@@ -24,6 +26,11 @@ export default function AuthTestPage() {
   const [phoneForm, setPhoneForm] = useState({
     phone: '',
     code: '',
+  });
+
+  const [phonePwdForm, setPhonePwdForm] = useState({
+    phone: '',
+    password: '',
   });
 
   // 微信登录
@@ -81,6 +88,52 @@ export default function AuthTestPage() {
       });
     } finally {
       setLoading(prev => ({ ...prev, phone: false }));
+    }
+  };
+
+  const handlePhonePasswordLogin = async () => {
+    if (!phonePwdForm.phone || !phonePwdForm.password) {
+      setPhonePasswordResult({
+        success: false,
+        message: '请填写手机号和密码',
+      });
+      return;
+    }
+
+    setLoading(prev => ({ ...prev, pwd: true }));
+    setPhonePasswordResult(null);
+
+    try {
+      const response = await fetch('/api/auth/phone-password-login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          phone: phonePwdForm.phone,
+          password: phonePwdForm.password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.userId && data.token) {
+        setPhonePasswordResult({
+          success: true,
+          message: '登录成功',
+          data: { userId: data.userId, token: data.token },
+        });
+      } else {
+        setPhonePasswordResult({
+          success: false,
+          message: data.error || '登录失败',
+        });
+      }
+    } catch (error) {
+      setPhonePasswordResult({
+        success: false,
+        message: error instanceof Error ? error.message : '请求失败',
+      });
+    } finally {
+      setLoading(prev => ({ ...prev, pwd: false }));
     }
   };
 
@@ -273,6 +326,102 @@ export default function AuthTestPage() {
               </div>
             </div>
 
+            {/* 手机号 + 密码登录 */}
+            <div className="border rounded-lg p-6">
+              <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                <span className="text-2xl mr-2">🔑</span>
+                手机号密码登录
+              </h2>
+              <p className="text-sm text-gray-600 mb-4">
+                与库内 <code className="bg-gray-100 px-1 rounded text-xs">users.mobile</code> /{' '}
+                <code className="bg-gray-100 px-1 rounded text-xs">users.password</code>（md5 小写）校验，返回{' '}
+                <code className="bg-gray-100 px-1 rounded text-xs">{'{ userId, token }'}</code>，与其它认证接口一致。
+              </p>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">手机号</label>
+                  <input
+                    type="tel"
+                    value={phonePwdForm.phone}
+                    onChange={(e) => setPhonePwdForm((prev) => ({ ...prev, phone: e.target.value }))}
+                    placeholder="与 users.mobile 一致"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    disabled={loading.pwd}
+                    autoComplete="username"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">密码</label>
+                  <input
+                    type="password"
+                    value={phonePwdForm.password}
+                    onChange={(e) => setPhonePwdForm((prev) => ({ ...prev, password: e.target.value }))}
+                    placeholder="明文，服务端按 md5 与库比对"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    disabled={loading.pwd}
+                    autoComplete="current-password"
+                  />
+                </div>
+                <button
+                  onClick={handlePhonePasswordLogin}
+                  disabled={loading.pwd}
+                  className="w-full px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {loading.pwd ? '登录中...' : '登录'}
+                </button>
+                {phonePasswordResult && (
+                  <div
+                    className={`p-4 rounded-lg border ${
+                      phonePasswordResult.success
+                        ? 'bg-green-50 border-green-200'
+                        : 'bg-red-50 border-red-200'
+                    }`}
+                  >
+                    <div className="flex items-center mb-2">
+                      <span
+                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                          phonePasswordResult.success
+                            ? 'bg-green-100 text-green-800'
+                            : 'bg-red-100 text-red-800'
+                        }`}
+                      >
+                        {phonePasswordResult.success ? '成功' : '失败'}
+                      </span>
+                    </div>
+                    <p className="text-sm text-gray-600 mb-2">{phonePasswordResult.message}</p>
+                    {phonePasswordResult.success && phonePasswordResult.data && (
+                      <div className="space-y-2">
+                        {phonePasswordResult.data.userId && (
+                          <div className="text-sm">
+                            <span className="font-medium">用户ID:</span>{' '}
+                            <code className="bg-gray-100 px-1 py-0.5 rounded text-xs">
+                              {phonePasswordResult.data.userId}
+                            </code>
+                          </div>
+                        )}
+                        {phonePasswordResult.data.token && (
+                          <div className="text-sm">
+                            <span className="font-medium">JWT Token:</span>
+                            <div className="mt-1 flex items-center gap-2">
+                              <code className="bg-gray-100 px-2 py-1 rounded text-xs break-all flex-1">
+                                {phonePasswordResult.data.token}
+                              </code>
+                              <button
+                                onClick={() => copyToken(phonePasswordResult.data!.token!)}
+                                className="px-2 py-1 bg-indigo-600 text-white text-xs rounded hover:bg-indigo-700"
+                              >
+                                复制
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+
             {/* 微信登录 */}
             <div className="border rounded-lg p-6">
               <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
@@ -381,10 +530,10 @@ export default function AuthTestPage() {
             <div className="mt-8 bg-gray-50 rounded-lg p-4">
               <h3 className="text-lg font-medium text-gray-900 mb-2">使用说明</h3>
               <div className="text-sm text-gray-600 space-y-1">
-                <p>• <strong>手机号登录:</strong> 需要先发送验证码到手机，然后使用手机号和验证码登录</p>
-                <p>• <strong>微信登录:</strong> 需要从小程序获取 code，支持手机号开发标签和 wx.login 两种方式</p>
-                <p>• <strong>JWT Token:</strong> 登录成功后会返回 JWT Token，可用于后续 API 请求的身份验证</p>
-                <p>• <strong>自动注册:</strong> 如果用户不存在，系统会自动创建新用户</p>
+                <p>• <strong>手机号验证码:</strong> 占位示例，需接入短信与注册逻辑</p>
+                <p>• <strong>手机号密码:</strong> <code className="bg-gray-100 px-1 rounded">POST /api/auth/phone-password-login</code>，需 HASURA_ADMIN_SECRET</p>
+                <p>• <strong>微信登录:</strong> 需要从小程序获取 code</p>
+                <p>• <strong>JWT Token:</strong> 各接口统一返回 <code className="bg-gray-100 px-1 rounded">userId</code> + <code className="bg-gray-100 px-1 rounded">token</code></p>
                 <p>• 当前为测试环境，部分功能需要根据实际业务逻辑完善</p>
               </div>
             </div>
